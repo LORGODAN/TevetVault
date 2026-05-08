@@ -241,6 +241,25 @@ app.put('/api/auth/profile', auth, (req, res) => {
   res.json(safeUser(users[idx]));
 });
 
+// Change password
+app.put('/api/auth/change-password', auth, (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) return res.status(400).json({ error: 'Both passwords required' });
+  if (newPassword.length < 6) return res.status(400).json({ error: 'New password must be at least 6 characters' });
+
+  const users = db.get('users').value();
+  const idx = users.findIndex(u => u.id === req.user.id);
+  if (idx === -1) return res.status(404).json({ error: 'User not found' });
+
+  if (!bcrypt.compareSync(currentPassword, users[idx].password)) {
+    return res.status(400).json({ error: 'Current password is incorrect' });
+  }
+
+  users[idx].password = bcrypt.hashSync(newPassword, 10);
+  db.set('users', users).write();
+  res.json({ success: true, message: 'Password changed successfully' });
+});
+
 // ══════════════════════════════════════════════════════════════
 //  COURSES
 // ══════════════════════════════════════════════════════════════
@@ -255,11 +274,11 @@ app.get('/api/courses', (req, res) => {
 });
 
 app.post('/api/courses', auth, adminOnly, (req, res) => {
-  const { name, emoji, whatsapp, subjects } = req.body;
+  const { name, emoji, whatsapp, subjects, image } = req.body;
   if (!name) return res.status(400).json({ error: 'Name required' });
   const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
   if (db.get('courses').find({ id }).value()) return res.status(400).json({ error: 'Course ID already exists' });
-  const course = { id, name, emoji: emoji || '📂', whatsapp: whatsapp || '', subjects: subjects || [], createdAt: new Date().toISOString() };
+  const course = { id, name, emoji: emoji || '', whatsapp: whatsapp || '', subjects: subjects || [], image: image || '', createdAt: new Date().toISOString() };
   db.get('courses').push(course).write();
   res.json(course);
 });
@@ -268,11 +287,12 @@ app.put('/api/courses/:id', auth, adminOnly, (req, res) => {
   const courses = db.get('courses').value();
   const idx = courses.findIndex(c => c.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Course not found' });
-  const { name, emoji, whatsapp, subjects } = req.body;
+  const { name, emoji, whatsapp, subjects, image } = req.body;
   if (name) courses[idx].name = name;
-  if (emoji) courses[idx].emoji = emoji;
+  if (emoji !== undefined) courses[idx].emoji = emoji;
   if (whatsapp !== undefined) courses[idx].whatsapp = whatsapp;
   if (subjects) courses[idx].subjects = subjects;
+  if (image !== undefined) courses[idx].image = image;
   db.set('courses', courses).write();
   res.json(courses[idx]);
 });
@@ -355,13 +375,38 @@ app.get('/api/materials/:id/download', auth, (req, res) => {
   if (mat.filename) {
     const filePath = path.join(uploadsDir, mat.filename);
     if (fs.existsSync(filePath)) {
-      res.download(filePath, mat.originalName || mat.filename);
-      return;
+      const originalName = mat.originalName || mat.filename;
+      res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(originalName)}"`);
+      res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
+      return res.download(filePath, originalName, (err) => {
+        if (err && !res.headersSent) {
+          res.status(500).json({ error: 'File download failed' });
+        }
+      });
     }
   }
 
-  // Demo materials without real files
+  // Demo materials without real files — still record the download
   res.json({ success: true, downloads: mat.downloads, demo: true, message: 'Demo material — no file attached' });
+});
+
+// Serve file via direct browser link — accepts token as query param
+app.get('/api/materials/:id/file', (req, res) => {
+  // Verify token from query string (for browser download links)
+  const qToken = req.query.token || req.headers.authorization?.replace('Bearer ', '');
+  if (!qToken) return res.status(401).json({ error: 'Authentication required' });
+  try { jwt.verify(qToken, JWT_SECRET); } catch { return res.status(401).json({ error: 'Invalid token' }); }
+
+  const mat = db.get('materials').find({ id: req.params.id }).value();
+  if (!mat) return res.status(404).json({ error: 'Not found' });
+  if (!mat.filename) return res.status(404).json({ error: 'No file attached to this material' });
+  const filePath = path.join(uploadsDir, mat.filename);
+  if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'File not found on disk' });
+  const originalName = mat.originalName || mat.filename;
+  res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(originalName)}"`);
+  res.download(filePath, originalName, (err) => {
+    if (err && !res.headersSent) res.status(500).json({ error: 'File serve failed' });
+  });
 });
 
 app.delete('/api/materials/:id', auth, (req, res) => {
@@ -450,4 +495,6 @@ app.get('/{*splat}', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`✅ EduShare API running on port ${PORT}`));
+module.exports = app;
+
 module.exports = app;
