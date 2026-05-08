@@ -3,198 +3,272 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<meta name="theme-color" content="#1B4FE8"/>
+<meta name="theme-color" content="#1a56db"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <title>EduShare</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --brand:#1B4FE8;--brand-dark:#1340C8;--brand-light:#EEF3FF;--brand-mid:#4F78F0;
-  --green:#15803D;--green-light:#DCFCE7;
-  --red:#DC2626;--red-light:#FEE2E2;
-  --amber:#D97706;--amber-light:#FEF3C7;
-  --gray-50:#F8FAFC;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;
-  --gray-400:#94A3B8;--gray-500:#64748B;--gray-600:#475569;--gray-700:#334155;
-  --gray-800:#1E293B;--gray-900:#0F172A;
-  --text:#0F172A;--text-muted:#64748B;--text-light:#94A3B8;
-  --bg:#F8FAFC;--surface:#FFFFFF;--border:#E2E8F0;
-  --radius:12px;--radius-sm:8px;--radius-lg:16px;--radius-xl:24px;
-  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
-  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.04);
-  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.05);
+  --brand:#1a56db;--brand-dark:#1245b8;--brand-light:#eff4ff;--brand-mid:#3b6ff0;
+  --green:#0e7f4f;--green-light:#ecfdf5;
+  --red:#c41c1c;--red-light:#fef2f2;
+  --amber:#b45309;--amber-light:#fffbeb;
+  --surface:#ffffff;--bg:#f4f6fa;
+  --border:#e5e8ef;--border-strong:#cdd2de;
+  --text:#111827;--text-muted:#6b7280;--text-light:#9ca3af;
+  --radius:10px;--radius-sm:7px;--radius-lg:14px;--radius-xl:20px;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.1);
+  --nav-h:60px;
 }
-html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow:hidden}
-h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
+html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow:hidden}
+h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .hidden{display:none!important}
-.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}
+.flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}
 .gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}
-.text-sm{font-size:13px}.text-xs{font-size:11px}
-.font-semibold{font-weight:600}.font-medium{font-weight:500}
+.text-sm{font-size:13px}.text-xs{font-size:11px}.font-medium{font-weight:500}.font-semibold{font-weight:600}
 .text-muted{color:var(--text-muted)}.text-brand{color:var(--brand)}
-.rounded{border-radius:var(--radius)}.rounded-sm{border-radius:var(--radius-sm)}.rounded-full{border-radius:999px}
 .w-full{width:100%}
 .mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
 .mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:500;flex-shrink:0}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.02em}
 .badge-brand{background:var(--brand-light);color:var(--brand)}
 .badge-green{background:var(--green-light);color:var(--green)}
 .badge-amber{background:var(--amber-light);color:var(--amber)}
 .badge-red{background:var(--red-light);color:var(--red)}
-.badge-gray{background:var(--gray-100);color:var(--gray-600)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all .15s;text-decoration:none;-webkit-appearance:none}
+.badge-gray{background:#f3f4f6;color:#4b5563}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all .15s;text-decoration:none;-webkit-appearance:none;letter-spacing:.01em}
 .btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-dark)}
 .btn-outline{background:transparent;color:var(--brand);border:1.5px solid var(--brand)}.btn-outline:hover{background:var(--brand-light)}
-.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}.btn-ghost:hover{background:var(--gray-100)}
-.btn-danger{background:var(--red-light);color:var(--red);border:1px solid #FECACA}
-.btn-sm{padding:6px 12px;font-size:13px}
-.btn-lg{padding:14px 24px;font-size:16px}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}.btn-ghost:hover{background:#f9fafb}
+.btn-danger{background:var(--red-light);color:var(--red);border:1px solid #fecaca}.btn-danger:hover{background:#fee2e2}
+.btn-sm{padding:6px 12px;font-size:13px}.btn-lg{padding:13px 24px;font-size:15px}
 .btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:13px;font-weight:500;color:var(--gray-700);margin-bottom:6px}
-.form-input,.form-select,.form-textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--surface);color:var(--text);transition:border-color .15s;outline:none;-webkit-appearance:none;appearance:none}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(27,79,232,.1)}
-.form-textarea{resize:vertical;min-height:80px}
-.form-error{font-size:12px;color:var(--red);margin-top:4px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
-.card-header{padding:14px 16px;border-bottom:1px solid var(--border)}
-.card-body{padding:16px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
-.stat-value{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:var(--text)}
-.stat-label{font-size:12px;color:var(--text-muted);margin-top:2px}
+.btn-icon{width:36px;height:36px;padding:0;border-radius:var(--radius-sm)}
 
-/* APP LAYOUT */
-#app-wrap{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto;position:relative;background:var(--bg)}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50}
-.topbar-logo{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;color:var(--brand)}
-.topbar-logo span{color:var(--gray-800)}
+/* FORMS */
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:14px;background:var(--surface);color:var(--text);transition:border-color .15s,box-shadow .15s;outline:none;-webkit-appearance:none;appearance:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.form-textarea{resize:vertical;min-height:80px}
+.form-error{font-size:12px;color:var(--red);margin-top:4px;display:flex;align-items:center;gap:4px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.card-header{padding:13px 16px;border-bottom:1px solid var(--border);font-weight:600;font-size:14px}
+.card-body{padding:16px}
+.divider{height:1px;background:var(--border);margin:12px 0}
+
+/* STAT CARDS */
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.stat-value{font-size:26px;font-weight:700;color:var(--text);line-height:1}
+.stat-label{font-size:12px;color:var(--text-muted);margin-top:4px;font-weight:500}
+.stat-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+
+/* APP SHELL */
+#app-wrap{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto;background:var(--bg);position:relative}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:54px;flex-shrink:0;position:sticky;top:0;z-index:40}
+.topbar-brand{font-size:17px;font-weight:700;color:var(--brand);letter-spacing:-.3px}
+.topbar-brand span{color:var(--text)}
 .pages-wrap{flex:1;overflow:hidden;position:relative}
-.page{position:absolute;inset:0;overflow-y:auto;padding:16px;padding-bottom:80px;display:none}
-.page.active{display:block;animation:fadeIn .2s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.bottomnav{background:var(--surface);border-top:1px solid var(--border);display:flex;flex-shrink:0;z-index:50}
-.bottomnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 4px 7px;cursor:pointer;color:var(--text-muted);font-size:10px;gap:3px;transition:color .15s;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-weight:500}
-.bottomnav-item.active{color:var(--brand)}
-.bottomnav-item svg{width:21px;height:21px;stroke-width:1.8}
+.page{position:absolute;inset:0;overflow-y:auto;padding:16px 16px calc(var(--nav-h) + 16px);display:none}
+.page.active{display:block;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* BOTTOM NAV */
+.bottomnav{background:var(--surface);border-top:1px solid var(--border);display:flex;height:var(--nav-h);flex-shrink:0;position:relative;z-index:40}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:10px;font-weight:500;gap:4px;border:none;background:transparent;font-family:'Inter',sans-serif;transition:color .15s;padding:0;letter-spacing:.02em}
+.bnav-item svg{width:22px;height:22px;stroke-width:1.8;transition:stroke .15s}
+.bnav-item.active{color:var(--brand)}
+.bnav-item.active svg{stroke-width:2.2}
+.bnav-dot{width:4px;height:4px;border-radius:50%;background:var(--brand);position:absolute;bottom:6px;opacity:0;transition:opacity .15s}
+.bnav-item.active .bnav-dot{opacity:1}
 
 /* AUTH */
-.auth-screen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;padding:24px;background:linear-gradient(160deg,#EEF3FF 0%,#F8FAFC 60%,#EEF3FF 100%);z-index:200;overflow-y:auto}
+.auth-screen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;padding:24px 20px 32px;background:var(--bg);z-index:200;overflow-y:auto;max-width:480px;margin:0 auto}
 .auth-logo{text-align:center;margin-bottom:28px}
-.auth-logo h1{font-family:'Sora',sans-serif;font-size:30px;color:var(--brand)}
-.auth-logo p{color:var(--text-muted);font-size:13px;margin-top:4px}
-.auth-card{background:var(--surface);border-radius:var(--radius-xl);padding:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
-.auth-tabs{display:flex;background:var(--gray-100);border-radius:var(--radius-sm);padding:3px;margin-bottom:18px}
-.auth-tab{flex:1;padding:8px;text-align:center;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;transition:all .15s;color:var(--text-muted);border:none;background:transparent;font-family:'DM Sans',sans-serif}
+.auth-logo-mark{width:52px;height:52px;background:var(--brand);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.auth-logo-mark svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2}
+.auth-logo h1{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.auth-logo p{color:var(--text-muted);font-size:13px;margin-top:3px}
+.auth-card{background:var(--surface);border-radius:var(--radius-xl);padding:22px;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
+.auth-tabs{display:flex;background:#f3f4f6;border-radius:var(--radius-sm);padding:3px;margin-bottom:18px}
+.auth-tab{flex:1;padding:8px;text-align:center;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;transition:all .15s;color:var(--text-muted);border:none;background:transparent;font-family:'Inter',sans-serif}
 .auth-tab.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
-.otp-inputs{display:flex;gap:6px;justify-content:center;margin:12px 0}
-.otp-input{width:42px;height:50px;border:2px solid var(--border);border-radius:var(--radius-sm);text-align:center;font-size:20px;font-weight:700;font-family:'Sora',sans-serif;color:var(--brand);outline:none;transition:border-color .15s;-webkit-appearance:none}
-.otp-input:focus{border-color:var(--brand)}
-.avatar-upload{width:76px;height:76px;border-radius:50%;border:2px dashed var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--brand-light);margin:0 auto 14px;overflow:hidden;font-size:11px;color:var(--brand);gap:3px}
+
+/* OTP */
+.otp-inputs{display:flex;gap:8px;justify-content:center;margin:14px 0}
+.otp-input{width:44px;height:52px;border:2px solid var(--border);border-radius:var(--radius-sm);text-align:center;font-size:22px;font-weight:700;color:var(--brand);outline:none;transition:all .15s;-webkit-appearance:none;appearance:none;cursor:text;font-family:'Inter',sans-serif;background:var(--surface)}
+.otp-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.otp-input.otp-filled{background:var(--brand-light);border-color:var(--brand)}
+
+/* AVATAR UPLOAD */
+.avatar-upload{width:74px;height:74px;border-radius:50%;border:2px dashed var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--brand-light);margin:0 auto 14px;overflow:hidden;font-size:11px;color:var(--brand);gap:3px;font-weight:500;transition:all .15s}
+.avatar-upload:hover{background:#e0e9ff}
 .avatar-upload img{width:100%;height:100%;object-fit:cover}
+.avatar-upload svg{width:22px;height:22px;stroke:var(--brand);fill:none;stroke-width:1.8}
 
 /* COURSE CARDS */
+.course-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .course-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow)}
 .course-card:active{transform:scale(.97)}
-.course-thumb{height:90px;display:flex;align-items:center;justify-content:center;font-size:38px;background:var(--brand-light)}
-.course-info{padding:10px 12px}
-.course-name{font-family:'Sora',sans-serif;font-weight:600;font-size:13px}
+.course-thumb{height:86px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.course-thumb img{width:100%;height:100%;object-fit:cover}
+.course-thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.course-thumb-placeholder svg{width:36px;height:36px;stroke:rgba(255,255,255,.8);fill:none;stroke-width:1.5}
+.course-info{padding:10px 12px 12px}
+.course-name{font-weight:600;font-size:13px;color:var(--text);line-height:1.3}
 .course-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+.course-wa-btn{display:flex;align-items:center;gap:4px;margin-top:7px;font-size:11px;font-weight:600;color:#128C7E;text-decoration:none;background:#f0fdf9;border-radius:5px;padding:4px 8px;width:fit-content;transition:background .15s}
+.course-wa-btn:hover{background:#dcfce7}
+.course-wa-btn svg{width:13px;height:13px;fill:#128C7E}
 
 /* MATERIAL CARDS */
-.mat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;cursor:pointer;transition:box-shadow .15s;margin-bottom:10px}
-.mat-card:active{box-shadow:var(--shadow-md)}
-.file-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.fi-pdf{background:#FEE2E2}.fi-doc{background:#DBEAFE}.fi-ppt{background:#FEF3C7}.fi-img{background:#D1FAE5}.fi-txt{background:var(--gray-100)}.fi-other{background:var(--gray-100)}
+.mat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:box-shadow .15s,border-color .15s;margin-bottom:9px}
+.mat-card:hover{box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.file-icon{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-icon svg{width:20px;height:20px;fill:none;stroke-width:1.8}
+.fi-pdf{background:#fee2e2}.fi-pdf svg{stroke:#dc2626}
+.fi-doc{background:#dbeafe}.fi-doc svg{stroke:#2563eb}
+.fi-ppt{background:#fef3c7}.fi-ppt svg{stroke:#d97706}
+.fi-img{background:#d1fae5}.fi-img svg{stroke:#059669}
+.fi-txt{background:#f3f4f6}.fi-txt svg{stroke:#6b7280}
+.fi-other{background:#f3f4f6}.fi-other svg{stroke:#6b7280}
+.mat-title{font-weight:500;font-size:14px;color:var(--text);line-height:1.3}
+.mat-desc{font-size:12px;color:var(--text-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mat-meta{display:flex;align-items:center;gap:10px;margin-top:7px;flex-wrap:wrap}
+.mat-stat{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--text-muted);font-weight:500}
+.mat-stat svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:flex;align-items:flex-end;justify-content:center}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:150;display:flex;align-items:flex-end;justify-content:center}
 .modal-overlay.hidden{display:none}
-.modal{background:var(--surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:20px;width:100%;max-width:480px;max-height:92vh;overflow-y:auto}
-.modal-handle{width:36px;height:4px;background:var(--gray-200);border-radius:99px;margin:0 auto 14px}
-.modal-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;margin-bottom:14px}
+.modal{background:var(--surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:20px;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 14px}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:14px;color:var(--text)}
 
 /* SEARCH */
-.search-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:0 12px}
-.search-bar:focus-within{border-color:var(--brand)}
-.search-bar input{flex:1;border:none;outline:none;font-size:14px;padding:9px 0;background:transparent;font-family:'DM Sans',sans-serif;color:var(--text)}
+.search-wrap{position:relative;margin-bottom:14px}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--text-muted);fill:none;stroke-width:2;pointer-events:none}
+.search-input{width:100%;padding:10px 12px 10px 34px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);color:var(--text);outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+.search-input:focus{border-color:var(--brand)}
 
 /* PILLS */
-.pill-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.pill-scroll{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;margin-bottom:12px}
 .pill-scroll::-webkit-scrollbar{display:none}
-.pill{flex-shrink:0;padding:5px 13px;border-radius:999px;font-size:13px;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'DM Sans',sans-serif;font-weight:500}
+.pill{flex-shrink:0;padding:5px 13px;border-radius:999px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'Inter',sans-serif}
 .pill.active{background:var(--brand-light);color:var(--brand);border-color:var(--brand)}
 
 /* PROFILE */
-.profile-header{text-align:center;padding:20px 16px 12px}
-.profile-avatar{width:76px;height:76px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:var(--brand);margin:0 auto 10px;overflow:hidden;border:3px solid white;box-shadow:var(--shadow)}
+.profile-header{text-align:center;padding:20px 16px 14px}
+.profile-avatar-wrap{position:relative;display:inline-block;margin-bottom:10px}
+.profile-avatar{width:76px;height:76px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:var(--brand);overflow:hidden;border:3px solid var(--surface);box-shadow:0 0 0 2px var(--brand-light)}
 .profile-avatar img{width:100%;height:100%;object-fit:cover}
 
 /* ADMIN */
 .admin-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;margin-bottom:16px}
 .admin-tabs::-webkit-scrollbar{display:none}
-.admin-tab-btn{flex-shrink:0;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'DM Sans',sans-serif}
+.admin-tab-btn{flex-shrink:0;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.02em}
 .admin-tab-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
 
-/* LOADING */
-.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-overlay{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:12px}
-.loading-overlay p{font-size:13px;color:var(--text-muted)}
+/* PROGRESS */
+.progress-bar{height:4px;background:#e5e7eb;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:var(--brand);border-radius:99px;transition:width .3s}
 
-/* UPLOAD DROP */
-.drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--gray-50)}
-.drop-zone.has-file{border-color:var(--brand);background:var(--brand-light)}
-.progress-bar{height:4px;background:var(--gray-200);border-radius:99px;overflow:hidden;margin-top:8px}
-.progress-fill{height:100%;background:var(--brand);border-radius:99px;transition:width .3s;width:0%}
+/* UPLOAD DROP ZONE */
+.drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa}
+.drop-zone:hover,.drop-zone.has-file{border-color:var(--brand);background:var(--brand-light)}
+.drop-zone-icon{width:40px;height:40px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;background:var(--border);border-radius:var(--radius-sm)}
+.drop-zone-icon svg{width:20px;height:20px;stroke:var(--text-muted);fill:none;stroke-width:1.8}
+.drop-zone.has-file .drop-zone-icon{background:var(--brand-light)}
+.drop-zone.has-file .drop-zone-icon svg{stroke:var(--brand)}
 
-/* EMPTY */
+/* SECTION TITLE */
+.section-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-.1px}
+
+/* EMPTY STATE */
 .empty-state{text-align:center;padding:40px 24px}
-.empty-icon{font-size:44px;margin-bottom:10px}
-.empty-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:600;margin-bottom:4px}
+.empty-icon{width:56px;height:56px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.empty-icon svg{width:26px;height:26px;stroke:var(--text-muted);fill:none;stroke-width:1.5}
+.empty-title{font-size:15px;font-weight:600;margin-bottom:4px}
 .empty-sub{font-size:13px;color:var(--text-muted)}
 
-/* ABOUT */
-.about-hero{background:linear-gradient(135deg,var(--brand) 0%,var(--brand-mid) 100%);color:#fff;padding:28px 20px;border-radius:0 0 var(--radius-xl) var(--radius-xl);margin:-16px -16px 20px;text-align:center}
-.about-hero h2{font-size:22px}
-.about-hero p{font-size:13px;opacity:.85;margin-top:6px}
+/* ABOUT HERO */
+.about-hero{background:var(--brand);color:#fff;padding:28px 20px;border-radius:var(--radius-lg);margin-bottom:16px;text-align:center}
+.about-hero h2{font-size:20px;font-weight:700}
+.about-hero p{font-size:13px;opacity:.8;margin-top:5px}
+
+/* SPINNER */
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:10px}
+.loading-state p{font-size:13px;color:var(--text-muted)}
 
 /* TOAST */
-#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:300;pointer-events:none;white-space:nowrap}
-.toast-msg{background:var(--gray-900);color:#fff;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:500;margin-top:6px;animation:toastUp .3s ease;box-shadow:var(--shadow-lg);display:block}
-@keyframes toastUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
-.divider{height:1px;background:var(--border);margin:12px 0}
-.section-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:600;margin-bottom:10px}
-.api-badge{background:var(--green-light);color:var(--green);padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:.5px}
+#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:300;pointer-events:none;width:calc(100% - 32px);max-width:400px}
+.toast-msg{background:#111827;color:#f9fafb;padding:11px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;margin-top:7px;animation:toastUp .25s ease;box-shadow:var(--shadow-lg);display:block;text-align:center}
+@keyframes toastUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* LIVE BADGE */
+.live-badge{display:inline-flex;align-items:center;gap:4px;background:var(--green-light);color:var(--green);padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* DETAIL ROW */
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.detail-row:last-child{border-bottom:none}
+.detail-key{color:var(--text-muted);font-weight:500}
+.detail-val{font-weight:500;color:var(--text)}
+
+/* COURSE COLORS (backgrounds for thumbnails) */
+.cc-0{background:linear-gradient(135deg,#1a56db,#3b82f6)}
+.cc-1{background:linear-gradient(135deg,#0e7f4f,#10b981)}
+.cc-2{background:linear-gradient(135deg,#b45309,#f59e0b)}
+.cc-3{background:linear-gradient(135deg,#7c3aed,#a78bfa)}
+.cc-4{background:linear-gradient(135deg,#c41c1c,#f87171)}
+.cc-5{background:linear-gradient(135deg,#0e7490,#22d3ee)}
+.cc-6{background:linear-gradient(135deg,#be185d,#f472b6)}
+.cc-7{background:linear-gradient(135deg,#1e40af,#60a5fa)}
+
+@media(max-width:360px){.stat-value{font-size:22px}.auth-card{padding:16px}}
 </style>
 </head>
 <body>
 
-<!-- ── AUTH SCREEN ────────────────────────────────────── -->
-<div class="auth-screen" id="auth-screen">
+<!-- AUTH -->
+<div class="auth-screen" id="auth-screen" style="display:none">
   <div class="auth-logo">
-    <div style="font-size:38px;margin-bottom:6px">📚</div>
+    <div class="auth-logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
     <h1>EduShare</h1>
-    <p>Student Resource Platform · Malawi</p>
+    <p>Student Resource Platform &middot; Malawi</p>
   </div>
   <div class="auth-card">
     <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
       <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
     </div>
 
     <!-- LOGIN -->
     <div id="login-form">
       <div class="form-group">
-        <label class="form-label">Email address</label>
-        <input type="email" class="form-input" id="l-email" placeholder="your@email.com" autocomplete="email"/>
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="l-email" placeholder="you@example.com" autocomplete="email"/>
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="l-pass" placeholder="••••••••" autocomplete="current-password"/>
+        <input type="password" class="form-input" id="l-pass" placeholder="Enter password" autocomplete="current-password"/>
       </div>
       <div id="l-err" class="form-error hidden"></div>
       <button class="btn btn-primary w-full btn-lg mt-2" id="l-btn" onclick="doLogin()">Sign In</button>
@@ -203,56 +277,41 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
 
     <!-- REGISTER -->
     <div id="register-form" class="hidden">
-      <!-- Step 1: Email -->
       <div id="r-step-email">
         <div class="form-group">
-          <label class="form-label">Email address</label>
-          <input type="email" class="form-input" id="r-email" placeholder="your@email.com" autocomplete="email"/>
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="r-email" placeholder="you@example.com" autocomplete="email"/>
         </div>
         <button class="btn btn-primary w-full" id="r-otp-btn" onclick="sendOTP()">Send Verification Code</button>
       </div>
-      <!-- Step 2: OTP -->
       <div id="r-step-otp" class="hidden">
         <p style="font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:12px">Enter the 6-digit code sent to your email</p>
         <div class="otp-inputs">
-          <input type="tel" maxlength="1" class="otp-input" id="otp0" oninput="otpNext(0)" onkeydown="otpBack(event,0)"/>
-          <input type="tel" maxlength="1" class="otp-input" id="otp1" oninput="otpNext(1)" onkeydown="otpBack(event,1)"/>
-          <input type="tel" maxlength="1" class="otp-input" id="otp2" oninput="otpNext(2)" onkeydown="otpBack(event,2)"/>
-          <input type="tel" maxlength="1" class="otp-input" id="otp3" oninput="otpNext(3)" onkeydown="otpBack(event,3)"/>
-          <input type="tel" maxlength="1" class="otp-input" id="otp4" oninput="otpNext(4)" onkeydown="otpBack(event,4)"/>
-          <input type="tel" maxlength="1" class="otp-input" id="otp5" oninput="otpNext(5)" onkeydown="otpBack(event,5)"/>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="one-time-code" class="otp-input" id="otp0" oninput="otpInput(this,0)" onkeydown="otpKey(event,0)" onpaste="otpPaste(event)" onfocus="this.select()"/>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="otp1" oninput="otpInput(this,1)" onkeydown="otpKey(event,1)" onpaste="otpPaste(event)" onfocus="this.select()"/>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="otp2" oninput="otpInput(this,2)" onkeydown="otpKey(event,2)" onpaste="otpPaste(event)" onfocus="this.select()"/>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="otp3" oninput="otpInput(this,3)" onkeydown="otpKey(event,3)" onpaste="otpPaste(event)" onfocus="this.select()"/>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="otp4" oninput="otpInput(this,4)" onkeydown="otpKey(event,4)" onpaste="otpPaste(event)" onfocus="this.select()"/>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="otp5" oninput="otpInput(this,5)" onkeydown="otpKey(event,5)" onpaste="otpPaste(event)" onfocus="this.select()"/>
         </div>
-        <div id="r-otp-hint" style="text-align:center;font-size:12px;color:var(--brand);margin-bottom:10px"></div>
-        <button class="btn btn-primary w-full" onclick="verifyOTP()">Verify Code</button>
-        <button class="btn btn-ghost w-full mt-2" onclick="showRStep('r-step-email')">← Change Email</button>
+        <div id="r-otp-hint" style="text-align:center;font-size:12px;color:var(--brand);margin-bottom:10px;font-weight:500"></div>
+        <button class="btn btn-primary w-full" id="r-verify-btn" onclick="verifyOTP()">Verify Code</button>
+        <button class="btn btn-ghost w-full mt-2" onclick="showRStep('r-step-email')">Change Email</button>
       </div>
-      <!-- Step 3: Profile -->
       <div id="r-step-profile" class="hidden">
         <div class="avatar-upload" onclick="document.getElementById('r-avatar').click()">
-          <img id="r-avatar-img" src="" style="display:none;width:100%;height:100%;object-fit:cover"/>
-          <span id="r-avatar-ph">📷<br><span style="font-size:10px">Add Photo</span></span>
+          <img id="r-avatar-img" src="" style="display:none"/>
+          <span id="r-avatar-ph" style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span style="font-size:11px;font-weight:600">Add Photo</span>
+          </span>
         </div>
         <input type="file" id="r-avatar" accept="image/*" class="hidden" onchange="previewAvatar('r-avatar','r-avatar-img','r-avatar-ph')"/>
-        <div class="form-group">
-          <label class="form-label">Full Name *</label>
-          <input type="text" class="form-input" id="r-name" placeholder="e.g. John Banda"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Username *</label>
-          <input type="text" class="form-input" id="r-username" placeholder="e.g. johnbanda"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Course *</label>
-          <select class="form-select" id="r-course"><option value="">Select course</option></select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">College / Institution *</label>
-          <input type="text" class="form-input" id="r-college" placeholder="e.g. Lilongwe Technical College"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Password *</label>
-          <input type="password" class="form-input" id="r-pass" placeholder="Minimum 6 characters"/>
-        </div>
+        <div class="form-group"><label class="form-label">Full Name *</label><input type="text" class="form-input" id="r-name" placeholder="e.g. John Banda"/></div>
+        <div class="form-group"><label class="form-label">Username *</label><input type="text" class="form-input" id="r-username" placeholder="e.g. johnbanda"/></div>
+        <div class="form-group"><label class="form-label">Course *</label><select class="form-select" id="r-course"><option value="">Select your course</option></select></div>
+        <div class="form-group"><label class="form-label">College / Institution *</label><input type="text" class="form-input" id="r-college" placeholder="e.g. Lilongwe Technical College"/></div>
+        <div class="form-group"><label class="form-label">Password *</label><input type="password" class="form-input" id="r-pass" placeholder="Minimum 6 characters"/></div>
         <div id="r-err" class="form-error hidden"></div>
         <button class="btn btn-primary w-full btn-lg mt-2" id="r-submit" onclick="doRegister()">Create Account</button>
       </div>
@@ -260,20 +319,20 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
   </div>
 </div>
 
-<!-- ── MAIN APP ───────────────────────────────────────── -->
+<!-- MAIN APP -->
 <div id="app-wrap" class="hidden">
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="flex items-center gap-2">
-      <div class="topbar-logo">Edu<span>Share</span></div>
-      <span class="api-badge">LIVE</span>
+      <div class="topbar-brand">Edu<span>Share</span></div>
+      <div class="live-badge"><span class="live-dot"></span>LIVE</div>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="openUpload()" class="btn btn-primary btn-sm">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      <button onclick="openUpload()" class="btn btn-primary btn-sm" style="gap:5px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Upload
       </button>
-      <div id="topbar-av" style="width:32px;height:32px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:var(--brand);overflow:hidden;cursor:pointer;flex-shrink:0" onclick="switchPage('profile')"></div>
+      <div id="topbar-av" onclick="switchPage('profile')" style="width:32px;height:32px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--brand);overflow:hidden;cursor:pointer;flex-shrink:0;border:2px solid var(--brand-light)"></div>
     </div>
   </div>
 
@@ -282,64 +341,80 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
 
     <!-- HOME -->
     <div class="page active" id="page-home">
-      <div class="mb-4">
-        <h2 style="font-size:19px">Hello, <span id="h-name">there</span> 👋</h2>
-        <p class="text-muted text-sm">Find and share learning resources</p>
+      <div style="margin-bottom:16px">
+        <h2 style="font-size:18px;font-weight:700">Hello, <span id="h-name">there</span></h2>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px">Find and share learning resources</p>
       </div>
-      <div class="search-bar mb-4">
-        <svg width="15" height="15" fill="none" stroke="var(--text-muted)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" placeholder="Search materials…" id="h-search" oninput="homeSearch()"/>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" type="text" placeholder="Search materials, subjects..." id="h-search" oninput="homeSearch()"/>
       </div>
-      <h3 class="section-title">📂 Courses</h3>
-      <div class="grid-2 mb-4" id="h-courses"><div class="loading-overlay"><div class="spinner"></div></div></div>
+      <div class="section-title">Courses</div>
+      <div class="course-grid" id="h-courses"><div class="loading-state"><div class="spinner"></div></div></div>
       <div class="flex justify-between items-center mb-3">
-        <h3 class="section-title" style="margin:0">🔥 Popular</h3>
-        <button onclick="switchPage('browse')" style="font-size:13px;color:var(--brand);border:none;background:none;cursor:pointer;font-weight:500">See all →</button>
+        <div class="section-title" style="margin:0">Popular Materials</div>
+        <button onclick="switchPage('browse')" style="font-size:12px;color:var(--brand);border:none;background:none;cursor:pointer;font-weight:600">View all</button>
       </div>
       <div id="h-mats"></div>
     </div>
 
     <!-- BROWSE -->
     <div class="page" id="page-browse">
-      <h3 class="section-title">All Materials</h3>
-      <div class="search-bar mb-3">
-        <svg width="15" height="15" fill="none" stroke="var(--text-muted)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" placeholder="Search…" id="b-search" oninput="loadBrowse()"/>
+      <div class="section-title">All Materials</div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" type="text" placeholder="Search..." id="b-search" oninput="loadBrowse()"/>
       </div>
-      <div class="pill-scroll mb-3" id="b-course-pills"></div>
-      <div class="pill-scroll mb-3" id="b-subject-pills"></div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px" id="b-count"></div>
+      <div class="pill-scroll" id="b-course-pills"></div>
+      <div class="pill-scroll" id="b-subject-pills"></div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500" id="b-count"></div>
       <div id="b-mats"></div>
     </div>
 
     <!-- MY UPLOADS -->
     <div class="page" id="page-uploads">
-      <h3 class="section-title">My Uploads</h3>
+      <div class="section-title">My Uploads</div>
       <div id="u-list"></div>
     </div>
 
     <!-- PROFILE -->
     <div class="page" id="page-profile">
       <div class="profile-header">
-        <div class="profile-avatar" id="p-avatar"></div>
-        <h2 style="font-size:17px" id="p-name"></h2>
-        <p class="text-muted text-sm" id="p-uname"></p>
-        <div class="flex justify-center gap-2 mt-2 flex-wrap">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="p-avatar"></div>
+        </div>
+        <h2 style="font-size:17px;margin-bottom:2px" id="p-name"></h2>
+        <p style="font-size:13px;color:var(--text-muted)" id="p-uname"></p>
+        <div class="flex justify-center gap-2 mt-3 flex-wrap">
           <span class="badge badge-brand" id="p-course"></span>
           <span class="badge badge-gray" id="p-college"></span>
         </div>
       </div>
-      <div class="grid-2 mb-4">
-        <div class="stat-card"><div class="stat-value" id="p-uploads">0</div><div class="stat-label">Uploads</div></div>
-        <div class="stat-card"><div class="stat-value" id="p-dls">0</div><div class="stat-label">Downloads</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="stat-card" style="text-align:center"><div class="stat-value" id="p-uploads">0</div><div class="stat-label">Uploads</div></div>
+        <div class="stat-card" style="text-align:center"><div class="stat-value" id="p-dls">0</div><div class="stat-label">Downloads</div></div>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <button onclick="openEditProfile()" class="btn btn-ghost w-full mb-2" style="justify-content:flex-start;gap:10px">✏️ Edit Profile</button>
-          <div class="divider" style="margin:6px 0"></div>
-          <button onclick="switchPage('about')" class="btn btn-ghost w-full mb-2" style="justify-content:flex-start;gap:10px">ℹ️ About EduShare</button>
-          <div class="divider" style="margin:6px 0"></div>
-          <button onclick="doLogout()" class="btn btn-danger w-full" style="justify-content:flex-start;gap:10px">🚪 Sign Out</button>
+      <div class="card mb-3">
+        <div class="card-body" style="padding:6px 8px">
+          <button onclick="openEditProfile()" class="btn btn-ghost w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit Profile
+          </button>
+          <div class="divider" style="margin:4px 0"></div>
+          <button onclick="openChangePassword()" class="btn btn-ghost w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Change Password
+          </button>
+          <div class="divider" style="margin:4px 0"></div>
+          <button onclick="switchPage('about')" class="btn btn-ghost w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            About EduShare
+          </button>
+          <div class="divider" style="margin:4px 0"></div>
+          <button onclick="doLogout()" class="btn btn-danger w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </button>
         </div>
       </div>
     </div>
@@ -347,43 +422,30 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
     <!-- ABOUT -->
     <div class="page" id="page-about">
       <div class="about-hero">
-        <div style="font-size:34px;margin-bottom:6px">📚</div>
         <h2>About EduShare</h2>
         <p>Connecting students through shared knowledge</p>
       </div>
       <div class="card mb-3">
         <div class="card-body">
-          <h3 style="font-size:14px;font-weight:600;margin-bottom:8px">Our Mission</h3>
-          <p style="font-size:13px;color:var(--text-muted);line-height:1.7">EduShare is a centralized digital platform for students across Malawi's technical and vocational colleges to access, share and collaborate on educational resources. Every student deserves quality learning materials.</p>
+          <h3 style="font-size:14px;margin-bottom:8px">Our Mission</h3>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.7">EduShare is a centralized platform for students across Malawi's technical and vocational colleges to access, share and collaborate on educational resources. Every student deserves quality learning materials.</p>
         </div>
       </div>
       <div class="card mb-3">
+        <div class="card-header">Send Feedback to Admin</div>
         <div class="card-body">
-          <h3 style="font-size:14px;font-weight:600;margin-bottom:10px">What We Offer</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div class="flex gap-3 items-center"><span style="font-size:18px">📖</span><div><div style="font-size:13px;font-weight:500">Books & Notes</div><div style="font-size:12px;color:var(--text-muted)">Upload and access study notes</div></div></div>
-            <div class="flex gap-3 items-center"><span style="font-size:18px">📝</span><div><div style="font-size:13px;font-weight:500">Past Exam Papers</div><div style="font-size:12px;color:var(--text-muted)">Practice with real examinations</div></div></div>
-            <div class="flex gap-3 items-center"><span style="font-size:18px">🤝</span><div><div style="font-size:13px;font-weight:500">Community Groups</div><div style="font-size:12px;color:var(--text-muted)">Connect via WhatsApp groups</div></div></div>
-          </div>
+          <div class="form-group"><textarea class="form-textarea" id="fb-msg" placeholder="Your message, suggestions or issues..." rows="4"></textarea></div>
+          <button class="btn btn-primary w-full" onclick="sendFeedback()">Send Message</button>
         </div>
       </div>
-      <div class="card mb-3">
-        <div class="card-header"><h3 style="font-size:14px;font-weight:600">Send Feedback</h3></div>
-        <div class="card-body">
-          <div class="form-group">
-            <textarea class="form-textarea" id="fb-msg" placeholder="Feedback, issues, or questions…" rows="3"></textarea>
-          </div>
-          <button class="btn btn-primary w-full" onclick="sendFeedback()">Send to Admin</button>
-        </div>
-      </div>
-      <button onclick="switchPage('home')" class="btn btn-ghost w-full">← Back to Home</button>
+      <button onclick="switchPage('home')" class="btn btn-ghost w-full">Back to Home</button>
     </div>
 
     <!-- ADMIN -->
     <div class="page" id="page-admin">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="section-title" style="margin:0">Admin Dashboard</h3>
-        <span class="badge badge-red">Admin</span>
+        <div class="section-title" style="margin:0">Admin Dashboard</div>
+        <span class="badge badge-red" style="font-size:10px;font-weight:700">ADMIN</span>
       </div>
       <div class="admin-tabs">
         <button class="admin-tab-btn active" onclick="switchAdminTab('overview')">Overview</button>
@@ -394,64 +456,58 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
       <div id="admin-body"></div>
     </div>
 
-  </div><!-- /pages-wrap -->
+  </div>
 
   <!-- BOTTOM NAV -->
   <nav class="bottomnav">
-    <button class="bottomnav-item active" id="nav-home" onclick="switchPage('home')">
+    <button class="bnav-item active" id="nav-home" onclick="switchPage('home')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Home
+      <span class="bnav-dot"></span>
     </button>
-    <button class="bottomnav-item" id="nav-browse" onclick="switchPage('browse')">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <button class="bnav-item" id="nav-browse" onclick="switchPage('browse')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       Browse
+      <span class="bnav-dot"></span>
     </button>
-    <button class="bottomnav-item" id="nav-uploads" onclick="switchPage('uploads')">
+    <button class="bnav-item" id="nav-uploads" onclick="switchPage('uploads')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       My Files
+      <span class="bnav-dot"></span>
     </button>
-    <button class="bottomnav-item" id="nav-profile" onclick="switchPage('profile')">
+    <button class="bnav-item" id="nav-profile" onclick="switchPage('profile')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Profile
+      <span class="bnav-dot"></span>
     </button>
-    <button class="bottomnav-item hidden" id="nav-admin" onclick="switchPage('admin')">
+    <button class="bnav-item hidden" id="nav-admin" onclick="switchPage('admin')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       Admin
+      <span class="bnav-dot"></span>
     </button>
   </nav>
 </div>
 
-<!-- ── MODALS ──────────────────────────────────────────── -->
-
-<!-- UPLOAD -->
+<!-- UPLOAD MODAL -->
 <div class="modal-overlay hidden" id="m-upload">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">📤 Upload Material</div>
-    <div class="form-group">
-      <label class="form-label">Course *</label>
-      <select class="form-select" id="up-course" onchange="fillSubjects('up-course','up-subject')"><option value="">Select course</option></select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Subject *</label>
-      <select class="form-select" id="up-subject"><option value="">Select subject</option></select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Description *</label>
-      <textarea class="form-textarea" id="up-desc" placeholder="Briefly describe this material…" rows="3"></textarea>
-    </div>
+    <div class="modal-title">Upload Material</div>
+    <div class="form-group"><label class="form-label">Course *</label><select class="form-select" id="up-course" onchange="fillSubjects('up-course','up-subject')"><option value="">Select course</option></select></div>
+    <div class="form-group"><label class="form-label">Subject *</label><select class="form-select" id="up-subject"><option value="">Select subject</option></select></div>
+    <div class="form-group"><label class="form-label">Description *</label><textarea class="form-textarea" id="up-desc" placeholder="Briefly describe this material..." rows="3"></textarea></div>
     <div class="form-group">
       <label class="form-label">File *</label>
       <div class="drop-zone" id="up-drop" onclick="document.getElementById('up-file').click()">
-        <div style="font-size:26px;margin-bottom:4px">📁</div>
-        <div id="up-fname" style="font-size:13px;font-weight:500">Tap to select file</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px">PDF, Word, PPT, Images, TXT — max 50MB</div>
+        <div class="drop-zone-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+        <div id="up-fname" style="font-size:13px;font-weight:600;color:var(--text-muted)">Tap to select file</div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:3px">PDF, Word, PPT, Images, TXT &mdash; max 50MB</div>
       </div>
       <input type="file" id="up-file" class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.jpeg,.png" onchange="fileChosen(this)"/>
     </div>
     <div id="up-prog" class="hidden mb-3">
       <div class="progress-bar"><div class="progress-fill" id="up-fill"></div></div>
-      <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:4px" id="up-ptxt">Uploading…</div>
+      <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:5px" id="up-ptxt">Uploading...</div>
     </div>
     <div id="up-err" class="form-error hidden mb-2"></div>
     <div class="flex gap-2">
@@ -461,441 +517,403 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;font-weight:600}
   </div>
 </div>
 
-<!-- VIEW MATERIAL -->
+<!-- VIEW MATERIAL MODAL -->
 <div class="modal-overlay hidden" id="m-view">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div id="m-view-body"></div>
-  </div>
+  <div class="modal"><div class="modal-handle"></div><div id="m-view-body"></div></div>
 </div>
 
-<!-- EDIT PROFILE -->
+<!-- EDIT PROFILE MODAL -->
 <div class="modal-overlay hidden" id="m-edit">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">✏️ Edit Profile</div>
+    <div class="modal-title">Edit Profile</div>
     <div class="avatar-upload" onclick="document.getElementById('e-avatar').click()">
-      <img id="e-avatar-img" src="" style="display:none"/>
-      <span id="e-avatar-ph">📷<br><span style="font-size:10px">Change</span></span>
+      <img id="e-avatar-img" src="" style="display:none;width:100%;height:100%;object-fit:cover"/>
+      <span id="e-avatar-ph" style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span style="font-size:11px;font-weight:600">Change Photo</span>
+      </span>
     </div>
     <input type="file" id="e-avatar" accept="image/*" class="hidden" onchange="previewAvatar('e-avatar','e-avatar-img','e-avatar-ph')"/>
     <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="e-name"/></div>
     <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="e-uname"/></div>
     <div class="form-group"><label class="form-label">College</label><input type="text" class="form-input" id="e-college"/></div>
-    <div class="flex gap-2">
-      <button class="btn btn-ghost flex-1" onclick="closeModal('m-edit')">Cancel</button>
-      <button class="btn btn-primary flex-1" onclick="saveProfile()">Save</button>
-    </div>
+    <div class="flex gap-2"><button class="btn btn-ghost flex-1" onclick="closeModal('m-edit')">Cancel</button><button class="btn btn-primary flex-1" onclick="saveProfile()">Save Changes</button></div>
   </div>
 </div>
 
-<!-- COURSE ADMIN -->
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal-overlay hidden" id="m-password">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Change Password</div>
+    <div class="form-group"><label class="form-label">Current Password</label><input type="password" class="form-input" id="pw-current" placeholder="Enter current password"/></div>
+    <div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" id="pw-new" placeholder="Minimum 6 characters"/></div>
+    <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" class="form-input" id="pw-confirm" placeholder="Repeat new password"/></div>
+    <div id="pw-err" class="form-error hidden mb-2"></div>
+    <div class="flex gap-2"><button class="btn btn-ghost flex-1" onclick="closeModal('m-password')">Cancel</button><button class="btn btn-primary flex-1" onclick="doChangePassword()">Update Password</button></div>
+  </div>
+</div>
+
+<!-- COURSE MODAL (Admin) -->
 <div class="modal-overlay hidden" id="m-course">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title" id="mc-title">Add Course</div>
-    <div class="form-group"><label class="form-label">Course Name</label><input type="text" class="form-input" id="mc-name" placeholder="e.g. Electrical Wiring"/></div>
-    <div class="form-group"><label class="form-label">Emoji Icon</label><input type="text" class="form-input" id="mc-emoji" placeholder="e.g. ⚡" style="font-size:20px"/></div>
-    <div class="form-group"><label class="form-label">WhatsApp Group Link</label><input type="url" class="form-input" id="mc-wa" placeholder="https://chat.whatsapp.com/…"/></div>
-    <div class="form-group"><label class="form-label">Subjects (one per line)</label><textarea class="form-textarea" id="mc-subjects" rows="5" placeholder="Technology&#10;Science&#10;Numeracy"></textarea></div>
-    <div class="flex gap-2">
-      <button class="btn btn-ghost flex-1" onclick="closeModal('m-course')">Cancel</button>
-      <button class="btn btn-primary flex-1" onclick="saveCourse()">Save</button>
+    <div class="form-group"><label class="form-label">Course Name *</label><input type="text" class="form-input" id="mc-name" placeholder="e.g. Electrical Wiring"/></div>
+    <div class="form-group"><label class="form-label">Short Code (ID)</label><input type="text" class="form-input" id="mc-id" placeholder="e.g. electrical (auto-generated)"/></div>
+    <div class="form-group">
+      <label class="form-label">Course Profile Picture</label>
+      <div class="avatar-upload" style="width:100%;height:100px;border-radius:var(--radius);border-radius:10px;flex-direction:row;gap:10px" onclick="document.getElementById('mc-img').click()">
+        <img id="mc-img-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
+        <span id="mc-img-ph" style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--brand)" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span style="font-size:11px;font-weight:600">Upload course picture</span>
+          <span style="font-size:10px;color:var(--text-muted)">This shows as the course card image</span>
+        </span>
+      </div>
+      <input type="file" id="mc-img" accept="image/*" class="hidden" onchange="previewCourseImage(this)"/>
     </div>
+    <div class="form-group"><label class="form-label">WhatsApp Group Link</label><input type="url" class="form-input" id="mc-wa" placeholder="https://chat.whatsapp.com/..."/><div class="form-hint" style="font-size:11px;color:var(--text-muted);margin-top:4px">Students will see a WhatsApp button on this course card</div></div>
+    <div class="form-group"><label class="form-label">Subjects (one per line) *</label><textarea class="form-textarea" id="mc-subjects" rows="5" placeholder="Technology&#10;Science&#10;Numeracy&#10;OSH"></textarea></div>
+    <div class="flex gap-2"><button class="btn btn-ghost flex-1" onclick="closeModal('m-course')">Cancel</button><button class="btn btn-primary flex-1" onclick="saveCourse()">Save Course</button></div>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-//  CONFIG — change API_BASE to your deployed server URL
-// ═══════════════════════════════════════════════════════
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+// ═══════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════
+const API_BASE = (window.location.port === '3001' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? `${window.location.protocol}//${window.location.hostname}:3001`
-  : window.location.origin; // same origin when deployed together
+  : window.location.origin;
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  STATE
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 let token = localStorage.getItem('es_token') || '';
 let currentUser = null;
 let allCourses = [];
-let browseFilter = { course: 'all', subject: 'all' };
+let browseFilter = { course:'all', subject:'all' };
 let adminTab = 'overview';
 let editingCourseId = null;
 let selectedFile = null;
 let pendingOtpEmail = '';
 let pendingOtp = '';
 
-// ═══════════════════════════════════════════════════════
-//  API HELPER
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  API
+// ═══════════════════════════════════════════════
 async function api(method, path, body, isFormData) {
-  const opts = {
-    method,
-    headers: { ...(token ? { Authorization: 'Bearer ' + token } : {}) }
-  };
-  if (body && !isFormData) {
-    opts.headers['Content-Type'] = 'application/json';
-    opts.body = JSON.stringify(body);
-  } else if (isFormData) {
-    opts.body = body;
-  }
-  const r = await fetch(API_BASE + path, opts);
-  const data = await r.json().catch(() => ({}));
+  const opts = { method, headers: { ...(token ? { Authorization:'Bearer '+token } : {}) } };
+  if (body && !isFormData) { opts.headers['Content-Type']='application/json'; opts.body=JSON.stringify(body); }
+  else if (isFormData) { opts.body=body; }
+  const r = await fetch(API_BASE+path, opts);
+  const data = await r.json().catch(()=>({}));
   if (!r.ok) throw new Error(data.error || 'Request failed');
   return data;
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  TOAST
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function toast(msg) {
   const el = document.getElementById('toast');
   const d = document.createElement('div');
-  d.className = 'toast-msg';
-  d.textContent = msg;
+  d.className = 'toast-msg'; d.textContent = msg;
   el.appendChild(d);
-  setTimeout(() => d.remove(), 3200);
+  setTimeout(()=>d.remove(), 3200);
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  MODALS
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-document.querySelectorAll('.modal-overlay').forEach(o =>
-  o.addEventListener('click', e => { if (e.target === o) o.classList.add('hidden'); })
+document.querySelectorAll('.modal-overlay').forEach(o=>
+  o.addEventListener('click', e=>{ if(e.target===o) o.classList.add('hidden'); })
 );
 
-// ═══════════════════════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════════════════════
-function switchAuthTab(tab) {
-  document.querySelectorAll('.auth-tab').forEach((t, i) =>
-    t.classList.toggle('active', (tab === 'login') === (i === 0))
-  );
-  document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
-  document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
-  if (tab === 'register') showRStep('r-step-email');
+// ═══════════════════════════════════════════════
+//  OTP
+// ═══════════════════════════════════════════════
+function otpInput(el, i) {
+  let v = el.value.replace(/\D/g,'');
+  if (v.length > 1) v = v.slice(-1);
+  el.value = v;
+  el.classList.toggle('otp-filled', v.length===1);
+  if (v && i < 5) { const n=document.getElementById('otp'+(i+1)); n.focus(); n.select(); }
+  const full = [0,1,2,3,4,5].every(n=>document.getElementById('otp'+n).value);
+  if (full) verifyOTP();
+}
+function otpKey(e, i) {
+  const el = document.getElementById('otp'+i);
+  if (e.key==='Backspace') {
+    if (el.value) { el.value=''; el.classList.remove('otp-filled'); }
+    else if (i>0) { const p=document.getElementById('otp'+(i-1)); p.focus(); p.select(); }
+    e.preventDefault();
+  } else if (e.key==='ArrowLeft'&&i>0) document.getElementById('otp'+(i-1)).focus();
+  else if (e.key==='ArrowRight'&&i<5) document.getElementById('otp'+(i+1)).focus();
+}
+function otpPaste(e) {
+  e.preventDefault();
+  const text=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+  if (!text) return;
+  for (let i=0;i<6;i++) { const el=document.getElementById('otp'+i); el.value=text[i]||''; el.classList.toggle('otp-filled',!!text[i]); }
+  document.getElementById('otp'+Math.min(text.length,5)).focus();
+  if (text.length===6) verifyOTP();
 }
 
+// ═══════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(tab==='login')===(i===0)));
+  document.getElementById('login-form').classList.toggle('hidden',tab!=='login');
+  document.getElementById('register-form').classList.toggle('hidden',tab!=='register');
+  if (tab==='register') showRStep('r-step-email');
+}
 function showRStep(id) {
-  ['r-step-email', 'r-step-otp', 'r-step-profile'].forEach(s =>
-    document.getElementById(s).classList.add('hidden')
-  );
+  ['r-step-email','r-step-otp','r-step-profile'].forEach(s=>document.getElementById(s).classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
-
-function otpNext(i) {
-  const v = document.getElementById('otp' + i).value;
-  if (v && i < 5) document.getElementById('otp' + (i + 1)).focus();
-}
-function otpBack(e, i) {
-  if (e.key === 'Backspace' && !document.getElementById('otp' + i).value && i > 0)
-    document.getElementById('otp' + (i - 1)).focus();
-}
-
-function previewAvatar(inputId, imgId, phId) {
-  const f = document.getElementById(inputId).files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = e => {
-    const img = document.getElementById(imgId);
-    img.src = e.target.result; img.style.display = 'block';
-    document.getElementById(phId).style.display = 'none';
-  };
-  r.readAsDataURL(f);
-}
-
 async function sendOTP() {
-  const email = document.getElementById('r-email').value.trim();
-  if (!email.includes('@')) { toast('Enter a valid email'); return; }
-  const btn = document.getElementById('r-otp-btn');
-  btn.disabled = true; btn.textContent = 'Sending…';
+  const email=document.getElementById('r-email').value.trim();
+  if (!email||!email.includes('@')||!email.includes('.')) { toast('Enter a valid email address'); return; }
+  const btn=document.getElementById('r-otp-btn');
+  btn.disabled=true; btn.textContent='Sending...';
   try {
-    const res = await api('POST', '/api/auth/send-otp', { email });
-    pendingOtpEmail = email;
-    const hint = document.getElementById('r-otp-hint');
-    hint.textContent = res.demo_otp ? `Demo code: ${res.demo_otp}` : 'Check your email';
+    const res=await api('POST','/api/auth/send-otp',{email});
+    pendingOtpEmail=email;
+    [0,1,2,3,4,5].forEach(i=>{ const el=document.getElementById('otp'+i); el.value=''; el.classList.remove('otp-filled'); el.style.borderColor=''; });
+    const hint=document.getElementById('r-otp-hint');
+    hint.innerHTML = res.demo_otp ? `Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>` : 'Check your inbox (also check spam)';
     showRStep('r-step-otp');
-    document.getElementById('otp0').focus();
-    toast('📧 Verification code sent!');
-  } catch (err) {
-    toast('❌ ' + err.message);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Send Verification Code';
-  }
+    setTimeout(()=>document.getElementById('otp0').focus(),150);
+    toast('Verification code sent');
+  } catch(err) { toast('Error: '+err.message); }
+  finally { btn.disabled=false; btn.textContent='Send Verification Code'; }
 }
-
 async function verifyOTP() {
-  const otp = [0,1,2,3,4,5].map(i => document.getElementById('otp'+i).value).join('');
-  if (otp.length < 6) { toast('Enter 6-digit code'); return; }
+  const otp=[0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
+  if (otp.length<6) { toast('Please enter all 6 digits'); return; }
+  const btn=document.getElementById('r-verify-btn');
+  if (btn) { btn.disabled=true; btn.textContent='Verifying...'; }
   try {
-    await api('POST', '/api/auth/verify-otp', { email: pendingOtpEmail, otp });
-    pendingOtp = otp;
-    // Populate course dropdown
-    const sel = document.getElementById('r-course');
-    sel.innerHTML = '<option value="">Select course</option>' +
-      allCourses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    await api('POST','/api/auth/verify-otp',{email:pendingOtpEmail,otp});
+    pendingOtp=otp;
+    const sel=document.getElementById('r-course');
+    sel.innerHTML='<option value="">Select your course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
     showRStep('r-step-profile');
-    toast('✅ Email verified!');
-  } catch (err) {
-    toast('❌ ' + err.message);
-  }
+    toast('Email verified successfully');
+  } catch(err) {
+    [0,1,2,3,4,5].forEach(i=>{ const el=document.getElementById('otp'+i); el.value=''; el.classList.remove('otp-filled'); el.style.borderColor='var(--red)'; setTimeout(()=>el.style.borderColor='',1500); });
+    document.getElementById('otp0').focus();
+    toast('Incorrect code — try again');
+  } finally { if(btn){btn.disabled=false;btn.textContent='Verify Code';} }
 }
-
 async function doRegister() {
-  const name = document.getElementById('r-name').value.trim();
-  const username = document.getElementById('r-username').value.trim();
-  const course = document.getElementById('r-course').value;
-  const college = document.getElementById('r-college').value.trim();
-  const password = document.getElementById('r-pass').value;
-  const errEl = document.getElementById('r-err');
-
-  if (!name || !username || !course || !college || !password) {
-    errEl.textContent = 'Please fill all required fields'; errEl.classList.remove('hidden'); return;
-  }
-  if (password.length < 6) {
-    errEl.textContent = 'Password must be 6+ characters'; errEl.classList.remove('hidden'); return;
-  }
+  const name=document.getElementById('r-name').value.trim();
+  const username=document.getElementById('r-username').value.trim();
+  const course=document.getElementById('r-course').value;
+  const college=document.getElementById('r-college').value.trim();
+  const password=document.getElementById('r-pass').value;
+  const errEl=document.getElementById('r-err');
+  if (!name||!username||!course||!college||!password) { errEl.textContent='Please fill all required fields'; errEl.classList.remove('hidden'); return; }
+  if (password.length<6) { errEl.textContent='Password must be at least 6 characters'; errEl.classList.remove('hidden'); return; }
   errEl.classList.add('hidden');
-
-  // Read avatar as base64 if chosen
-  let avatar = '';
-  const avatarFile = document.getElementById('r-avatar').files[0];
-  if (avatarFile) {
-    avatar = await toBase64(avatarFile);
-  }
-
-  const btn = document.getElementById('r-submit');
-  btn.disabled = true; btn.textContent = 'Creating account…';
+  let avatar='';
+  const af=document.getElementById('r-avatar').files[0];
+  if (af) avatar=await toBase64(af);
+  const btn=document.getElementById('r-submit');
+  btn.disabled=true; btn.textContent='Creating account...';
   try {
-    const res = await api('POST', '/api/auth/register', {
-      email: pendingOtpEmail, otp: pendingOtp, name, username, course, college, password, avatar
-    });
-    token = res.token;
-    currentUser = res.user;
-    localStorage.setItem('es_token', token);
-    toast('🎉 Welcome to EduShare!');
+    const res=await api('POST','/api/auth/register',{email:pendingOtpEmail,otp:pendingOtp,name,username,course,college,password,avatar});
+    token=res.token; currentUser=res.user;
+    localStorage.setItem('es_token',token);
+    toast('Welcome to EduShare, '+currentUser.name.split(' ')[0]+'!');
     launchApp();
-  } catch (err) {
-    errEl.textContent = err.message; errEl.classList.remove('hidden');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Create Account';
-  }
+  } catch(err) { errEl.textContent=err.message; errEl.classList.remove('hidden'); }
+  finally { btn.disabled=false; btn.textContent='Create Account'; }
 }
-
 async function doLogin() {
-  const email = document.getElementById('l-email').value.trim();
-  const pass = document.getElementById('l-pass').value;
-  const errEl = document.getElementById('l-err');
-  const btn = document.getElementById('l-btn');
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const errEl=document.getElementById('l-err');
+  const btn=document.getElementById('l-btn');
   errEl.classList.add('hidden');
-  btn.disabled = true; btn.textContent = 'Signing in…';
+  btn.disabled=true; btn.textContent='Signing in...';
   try {
-    const res = await api('POST', '/api/auth/login', { email, password: pass });
-    token = res.token; currentUser = res.user;
-    localStorage.setItem('es_token', token);
-    toast('Welcome back, ' + currentUser.name.split(' ')[0] + '!');
+    const res=await api('POST','/api/auth/login',{email,password:pass});
+    token=res.token; currentUser=res.user;
+    localStorage.setItem('es_token',token);
+    toast('Welcome back, '+currentUser.name.split(' ')[0]);
     launchApp();
-  } catch (err) {
-    errEl.textContent = err.message; errEl.classList.remove('hidden');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Sign In';
-  }
+  } catch(err) { errEl.textContent=err.message; errEl.classList.remove('hidden'); }
+  finally { btn.disabled=false; btn.textContent='Sign In'; }
 }
-
 function doLogout() {
-  token = ''; currentUser = null;
-  localStorage.removeItem('es_token');
+  token=''; currentUser=null; localStorage.removeItem('es_token');
   document.getElementById('app-wrap').classList.add('hidden');
-  document.getElementById('auth-screen').classList.remove('hidden');
+  document.getElementById('auth-screen').style.display='';
   toast('Signed out');
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  APP LAUNCH
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 async function launchApp() {
-  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('auth-screen').style.display='none';
   document.getElementById('app-wrap').classList.remove('hidden');
-
-  // Show admin nav
-  if (currentUser.role === 'admin') {
-    document.getElementById('nav-admin').classList.remove('hidden');
-  }
-
-  // Load courses
+  if (currentUser.role==='admin') document.getElementById('nav-admin').classList.remove('hidden');
   await loadCourses();
   updateTopbarAvatar();
   renderHome();
   switchPage('home');
 }
-
 async function tryRestoreSession() {
   if (!token) return false;
-  try {
-    currentUser = await api('GET', '/api/auth/me');
-    return true;
-  } catch {
-    token = ''; localStorage.removeItem('es_token');
-    return false;
-  }
+  try { currentUser=await api('GET','/api/auth/me'); return true; }
+  catch { token=''; localStorage.removeItem('es_token'); return false; }
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  COURSES
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 async function loadCourses() {
-  try {
-    allCourses = await api('GET', '/api/courses');
-    populateUploadCourseSelect();
-  } catch {}
+  try { allCourses=await api('GET','/api/courses'); populateUploadCourseSelect(); }
+  catch {}
 }
-
 function populateUploadCourseSelect() {
-  const sel = document.getElementById('up-course');
-  sel.innerHTML = '<option value="">Select course</option>' +
-    allCourses.map(c => `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');
+  const sel=document.getElementById('up-course');
+  sel.innerHTML='<option value="">Select course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
-
-function fillSubjects(courseSelId, subjectSelId) {
-  const cid = document.getElementById(courseSelId).value;
-  const c = allCourses.find(x => x.id === cid);
-  const sel = document.getElementById(subjectSelId);
-  sel.innerHTML = '<option value="">Select subject</option>' +
-    (c ? c.subjects.map(s => `<option value="${s}">${s}</option>`).join('') : '');
+function fillSubjects(cid, sid) {
+  const c=allCourses.find(x=>x.id===document.getElementById(cid).value);
+  const sel=document.getElementById(sid);
+  sel.innerHTML='<option value="">Select subject</option>'+(c?c.subjects.map(s=>`<option value="${s}">${s}</option>`).join(''):'');
 }
+function courseColorClass(idx) { return 'cc-'+(idx%8); }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  PAGE NAVIGATION
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function switchPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  document.querySelectorAll('.bottomnav-item').forEach(b => b.classList.remove('active'));
-  const nb = document.getElementById('nav-' + page);
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  const nb=document.getElementById('nav-'+page);
   if (nb) nb.classList.add('active');
-
-  if (page === 'home') renderHome();
-  if (page === 'browse') { renderBrowsePills(); loadBrowse(); }
-  if (page === 'uploads') loadMyUploads();
-  if (page === 'profile') renderProfile();
-  if (page === 'admin') renderAdmin();
-  document.getElementById('page-' + page).scrollTop = 0;
+  if (page==='home') renderHome();
+  if (page==='browse') { renderBrowsePills(); loadBrowse(); }
+  if (page==='uploads') loadMyUploads();
+  if (page==='profile') renderProfile();
+  if (page==='admin') renderAdmin();
+  document.getElementById('page-'+page).scrollTop=0;
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  HOME
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 async function renderHome() {
-  document.getElementById('h-name').textContent = currentUser.name.split(' ')[0];
-
-  // Courses
-  const cEl = document.getElementById('h-courses');
-  cEl.innerHTML = allCourses.slice(0, 6).map(c =>
-    `<div class="course-card" onclick="goToCourse('${c.id}')">
-      <div class="course-thumb">${c.emoji}</div>
+  document.getElementById('h-name').textContent=currentUser.name.split(' ')[0];
+  const cEl=document.getElementById('h-courses');
+  cEl.innerHTML=allCourses.slice(0,6).map((c,i)=>`
+    <div class="course-card" onclick="goToCourse('${c.id}')">
+      <div class="course-thumb ${c.image?'':'courseColorClass(i)'}">
+        ${c.image
+          ? `<img src="${c.image}" alt="${c.name}"/>`
+          : `<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`
+        }
+      </div>
       <div class="course-info">
         <div class="course-name">${c.name}</div>
-        <div class="course-meta">${c.materialCount || 0} materials</div>
+        <div class="course-meta">${c.materialCount||0} material${c.materialCount!==1?'s':''}</div>
+        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" onclick="event.stopPropagation()" class="course-wa-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Group
+        </a>`:''}
       </div>
-    </div>`
-  ).join('');
+    </div>`).join('');
 
-  // Popular materials
-  document.getElementById('h-mats').innerHTML = '<div class="loading-overlay"><div class="spinner"></div><p>Loading…</p></div>';
+  document.getElementById('h-mats').innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
   try {
-    const mats = await api('GET', '/api/materials?sort=downloads');
-    document.getElementById('h-mats').innerHTML = mats.slice(0, 5).map(matCard).join('') ||
-      '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No materials yet</div></div>';
-  } catch {
-    document.getElementById('h-mats').innerHTML = '<p class="text-muted text-sm">Could not load materials</p>';
-  }
+    const mats=await api('GET','/api/materials?sort=downloads');
+    document.getElementById('h-mats').innerHTML=mats.slice(0,5).map(matCard).join('')||emptyState('No materials yet','Be the first to upload');
+  } catch { document.getElementById('h-mats').innerHTML='<p class="text-sm text-muted">Could not load materials</p>'; }
 }
-
 async function homeSearch() {
-  const q = document.getElementById('h-search').value.trim();
+  const q=document.getElementById('h-search').value.trim();
   if (!q) { renderHome(); return; }
   try {
-    const mats = await api('GET', '/api/materials?search=' + encodeURIComponent(q));
-    document.getElementById('h-mats').innerHTML = mats.length
-      ? mats.map(matCard).join('')
-      : `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No results for "${q}"</div></div>`;
+    const mats=await api('GET','/api/materials?search='+encodeURIComponent(q));
+    document.getElementById('h-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No results for "'+q+'"','Try different keywords');
   } catch {}
 }
+function goToCourse(id) { browseFilter={course:id,subject:'all'}; switchPage('browse'); }
 
-function goToCourse(id) {
-  browseFilter = { course: id, subject: 'all' };
-  switchPage('browse');
-}
-
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  BROWSE
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function renderBrowsePills() {
-  const cpEl = document.getElementById('b-course-pills');
-  cpEl.innerHTML = `<button class="pill ${browseFilter.course==='all'?'active':''}" onclick="setBCourse('all')">All</button>` +
-    allCourses.map(c => `<button class="pill ${browseFilter.course===c.id?'active':''}" onclick="setBCourse('${c.id}')">${c.emoji} ${c.name}</button>`).join('');
-
-  const spEl = document.getElementById('b-subject-pills');
-  if (browseFilter.course === 'all') { spEl.innerHTML = ''; return; }
-  const c = allCourses.find(x => x.id === browseFilter.course);
-  if (!c) { spEl.innerHTML = ''; return; }
-  spEl.innerHTML = `<button class="pill ${browseFilter.subject==='all'?'active':''}" onclick="setBSubject('all')">All Subjects</button>` +
-    c.subjects.map(s => `<button class="pill ${browseFilter.subject===s?'active':''}" onclick="setBSubject('${s}')">${s}</button>`).join('');
+  document.getElementById('b-course-pills').innerHTML=
+    `<button class="pill ${browseFilter.course==='all'?'active':''}" onclick="setBCourse('all')">All Courses</button>`+
+    allCourses.map(c=>`<button class="pill ${browseFilter.course===c.id?'active':''}" onclick="setBCourse('${c.id}')">${c.name}</button>`).join('');
+  const cp=document.getElementById('b-subject-pills');
+  if (browseFilter.course==='all') { cp.innerHTML=''; return; }
+  const c=allCourses.find(x=>x.id===browseFilter.course);
+  cp.innerHTML=c?`<button class="pill ${browseFilter.subject==='all'?'active':''}" onclick="setBSubject('all')">All Subjects</button>`+
+    c.subjects.map(s=>`<button class="pill ${browseFilter.subject===s?'active':''}" onclick="setBSubject('${s}')">${s}</button>`).join(''):'';
 }
-
-function setBCourse(id) { browseFilter = { course: id, subject: 'all' }; renderBrowsePills(); loadBrowse(); }
-function setBSubject(s) { browseFilter.subject = s; renderBrowsePills(); loadBrowse(); }
-
+function setBCourse(id) { browseFilter={course:id,subject:'all'}; renderBrowsePills(); loadBrowse(); }
+function setBSubject(s) { browseFilter.subject=s; renderBrowsePills(); loadBrowse(); }
 async function loadBrowse() {
-  const q = document.getElementById('b-search').value.trim();
-  let url = '/api/materials?';
-  if (browseFilter.course !== 'all') url += `course=${browseFilter.course}&`;
-  if (browseFilter.subject !== 'all') url += `subject=${encodeURIComponent(browseFilter.subject)}&`;
-  if (q) url += `search=${encodeURIComponent(q)}&`;
-
-  document.getElementById('b-mats').innerHTML = '<div class="loading-overlay"><div class="spinner"></div><p>Loading…</p></div>';
+  const q=document.getElementById('b-search').value.trim();
+  let url='/api/materials?';
+  if (browseFilter.course!=='all') url+=`course=${browseFilter.course}&`;
+  if (browseFilter.subject!=='all') url+=`subject=${encodeURIComponent(browseFilter.subject)}&`;
+  if (q) url+=`search=${encodeURIComponent(q)}&`;
+  document.getElementById('b-mats').innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
   try {
-    const mats = await api('GET', url);
-    document.getElementById('b-count').textContent = `${mats.length} material${mats.length !== 1 ? 's' : ''}`;
-    document.getElementById('b-mats').innerHTML = mats.length
-      ? mats.map(matCard).join('')
-      : `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No materials found</div><div class="empty-sub">Be the first to upload!</div></div>`;
-  } catch {
-    document.getElementById('b-mats').innerHTML = '<p class="text-muted text-sm">Failed to load</p>';
-  }
+    const mats=await api('GET',url);
+    document.getElementById('b-count').textContent=`${mats.length} material${mats.length!==1?'s':''}`;
+    document.getElementById('b-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No materials found','Be the first to upload for this filter');
+  } catch { document.getElementById('b-mats').innerHTML='<p class="text-sm text-muted">Failed to load</p>'; }
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  MATERIAL CARD
-// ═══════════════════════════════════════════════════════
-const FILE_ICONS = { pdf:'📄', doc:'📝', ppt:'📊', img:'🖼️', txt:'📃', other:'📁' };
-const FILE_CLS = { pdf:'fi-pdf', doc:'fi-doc', ppt:'fi-ppt', img:'fi-img', txt:'fi-txt', other:'fi-other' };
-
+// ═══════════════════════════════════════════════
+const FILE_SVG = {
+  pdf:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+  doc:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  ppt:`<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  img:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+  txt:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  other:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`
+};
 function matCard(m) {
-  const c = allCourses.find(x => x.id === m.course);
-  const icon = FILE_ICONS[m.fileType] || FILE_ICONS.other;
-  const cls = FILE_CLS[m.fileType] || 'fi-other';
-  const d = new Date(m.createdAt || m.date).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  const c=allCourses.find(x=>x.id===m.course);
+  const ft=m.fileType||'other';
+  const icon=FILE_SVG[ft]||FILE_SVG.other;
+  const d=new Date(m.createdAt||m.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   return `<div class="mat-card" onclick="viewMaterial('${m.id}')">
     <div class="flex gap-3">
-      <div class="file-icon ${cls}">${icon}</div>
+      <div class="file-icon fi-${ft}">${icon}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-weight:500;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</div>
-        <div style="font-size:12px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px">${m.description}</div>
-        <div class="flex gap-2 mt-2 flex-wrap">
-          ${c?`<span class="badge badge-brand">${c.emoji} ${c.name}</span>`:''}
-          <span class="badge badge-gray">${m.subject}</span>
+        <div class="mat-title truncate">${m.title}</div>
+        <div class="mat-desc">${m.description}</div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+          ${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}
+          <span class="badge badge-gray" style="font-size:10px">${m.subject}</span>
         </div>
-        <div class="flex gap-3 mt-2" style="font-size:11px;color:var(--text-muted)">
-          <span>👤 ${m.uploaderName}</span>
-          <span>⬇️ ${m.downloads}</span>
-          <span>📅 ${d}</span>
-          ${m.size?`<span>💾 ${m.size}</span>`:''}
+        <div class="mat-meta">
+          <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${m.uploaderName}</span>
+          <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${m.downloads}</span>
+          <span class="mat-stat"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${d}</span>
+          ${m.size?`<span class="mat-stat">${m.size}</span>`:''}
         </div>
       </div>
     </div>
@@ -903,464 +921,420 @@ function matCard(m) {
 }
 
 async function viewMaterial(id) {
-  // Find from already-loaded data or fetch all
-  let mats = [];
-  try { mats = await api('GET', '/api/materials'); } catch {}
-  const m = mats.find(x => x.id === id);
-  if (!m) return;
-  const c = allCourses.find(x => x.id === m.course);
-  const icon = FILE_ICONS[m.fileType] || '📁';
-  const cls = FILE_CLS[m.fileType] || 'fi-other';
-  const d = new Date(m.createdAt || m.date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
-  const isOwner = m.uploaderId === currentUser.id;
-  const isAdmin = currentUser.role === 'admin';
-
-  document.getElementById('m-view-body').innerHTML = `
-    <div class="flex gap-3 items-center mb-3">
-      <div class="file-icon ${cls}" style="width:48px;height:48px;font-size:24px">${icon}</div>
-      <div style="flex:1;min-width:0">
-        <h3 style="font-size:15px;line-height:1.3">${m.title}</h3>
-        <div class="flex gap-2 mt-1 flex-wrap">
-          ${c?`<span class="badge badge-brand">${c.emoji} ${c.name}</span>`:''}
-          <span class="badge badge-gray">${m.subject}</span>
+  try {
+    const mats=await api('GET','/api/materials');
+    const m=mats.find(x=>x.id===id);
+    if (!m) return;
+    const c=allCourses.find(x=>x.id===m.course);
+    const ft=m.fileType||'other';
+    const icon=FILE_SVG[ft]||FILE_SVG.other;
+    const d=new Date(m.createdAt||m.date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    const isOwner=m.uploaderId===currentUser.id;
+    const isAdmin=currentUser.role==='admin';
+    document.getElementById('m-view-body').innerHTML=`
+      <div class="flex gap-3 items-center mb-4">
+        <div class="file-icon fi-${ft}" style="width:48px;height:48px;flex-shrink:0">${icon}</div>
+        <div style="flex:1;min-width:0">
+          <h3 style="font-size:15px;font-weight:700;line-height:1.3">${m.title}</h3>
+          <div class="flex gap-2 mt-1 flex-wrap">
+            ${c?`<span class="badge badge-brand">${c.name}</span>`:''}
+            <span class="badge badge-gray">${m.subject}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">${m.description}</p>
-    <div style="background:var(--gray-50);border-radius:var(--radius);padding:12px;margin-bottom:14px">
-      <div class="flex justify-between mb-2"><span style="font-size:12px;color:var(--text-muted)">Uploader</span><span style="font-size:12px;font-weight:500">@${m.uploaderName}</span></div>
-      <div class="flex justify-between mb-2"><span style="font-size:12px;color:var(--text-muted)">Date</span><span style="font-size:12px">${d}</span></div>
-      <div class="flex justify-between mb-2"><span style="font-size:12px;color:var(--text-muted)">Downloads</span><span style="font-size:12px;font-weight:600;color:var(--brand)">${m.downloads}</span></div>
-      ${m.size?`<div class="flex justify-between"><span style="font-size:12px;color:var(--text-muted)">Size</span><span style="font-size:12px">${m.size}</span></div>`:''}
-    </div>
-    <div class="flex gap-2">
-      <button class="btn btn-ghost flex-1" onclick="closeModal('m-view')">Close</button>
-      <button class="btn btn-primary flex-1" onclick="downloadMat('${id}')">⬇️ Download</button>
-    </div>
-    ${isOwner||isAdmin?`<button class="btn btn-danger w-full mt-2" onclick="deleteMat('${id}')">🗑️ Delete Material</button>`:''}
-  `;
-  openModal('m-view');
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">${m.description}</p>
+      <div style="background:var(--bg);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px">
+        <div class="detail-row"><span class="detail-key">Uploaded by</span><span class="detail-val">@${m.uploaderName}</span></div>
+        <div class="detail-row"><span class="detail-key">Date</span><span class="detail-val">${d}</span></div>
+        <div class="detail-row"><span class="detail-key">Downloads</span><span class="detail-val" style="color:var(--brand);font-weight:700">${m.downloads}</span></div>
+        ${m.size?`<div class="detail-row"><span class="detail-key">File size</span><span class="detail-val">${m.size}</span></div>`:''}
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost flex-1" onclick="closeModal('m-view')">Close</button>
+        <button class="btn btn-primary flex-1" id="dl-btn-${m.id}" onclick="downloadMat('${m.id}')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </button>
+      </div>
+      ${isOwner||isAdmin?`<button class="btn btn-danger w-full mt-2" onclick="deleteMat('${m.id}')">Delete Material</button>`:''}`;
+    openModal('m-view');
+  } catch(err) { toast('Error loading material'); }
 }
 
 async function downloadMat(id) {
+  const btn=document.getElementById('dl-btn-'+id);
+  const dlIcon='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+  if (btn) { btn.disabled=true; btn.textContent='Starting download...'; }
   try {
-    const res = await api('GET', '/api/materials/' + id + '/download');
+    // Call API to increment download counter and get file status
+    const res = await api('GET', `/api/materials/${id}/download`);
     if (res.demo) {
-      toast('📥 Download recorded! (Demo — no real file)');
+      toast('Demo material — no real file attached yet');
     } else {
-      // Trigger actual file download
+      // Use the /file endpoint which streams directly — works in all browsers
+      const fileUrl = `${API_BASE}/api/materials/${id}/file?token=${encodeURIComponent(token)}`;
       const a = document.createElement('a');
-      a.href = API_BASE + '/api/materials/' + id + '/download';
-      a.setAttribute('download', '');
+      a.href = fileUrl;
+      a.download = '';
+      a.style.display = 'none';
+      document.body.appendChild(a);
       a.click();
-      toast('⬇️ Downloading…');
+      setTimeout(() => document.body.removeChild(a), 500);
+      toast('Download started — check your downloads folder');
     }
     closeModal('m-view');
+    // Refresh counts
     renderHome();
-  } catch (err) {
-    toast('❌ ' + err.message);
-  }
+    if (document.getElementById('page-uploads').classList.contains('active')) loadMyUploads();
+  } catch(err) { toast('Download failed: ' + err.message); }
+  finally { if(btn){btn.disabled=false; btn.innerHTML=dlIcon+' Download';} }
 }
 
 async function deleteMat(id) {
-  if (!confirm('Delete this material? Cannot be undone.')) return;
+  if (!confirm('Delete this material? This cannot be undone.')) return;
   try {
-    await api('DELETE', '/api/materials/' + id);
-    closeModal('m-view');
-    toast('🗑️ Deleted');
+    await api('DELETE','/api/materials/'+id);
+    closeModal('m-view'); toast('Material deleted');
     renderHome();
     if (document.getElementById('page-uploads').classList.contains('active')) loadMyUploads();
     if (document.getElementById('page-browse').classList.contains('active')) loadBrowse();
-  } catch (err) {
-    toast('❌ ' + err.message);
-  }
-}
-
-// ═══════════════════════════════════════════════════════
-//  UPLOAD
-// ═══════════════════════════════════════════════════════
-function openUpload() { populateUploadCourseSelect(); openModal('m-upload'); }
-
-function fileChosen(input) {
-  selectedFile = input.files[0] || null;
-  const drop = document.getElementById('up-drop');
-  if (selectedFile) {
-    document.getElementById('up-fname').textContent = selectedFile.name;
-    drop.classList.add('has-file');
-  }
-}
-
-async function submitUpload() {
-  const course = document.getElementById('up-course').value;
-  const subject = document.getElementById('up-subject').value;
-  const desc = document.getElementById('up-desc').value.trim();
-  const errEl = document.getElementById('up-err');
-
-  if (!course || !subject || !desc || !selectedFile) {
-    errEl.textContent = 'Please fill all fields and select a file';
-    errEl.classList.remove('hidden'); return;
-  }
-  errEl.classList.add('hidden');
-
-  const fd = new FormData();
-  fd.append('course', course);
-  fd.append('subject', subject);
-  fd.append('description', desc);
-  fd.append('file', selectedFile);
-
-  const btn = document.getElementById('up-btn');
-  const prog = document.getElementById('up-prog');
-  const fill = document.getElementById('up-fill');
-  const ptxt = document.getElementById('up-ptxt');
-
-  btn.disabled = true;
-  prog.classList.remove('hidden');
-
-  // Simulate progress then real upload
-  let pct = 0;
-  const interval = setInterval(() => {
-    pct = Math.min(pct + Math.random() * 15 + 5, 85);
-    fill.style.width = pct + '%';
-    ptxt.textContent = `Uploading… ${Math.round(pct)}%`;
-  }, 250);
-
-  try {
-    await api('POST', '/api/materials', fd, true);
-    clearInterval(interval);
-    fill.style.width = '100%';
-    ptxt.textContent = 'Done!';
     await loadCourses();
-    setTimeout(() => {
+  } catch(err) { toast('Error: '+err.message); }
+}
+
+// ═══════════════════════════════════════════════
+//  UPLOAD
+// ═══════════════════════════════════════════════
+function openUpload() { populateUploadCourseSelect(); openModal('m-upload'); }
+function fileChosen(input) {
+  selectedFile=input.files[0]||null;
+  if (selectedFile) {
+    document.getElementById('up-fname').textContent=selectedFile.name;
+    document.getElementById('up-fname').style.color='var(--text)';
+    document.getElementById('up-drop').classList.add('has-file');
+  }
+}
+async function submitUpload() {
+  const course=document.getElementById('up-course').value;
+  const subject=document.getElementById('up-subject').value;
+  const desc=document.getElementById('up-desc').value.trim();
+  const errEl=document.getElementById('up-err');
+  if (!course||!subject||!desc||!selectedFile) { errEl.textContent='Please fill all fields and select a file'; errEl.classList.remove('hidden'); return; }
+  errEl.classList.add('hidden');
+  const fd=new FormData();
+  fd.append('course',course); fd.append('subject',subject); fd.append('description',desc); fd.append('file',selectedFile);
+  const btn=document.getElementById('up-btn');
+  const prog=document.getElementById('up-prog');
+  const fill=document.getElementById('up-fill');
+  const ptxt=document.getElementById('up-ptxt');
+  btn.disabled=true; prog.classList.remove('hidden');
+  let pct=0;
+  const iv=setInterval(()=>{ pct=Math.min(pct+Math.random()*15+5,88); fill.style.width=pct+'%'; ptxt.textContent=`Uploading... ${Math.round(pct)}%`; },250);
+  try {
+    await api('POST','/api/materials',fd,true);
+    clearInterval(iv); fill.style.width='100%'; ptxt.textContent='Done!';
+    await loadCourses();
+    setTimeout(()=>{
       closeModal('m-upload');
-      // Reset form
-      selectedFile = null;
-      document.getElementById('up-fname').textContent = 'Tap to select file';
+      selectedFile=null;
+      document.getElementById('up-fname').textContent='Tap to select file';
+      document.getElementById('up-fname').style.color='';
       document.getElementById('up-drop').classList.remove('has-file');
-      document.getElementById('up-course').value = '';
-      document.getElementById('up-subject').innerHTML = '<option value="">Select subject</option>';
-      document.getElementById('up-desc').value = '';
-      fill.style.width = '0%';
-      prog.classList.add('hidden');
-      btn.disabled = false;
-      toast('✅ Material uploaded!');
+      document.getElementById('up-course').value='';
+      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';
+      document.getElementById('up-desc').value='';
+      fill.style.width='0%'; prog.classList.add('hidden'); btn.disabled=false;
+      toast('Material uploaded successfully');
       renderHome();
-    }, 600);
-  } catch (err) {
-    clearInterval(interval);
-    errEl.textContent = err.message; errEl.classList.remove('hidden');
-    prog.classList.add('hidden');
-    btn.disabled = false;
+    },600);
+  } catch(err) {
+    clearInterval(iv); errEl.textContent=err.message; errEl.classList.remove('hidden');
+    prog.classList.add('hidden'); btn.disabled=false;
   }
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  MY UPLOADS
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 async function loadMyUploads() {
-  const el = document.getElementById('u-list');
-  el.innerHTML = '<div class="loading-overlay"><div class="spinner"></div><p>Loading…</p></div>';
+  const el=document.getElementById('u-list');
+  el.innerHTML='<div class="loading-state"><div class="spinner"></div><p>Loading...</p></div>';
   try {
-    const mats = await api('GET', '/api/materials/my');
-    if (!mats.length) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">📤</div><div class="empty-title">No uploads yet</div><div class="empty-sub">Share your first material</div><button class="btn btn-primary mt-4" onclick="openUpload()">Upload Now</button></div>`;
-      return;
-    }
-    const total = mats.reduce((a, m) => a + m.downloads, 0);
-    el.innerHTML = `<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${mats.length} files · ${total} total downloads</div>` + mats.map(matCard).join('');
-  } catch {
-    el.innerHTML = '<p class="text-muted text-sm">Failed to load uploads</p>';
-  }
+    const mats=await api('GET','/api/materials/my');
+    if (!mats.length) { el.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">No uploads yet</div><div class="empty-sub">Share your first material with fellow students</div><button class="btn btn-primary mt-4" onclick="openUpload()">Upload Now</button></div>`; return; }
+    const total=mats.reduce((a,m)=>a+m.downloads,0);
+    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} file${mats.length!==1?'s':''} &middot; ${total} total downloads</div>`+mats.map(matCard).join('');
+  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load uploads</p>'; }
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  PROFILE
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 async function renderProfile() {
-  const c = allCourses.find(x => x.id === currentUser.course);
-  updateAvatarEl(document.getElementById('p-avatar'), currentUser);
-  document.getElementById('p-name').textContent = currentUser.name;
-  document.getElementById('p-uname').textContent = '@' + currentUser.username;
-  document.getElementById('p-course').textContent = c ? `${c.emoji} ${c.name}` : currentUser.course || '—';
-  document.getElementById('p-college').textContent = currentUser.college || '—';
-
+  const c=allCourses.find(x=>x.id===currentUser.course);
+  setAvatarEl(document.getElementById('p-avatar'),currentUser);
+  document.getElementById('p-name').textContent=currentUser.name;
+  document.getElementById('p-uname').textContent='@'+currentUser.username;
+  document.getElementById('p-course').textContent=c?c.name:currentUser.course||'—';
+  document.getElementById('p-college').textContent=currentUser.college||'—';
   try {
-    const mats = await api('GET', '/api/materials/my');
-    const dls = mats.reduce((a, m) => a + m.downloads, 0);
-    document.getElementById('p-uploads').textContent = mats.length;
-    document.getElementById('p-dls').textContent = dls;
+    const mats=await api('GET','/api/materials/my');
+    document.getElementById('p-uploads').textContent=mats.length;
+    document.getElementById('p-dls').textContent=mats.reduce((a,m)=>a+m.downloads,0);
   } catch {}
 }
-
-function updateAvatarEl(el, user) {
-  if (user.avatar) {
-    el.innerHTML = `<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;
-  } else {
-    el.textContent = user.name.charAt(0).toUpperCase();
-    el.style.background = 'var(--brand-light)';
-    el.style.color = 'var(--brand)';
-  }
+function setAvatarEl(el,user) {
+  if (user.avatar) { el.innerHTML=`<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover"/>`; }
+  else { el.textContent=user.name.charAt(0).toUpperCase(); el.style.background='var(--brand-light)'; el.style.color='var(--brand)'; }
 }
-
 function updateTopbarAvatar() {
-  const el = document.getElementById('topbar-av');
-  if (currentUser.avatar) {
-    el.innerHTML = `<img src="${currentUser.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;
-  } else {
-    el.textContent = currentUser.name.charAt(0).toUpperCase();
-  }
+  const el=document.getElementById('topbar-av');
+  if (currentUser.avatar) el.innerHTML=`<img src="${currentUser.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;
+  else el.textContent=currentUser.name.charAt(0).toUpperCase();
 }
-
 function openEditProfile() {
-  document.getElementById('e-name').value = currentUser.name;
-  document.getElementById('e-uname').value = currentUser.username;
-  document.getElementById('e-college').value = currentUser.college || '';
-  const img = document.getElementById('e-avatar-img');
-  const ph = document.getElementById('e-avatar-ph');
-  if (currentUser.avatar) { img.src = currentUser.avatar; img.style.display = 'block'; ph.style.display = 'none'; }
-  else { img.style.display = 'none'; ph.style.display = 'flex'; }
+  document.getElementById('e-name').value=currentUser.name;
+  document.getElementById('e-uname').value=currentUser.username;
+  document.getElementById('e-college').value=currentUser.college||'';
+  const img=document.getElementById('e-avatar-img');
+  const ph=document.getElementById('e-avatar-ph');
+  if (currentUser.avatar) { img.src=currentUser.avatar; img.style.display='block'; ph.style.display='none'; }
+  else { img.style.display='none'; ph.style.display='flex'; }
   openModal('m-edit');
 }
-
 async function saveProfile() {
-  const name = document.getElementById('e-name').value.trim();
-  const username = document.getElementById('e-uname').value.trim();
-  const college = document.getElementById('e-college').value.trim();
-  if (!name || !username) { toast('Name and username required'); return; }
-
-  let avatar = currentUser.avatar;
-  const avatarFile = document.getElementById('e-avatar').files[0];
-  if (avatarFile) avatar = await toBase64(avatarFile);
-
+  const name=document.getElementById('e-name').value.trim();
+  const username=document.getElementById('e-uname').value.trim();
+  const college=document.getElementById('e-college').value.trim();
+  if (!name||!username) { toast('Name and username required'); return; }
+  let avatar=currentUser.avatar;
+  const af=document.getElementById('e-avatar').files[0];
+  if (af) avatar=await toBase64(af);
   try {
-    const updated = await api('PUT', '/api/auth/profile', { name, username, college, avatar });
-    currentUser = { ...currentUser, ...updated };
-    updateTopbarAvatar();
-    closeModal('m-edit');
-    renderProfile();
-    toast('✅ Profile updated!');
-  } catch (err) {
-    toast('❌ ' + err.message);
-  }
+    const updated=await api('PUT','/api/auth/profile',{name,username,college,avatar});
+    currentUser={...currentUser,...updated};
+    updateTopbarAvatar(); closeModal('m-edit'); renderProfile();
+    toast('Profile updated');
+  } catch(err) { toast('Error: '+err.message); }
 }
 
-// ═══════════════════════════════════════════════════════
-//  ABOUT
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  CHANGE PASSWORD
+// ═══════════════════════════════════════════════
+function openChangePassword() {
+  document.getElementById('pw-current').value='';
+  document.getElementById('pw-new').value='';
+  document.getElementById('pw-confirm').value='';
+  document.getElementById('pw-err').classList.add('hidden');
+  openModal('m-password');
+}
+async function doChangePassword() {
+  const current=document.getElementById('pw-current').value;
+  const newPw=document.getElementById('pw-new').value;
+  const confirm=document.getElementById('pw-confirm').value;
+  const errEl=document.getElementById('pw-err');
+  if (!current||!newPw||!confirm) { errEl.textContent='All fields required'; errEl.classList.remove('hidden'); return; }
+  if (newPw.length<6) { errEl.textContent='New password must be at least 6 characters'; errEl.classList.remove('hidden'); return; }
+  if (newPw!==confirm) { errEl.textContent='New passwords do not match'; errEl.classList.remove('hidden'); return; }
+  errEl.classList.add('hidden');
+  try {
+    await api('PUT','/api/auth/change-password',{currentPassword:current,newPassword:newPw});
+    closeModal('m-password');
+    toast('Password changed successfully');
+  } catch(err) { errEl.textContent=err.message; errEl.classList.remove('hidden'); }
+}
+
+// ═══════════════════════════════════════════════
+//  ABOUT / FEEDBACK
+// ═══════════════════════════════════════════════
 async function sendFeedback() {
-  const msg = document.getElementById('fb-msg').value.trim();
-  if (!msg) { toast('Please write a message'); return; }
-  try {
-    await api('POST', '/api/feedback', { message: msg });
-    document.getElementById('fb-msg').value = '';
-    toast('📧 Feedback sent to admin!');
-  } catch (err) {
-    toast('❌ ' + err.message);
-  }
+  const msg=document.getElementById('fb-msg').value.trim();
+  if (!msg) { toast('Please write a message first'); return; }
+  try { await api('POST','/api/feedback',{message:msg}); document.getElementById('fb-msg').value=''; toast('Feedback sent to admin'); }
+  catch(err) { toast('Error: '+err.message); }
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  ADMIN
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 function switchAdminTab(tab) {
-  adminTab = tab;
-  document.querySelectorAll('.admin-tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', ['overview','users','materials','courses'][i] === tab);
-  });
+  adminTab=tab;
+  document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses'][i]===tab));
   renderAdmin();
 }
-
 async function renderAdmin() {
-  if (currentUser.role !== 'admin') { document.getElementById('admin-body').innerHTML = '<div class="empty-state"><div class="empty-icon">🔒</div><div class="empty-title">Access denied</div></div>'; return; }
-  const el = document.getElementById('admin-body');
-  el.innerHTML = '<div class="loading-overlay"><div class="spinner"></div><p>Loading…</p></div>';
-  if (adminTab === 'overview') await renderAdminOverview(el);
-  else if (adminTab === 'users') await renderAdminUsers(el);
-  else if (adminTab === 'materials') await renderAdminMaterials(el);
-  else if (adminTab === 'courses') await renderAdminCourses(el);
+  if (currentUser.role!=='admin') return;
+  const el=document.getElementById('admin-body');
+  el.innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
+  if (adminTab==='overview') await renderAdminOverview(el);
+  else if (adminTab==='users') await renderAdminUsers(el);
+  else if (adminTab==='materials') await renderAdminMaterials(el);
+  else await renderAdminCourses(el);
 }
-
 async function renderAdminOverview(el) {
   try {
-    const s = await api('GET', '/api/admin/stats');
-    el.innerHTML = `
-      <div class="grid-2 mb-4">
-        <div class="stat-card"><div style="font-size:22px;margin-bottom:4px">👥</div><div class="stat-value">${s.totalStudents}</div><div class="stat-label">Students</div></div>
-        <div class="stat-card"><div style="font-size:22px;margin-bottom:4px">📚</div><div class="stat-value">${s.totalMaterials}</div><div class="stat-label">Materials</div></div>
-        <div class="stat-card"><div style="font-size:22px;margin-bottom:4px">⬇️</div><div class="stat-value">${s.totalDownloads}</div><div class="stat-label">Downloads</div></div>
-        <div class="stat-card"><div style="font-size:22px;margin-bottom:4px">📂</div><div class="stat-value">${s.totalCourses}</div><div class="stat-label">Courses</div></div>
+    const s=await api('GET','/api/admin/stats');
+    el.innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="stat-card"><div class="stat-icon" style="background:#eff4ff"><svg width="18" height="18" fill="none" stroke="var(--brand)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-value">${s.totalStudents}</div><div class="stat-label">Students</div></div>
+        <div class="stat-card"><div class="stat-icon" style="background:#ecfdf5"><svg width="18" height="18" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-value">${s.totalMaterials}</div><div class="stat-label">Materials</div></div>
+        <div class="stat-card"><div class="stat-icon" style="background:#fffbeb"><svg width="18" height="18" fill="none" stroke="var(--amber)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="stat-value">${s.totalDownloads}</div><div class="stat-label">Downloads</div></div>
+        <div class="stat-card"><div class="stat-icon" style="background:#fef2f2"><svg width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div class="stat-value">${s.totalCourses}</div><div class="stat-label">Courses</div></div>
       </div>
-      <div class="card mb-3">
-        <div class="card-header"><strong style="font-size:13px">Materials by Course</strong></div>
-        <div class="card-body">
-          ${s.courseBreakdown.filter(c=>c.count>0).map(c=>`
-            <div class="flex justify-between items-center mb-2">
-              <span style="font-size:13px">${c.emoji} ${c.name}</span>
-              <span class="badge badge-brand">${c.count}</span>
-            </div>
-            <div class="progress-bar mb-3"><div class="progress-fill" style="width:${s.totalMaterials?Math.round(c.count/s.totalMaterials*100):0}%"></div></div>
-          `).join('')}
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><strong style="font-size:13px">Top Uploaders</strong></div>
-        <div class="card-body">
-          ${s.topUploaders.map((u,i)=>`<div class="flex justify-between items-center py-2 ${i<s.topUploaders.length-1?'border-b':''}"><div class="flex items-center gap-2"><span>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'][i]}</span><span style="font-size:13px;font-weight:500">@${u.username}</span></div><span style="font-size:12px;color:var(--text-muted)">${u.count} upload${u.count!==1?'s':''}</span></div>`).join('')}
-        </div>
-      </div>`;
-  } catch { el.innerHTML = '<p class="text-muted text-sm">Failed to load stats</p>'; }
+      <div class="card mb-3"><div class="card-header">Materials by Course</div><div class="card-body" style="padding-top:10px">
+        ${s.courseBreakdown.filter(c=>c.count>0).map(c=>`
+          <div class="flex justify-between items-center mb-2"><span style="font-size:13px;font-weight:500">${c.name}</span><span class="badge badge-brand">${c.count}</span></div>
+          <div class="progress-bar mb-3"><div class="progress-fill" style="width:${s.totalMaterials?Math.round(c.count/s.totalMaterials*100):0}%"></div></div>
+        `).join('')}
+      </div></div>
+      <div class="card"><div class="card-header">Top Uploaders</div><div class="card-body" style="padding:0 16px">
+        ${s.topUploaders.map((u,i)=>`<div class="detail-row"><div class="flex items-center gap-2"><span style="font-size:13px;color:var(--text-muted);font-weight:700;min-width:18px">${i+1}</span><span style="font-size:13px;font-weight:600">@${u.username}</span></div><span style="font-size:12px;color:var(--text-muted)">${u.count} upload${u.count!==1?'s':''}</span></div>`).join('')}
+      </div></div>`;
+  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load stats</p>'; }
 }
-
 async function renderAdminUsers(el) {
   try {
-    const users = await api('GET', '/api/admin/users');
-    el.innerHTML = `<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${users.length} registered students</div>` +
-      users.map(u => {
-        const c = allCourses.find(x => x.id === u.course);
-        return `<div class="card mb-3">
-          <div class="card-body">
-            <div class="flex gap-3 items-center mb-3">
-              <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:var(--brand);overflow:hidden;flex-shrink:0">
-                ${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover"/>`:`${u.name.charAt(0)}`}
-              </div>
-              <div style="flex:1;min-width:0">
-                <div style="font-weight:600;font-size:14px">${u.name}</div>
-                <div style="font-size:12px;color:var(--text-muted)">@${u.username} · ${u.email}</div>
-                <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.emoji} ${c.name}</span>`:''}${u.college?`<span class="badge badge-gray" style="font-size:10px">${u.college}</span>`:''}</div>
-              </div>
-            </div>
-            <div class="grid-2">
-              <div class="stat-card"><div class="stat-value" style="font-size:20px">${u.uploads}</div><div class="stat-label">Uploads</div></div>
-              <div class="stat-card"><div class="stat-value" style="font-size:20px">${u.totalDownloads}</div><div class="stat-label">Downloads</div></div>
+    const users=await api('GET','/api/admin/users');
+    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${users.length} registered students</div>`+
+      (users.map(u=>{
+        const c=allCourses.find(x=>x.id===u.course);
+        return `<div class="card mb-3"><div class="card-body">
+          <div class="flex gap-3 items-center mb-3">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--brand);overflow:hidden;flex-shrink:0">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover"/>`:`${u.name.charAt(0)}`}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:600;font-size:14px">${u.name}</div>
+              <div style="font-size:12px;color:var(--text-muted)">@${u.username} &middot; ${u.email}</div>
+              <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}${u.college?`<span class="badge badge-gray" style="font-size:10px">${u.college}</span>`:''}</div>
             </div>
           </div>
-        </div>`;
-      }).join('') ||
-      '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">No students yet</div></div>';
-  } catch { el.innerHTML = '<p class="text-muted text-sm">Failed to load users</p>'; }
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.uploads}</div><div class="stat-label">Uploads</div></div>
+            <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.totalDownloads}</div><div class="stat-label">Downloads</div></div>
+          </div>
+        </div></div>`;
+      }).join('')||emptyState('No students yet',''));
+  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load</p>'; }
 }
-
 async function renderAdminMaterials(el) {
   try {
-    const mats = await api('GET', '/api/materials');
-    el.innerHTML = `<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${mats.length} total materials</div>` +
-      mats.map(m => {
-        const c = allCourses.find(x => x.id === m.course);
-        const icon = FILE_ICONS[m.fileType] || '📁';
-        return `<div class="card mb-2">
-          <div class="card-body" style="padding:12px">
-            <div class="flex gap-3 items-start">
-              <span style="font-size:20px">${icon}</span>
-              <div style="flex:1;min-width:0">
-                <div style="font-weight:500;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</div>
-                <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}
-                <span class="badge badge-gray" style="font-size:10px">${m.subject}</span></div>
-                <div style="font-size:11px;color:var(--text-muted);margin-top:4px">@${m.uploaderName} · ⬇️ ${m.downloads}</div>
-              </div>
-              <button class="btn btn-danger btn-sm" onclick="adminDeleteMat('${m.id}')">🗑️</button>
+    const mats=await api('GET','/api/materials');
+    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} total materials</div>`+
+      (mats.map(m=>{
+        const c=allCourses.find(x=>x.id===m.course);
+        return `<div class="card mb-2"><div class="card-body" style="padding:11px 14px">
+          <div class="flex gap-3 items-start">
+            <div class="file-icon fi-${m.fileType||'other'}" style="width:34px;height:34px;flex-shrink:0">${FILE_SVG[m.fileType||'other']||FILE_SVG.other}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</div>
+              <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}
+              <span class="badge badge-gray" style="font-size:10px">${m.subject}</span></div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:500">@${m.uploaderName} &middot; ${m.downloads} downloads</div>
             </div>
+            <button class="btn btn-danger btn-sm" style="flex-shrink:0" onclick="adminDeleteMat('${m.id}')">Delete</button>
           </div>
-        </div>`;
-      }).join('') ||
-      '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No materials</div></div>';
-  } catch { el.innerHTML = '<p class="text-muted text-sm">Failed to load</p>'; }
+        </div></div>`;
+      }).join('')||emptyState('No materials yet',''));
+  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load</p>'; }
 }
-
 async function adminDeleteMat(id) {
   if (!confirm('Delete this material?')) return;
-  try {
-    await api('DELETE', '/api/materials/' + id);
-    toast('🗑️ Deleted'); renderAdminMaterials(document.getElementById('admin-body'));
-  } catch (err) { toast('❌ ' + err.message); }
+  try { await api('DELETE','/api/materials/'+id); toast('Deleted'); renderAdminMaterials(document.getElementById('admin-body')); }
+  catch(err) { toast('Error: '+err.message); }
 }
-
 async function renderAdminCourses(el) {
   await loadCourses();
-  el.innerHTML = `<button class="btn btn-primary w-full mb-4" onclick="openCourseModal()">+ Add New Course</button>` +
-    allCourses.map(c => {
-      const mats = c.materialCount || 0;
-      return `<div class="card mb-3">
-        <div class="card-body">
-          <div class="flex justify-between items-center mb-2">
-            <div class="flex items-center gap-2">
-              <span style="font-size:22px">${c.emoji}</span>
-              <div><div style="font-weight:600;font-size:14px">${c.name}</div><div style="font-size:11px;color:var(--text-muted)">${c.subjects.length} subjects · ${mats} materials</div></div>
-            </div>
-            <div class="flex gap-2">
-              <button class="btn btn-ghost btn-sm" onclick="openCourseModal('${c.id}')">✏️</button>
-              <button class="btn btn-danger btn-sm" onclick="adminDeleteCourse('${c.id}')">🗑️</button>
-            </div>
+  el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openCourseModal()">Add New Course</button>`+
+    allCourses.map((c,i)=>`<div class="card mb-3">
+      <div class="course-thumb ${c.image?'':'courseColorClass(i)'}" style="height:70px;border-radius:0">
+        ${c.image?`<img src="${c.image}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`}
+      </div>
+      <div class="card-body">
+        <div class="flex justify-between items-start mb-2">
+          <div><div style="font-weight:700;font-size:14px">${c.name}</div><div style="font-size:11px;color:var(--text-muted)">${c.subjects.length} subjects &middot; ${c.materialCount||0} materials</div></div>
+          <div class="flex gap-2">
+            <button class="btn btn-ghost btn-sm" onclick="openCourseModal('${c.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="adminDeleteCourse('${c.id}')">Delete</button>
           </div>
-          <div style="font-size:11px;color:var(--text-muted)">${c.subjects.join(' · ')}</div>
-          ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;color:#25D366;font-weight:500;text-decoration:none">📱 WhatsApp Group</a>`:''}
         </div>
-      </div>`;
-    }).join('');
+        <div style="font-size:11px;color:var(--text-muted);line-height:1.6">${c.subjects.join(' &middot; ')}</div>
+        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" class="course-wa-btn mt-2">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Group
+        </a>`:'<p style="font-size:11px;color:var(--text-muted);margin-top:6px">No WhatsApp link — add one by editing this course</p>'}
+      </div>
+    </div>`).join('');
 }
-
 function openCourseModal(id) {
-  editingCourseId = id || null;
-  const c = id ? allCourses.find(x => x.id === id) : null;
-  document.getElementById('mc-title').textContent = id ? 'Edit Course' : 'Add Course';
-  document.getElementById('mc-name').value = c ? c.name : '';
-  document.getElementById('mc-emoji').value = c ? c.emoji : '';
-  document.getElementById('mc-wa').value = c ? (c.whatsapp || '') : '';
-  document.getElementById('mc-subjects').value = c ? c.subjects.join('\n') : '';
+  editingCourseId=id||null;
+  const c=id?allCourses.find(x=>x.id===id):null;
+  document.getElementById('mc-title').textContent=id?'Edit Course':'Add Course';
+  document.getElementById('mc-name').value=c?c.name:'';
+  document.getElementById('mc-id').value=c?c.id:'';
+  document.getElementById('mc-wa').value=c?(c.whatsapp||''):'';
+  document.getElementById('mc-subjects').value=c?c.subjects.join('\n'):'';
+  const prev=document.getElementById('mc-img-preview');
+  const ph=document.getElementById('mc-img-ph');
+  if (c&&c.image) { prev.src=c.image; prev.style.display='block'; ph.style.display='none'; }
+  else { prev.style.display='none'; ph.style.display='flex'; }
   openModal('m-course');
 }
-
+function previewCourseImage(input) {
+  const f=input.files[0]; if (!f) return;
+  const r=new FileReader();
+  r.onload=e=>{ const p=document.getElementById('mc-img-preview'); p.src=e.target.result; p.style.display='block'; document.getElementById('mc-img-ph').style.display='none'; };
+  r.readAsDataURL(f);
+}
 async function saveCourse() {
-  const name = document.getElementById('mc-name').value.trim();
-  const emoji = document.getElementById('mc-emoji').value.trim() || '📂';
-  const whatsapp = document.getElementById('mc-wa').value.trim();
-  const subjects = document.getElementById('mc-subjects').value.trim().split('\n').map(s => s.trim()).filter(Boolean);
+  const name=document.getElementById('mc-name').value.trim();
+  const whatsapp=document.getElementById('mc-wa').value.trim();
+  const subjects=document.getElementById('mc-subjects').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
   if (!name) { toast('Course name required'); return; }
+  let image='';
+  const imgFile=document.getElementById('mc-img').files[0];
+  if (imgFile) image=await toBase64(imgFile);
+  else if (editingCourseId) { const ec=allCourses.find(x=>x.id===editingCourseId); if(ec) image=ec.image||''; }
   try {
-    if (editingCourseId) {
-      await api('PUT', '/api/courses/' + editingCourseId, { name, emoji, whatsapp, subjects });
-      toast('✅ Course updated');
-    } else {
-      await api('POST', '/api/courses', { name, emoji, whatsapp, subjects });
-      toast('✅ Course added');
-    }
+    if (editingCourseId) { await api('PUT','/api/courses/'+editingCourseId,{name,whatsapp,subjects,image}); toast('Course updated'); }
+    else { await api('POST','/api/courses',{name,whatsapp,subjects,image}); toast('Course added'); }
     closeModal('m-course');
     renderAdminCourses(document.getElementById('admin-body'));
-  } catch (err) { toast('❌ ' + err.message); }
+  } catch(err) { toast('Error: '+err.message); }
 }
-
 async function adminDeleteCourse(id) {
   if (!confirm('Delete this course?')) return;
-  try {
-    await api('DELETE', '/api/courses/' + id);
-    toast('Deleted'); renderAdminCourses(document.getElementById('admin-body'));
-  } catch (err) { toast('❌ ' + err.message); }
+  try { await api('DELETE','/api/courses/'+id); toast('Course deleted'); renderAdminCourses(document.getElementById('admin-body')); }
+  catch(err) { toast('Error: '+err.message); }
 }
 
-// ═══════════════════════════════════════════════════════
-//  UTILITIES
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════
 function toBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = e => res(e.target.result);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
+  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file); });
+}
+function previewAvatar(inputId,imgId,phId) {
+  const f=document.getElementById(inputId).files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=e=>{ const img=document.getElementById(imgId); img.src=e.target.result; img.style.display='block'; document.getElementById(phId).style.display='none'; };
+  r.readAsDataURL(f);
+}
+function emptyState(title,sub) {
+  return `<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  INIT
-// ═══════════════════════════════════════════════════════
-(async () => {
-  // Always pre-load courses for registration form
-  try { allCourses = await api('GET', '/api/courses'); } catch {}
-
+// ═══════════════════════════════════════════════
+(async()=>{
+  try { allCourses=await api('GET','/api/courses'); } catch {}
+  const authEl=document.getElementById('auth-screen');
   if (token) {
-    const ok = await tryRestoreSession();
+    const ok=await tryRestoreSession();
     if (ok) { launchApp(); return; }
   }
-  // Show auth screen
-  document.getElementById('auth-screen').style.display = 'flex';
+  authEl.style.display='flex';
 })();
 </script>
 </body>
 </html>
+
