@@ -11,6 +11,18 @@ const FileSync = require('lowdb/adapters/FileSync');
 
 require('dotenv').config();
 
+const nodemailer = require('nodemailer');
+
+const mailer = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.EMAIL_PORT || '587'),
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'edushare_secret_2024_mw';
@@ -101,7 +113,7 @@ function safeUser(u) { const { password, ...rest } = u; return rest; }
 
 // ── AUTH ────────────────────────────────────────────────────
 
-app.post('/api/auth/send-otp', (req, res) => {
+app.post('/api/auth/send-otp', async (req, res) => {
   const { email } = req.body;
   if (!email || !email.includes('@')) return res.status(400).json({ error: 'Invalid email' });
   const existing = db.get('users').find({ email }).value();
@@ -111,8 +123,28 @@ app.post('/api/auth/send-otp', (req, res) => {
   const otps = db.get('otps').value().filter(o => o.email !== email);
   otps.push({ email, otp, expiresAt });
   db.set('otps', otps).write();
-  console.log(`OTP for ${email}: ${otp}`);
-  res.json({ success: true, message: 'OTP sent', demo_otp: otp });
+  try {
+    await mailer.sendMail({
+      from: process.env.EMAIL_FROM || 'TevetVault <noreply@tevetvault.mw>',
+      to: email,
+      subject: 'Your TevetVault verification code',
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px">
+          <h2 style="color:#1a56db;margin-bottom:8px">TevetVault</h2>
+          <p style="color:#374151;margin-bottom:20px">Your email verification code is:</p>
+          <div style="background:#eff4ff;border-radius:10px;padding:24px;text-align:center;margin-bottom:20px">
+            <span style="font-size:36px;font-weight:700;letter-spacing:10px;color:#1a56db">${otp}</span>
+          </div>
+          <p style="color:#6b7280;font-size:13px">This code expires in 10 minutes. If you did not request this, ignore this email.</p>
+          <hr style="border:none;border-top:1px solid #e5e8ef;margin:20px 0"/>
+          <p style="color:#9ca3af;font-size:12px">TevetVault &middot; Student Resource Platform &middot; Malawi</p>
+        </div>`
+    });
+    res.json({ success: true, message: 'Verification code sent to your email' });
+  } catch (err) {
+    console.error('Email error:', err.message);
+    res.status(500).json({ error: 'Failed to send email. Please try again.' });
+  }
 });
 
 app.post('/api/auth/verify-otp', (req, res) => {
@@ -182,7 +214,7 @@ app.put('/api/auth/change-password', auth, (req, res) => {
 
 // ── FORGOT PASSWORD ─────────────────────────────────────────
 
-app.post('/api/auth/forgot-password', (req, res) => {
+app.post('/api/auth/forgot-password', async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ error: 'Email required' });
   const user = db.get('users').find({ email }).value();
@@ -192,9 +224,28 @@ app.post('/api/auth/forgot-password', (req, res) => {
   const otps = db.get('otps').value().filter(o => o.email !== email);
   otps.push({ email, otp, expiresAt });
   db.set('otps', otps).write();
-  console.log(`Password reset OTP for ${email}: ${otp}`);
-  // Connect nodemailer here for real email delivery in production
-  res.json({ success: true, message: 'Reset code sent to your email', demo_otp: otp });
+  try {
+    await mailer.sendMail({
+      from: process.env.EMAIL_FROM || 'TevetVault <noreply@tevetvault.mw>',
+      to: email,
+      subject: 'Reset your TevetVault password',
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px">
+          <h2 style="color:#1a56db;margin-bottom:8px">TevetVault</h2>
+          <p style="color:#374151;margin-bottom:20px">You requested a password reset. Your code is:</p>
+          <div style="background:#eff4ff;border-radius:10px;padding:24px;text-align:center;margin-bottom:20px">
+            <span style="font-size:36px;font-weight:700;letter-spacing:10px;color:#1a56db">${otp}</span>
+          </div>
+          <p style="color:#6b7280;font-size:13px">This code expires in 10 minutes. If you did not request a password reset, ignore this email.</p>
+          <hr style="border:none;border-top:1px solid #e5e8ef;margin:20px 0"/>
+          <p style="color:#9ca3af;font-size:12px">TevetVault &middot; Student Resource Platform &middot; Malawi</p>
+        </div>`
+    });
+    res.json({ success: true, message: 'Password reset code sent to your email' });
+  } catch (err) {
+    console.error('Email error:', err.message);
+    res.status(500).json({ error: 'Failed to send email. Please try again.' });
+  }
 });
 
 app.post('/api/auth/reset-password', (req, res) => {
