@@ -12,7 +12,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --brand:#1a56db;--brand-dark:#1245b8;--brand-light:#eff4ff;--brand-mid:#3b6ff0;
+  --brand:#1a56db;--brand-dark:#1245b8;--brand-light:#eff4ff;
   --green:#0e7f4f;--green-light:#ecfdf5;
   --red:#c41c1c;--red-light:#fef2f2;
   --amber:#b45309;--amber-light:#fffbeb;
@@ -32,50 +32,33 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}
 .text-sm{font-size:13px}.text-xs{font-size:11px}.font-medium{font-weight:500}.font-semibold{font-weight:600}
 .text-muted{color:var(--text-muted)}.text-brand{color:var(--brand)}
-.w-full{width:100%}
-.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
+.w-full{width:100%}.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
 .mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-/* BADGES */
 .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.02em}
-.badge-brand{background:var(--brand-light);color:var(--brand)}
-.badge-green{background:var(--green-light);color:var(--green)}
-.badge-amber{background:var(--amber-light);color:var(--amber)}
-.badge-red{background:var(--red-light);color:var(--red)}
+.badge-brand{background:var(--brand-light);color:var(--brand)}.badge-green{background:var(--green-light);color:var(--green)}
+.badge-amber{background:var(--amber-light);color:var(--amber)}.badge-red{background:var(--red-light);color:var(--red)}
 .badge-gray{background:#f3f4f6;color:#4b5563}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all .15s;text-decoration:none;-webkit-appearance:none;letter-spacing:.01em}
 .btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-dark)}
-.btn-outline{background:transparent;color:var(--brand);border:1.5px solid var(--brand)}.btn-outline:hover{background:var(--brand-light)}
 .btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}.btn-ghost:hover{background:#f9fafb}
-.btn-danger{background:var(--red-light);color:var(--red);border:1px solid #fecaca}.btn-danger:hover{background:#fee2e2}
+.btn-danger{background:var(--red-light);color:var(--red);border:1px solid #fecaca}
 .btn-sm{padding:6px 12px;font-size:13px}.btn-lg{padding:13px 24px;font-size:15px}
 .btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
-.btn-icon{width:36px;height:36px;padding:0;border-radius:var(--radius-sm)}
-
-/* FORMS */
 .form-group{margin-bottom:14px}
 .form-label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
 .form-input,.form-select,.form-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:14px;background:var(--surface);color:var(--text);transition:border-color .15s,box-shadow .15s;outline:none;-webkit-appearance:none;appearance:none}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
 .form-textarea{resize:vertical;min-height:80px}
-.form-error{font-size:12px;color:var(--red);margin-top:4px;display:flex;align-items:center;gap:4px}
-
-/* CARDS */
+.form-error{font-size:12px;color:var(--red);margin-top:4px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
 .card-header{padding:13px 16px;border-bottom:1px solid var(--border);font-weight:600;font-size:14px}
 .card-body{padding:16px}
 .divider{height:1px;background:var(--border);margin:12px 0}
-
-/* STAT CARDS */
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
 .stat-value{font-size:26px;font-weight:700;color:var(--text);line-height:1}
 .stat-label{font-size:12px;color:var(--text-muted);margin-top:4px;font-weight:500}
 .stat-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
-
-/* APP SHELL */
 #app-wrap{display:flex;flex-direction:column;min-height:100vh;width:100%;background:var(--bg)}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:54px;flex-shrink:0;position:sticky;top:0;z-index:40}
 .topbar-brand{font-size:17px;font-weight:700;color:var(--brand);letter-spacing:-.3px}
@@ -84,17 +67,12 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .page{position:absolute;inset:0;overflow-y:auto;padding:16px 16px calc(var(--nav-h) + 24px);display:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .page.active{display:block;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-
-/* BOTTOM NAV */
-.bottomnav{background:var(--surface);border-top:1px solid var(--border);display:flex;height:var(--nav-h);flex-shrink:0;position:fixed;bottom:0;left:0;right:0;z-index:100;box-shadow:0 -1px 0 var(--border);-webkit-backdrop-filter:blur(10px)}
-.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:10px;font-weight:500;gap:4px;border:none;background:transparent;font-family:'Inter',sans-serif;transition:color .15s;padding:0;letter-spacing:.02em}
-.bnav-item svg{width:22px;height:22px;stroke-width:1.8;transition:stroke .15s}
-.bnav-item.active{color:var(--brand)}
-.bnav-item.active svg{stroke-width:2.2}
+.bottomnav{background:var(--surface);border-top:1px solid var(--border);display:flex;height:var(--nav-h);flex-shrink:0;position:fixed;bottom:0;left:0;right:0;z-index:100;box-shadow:0 -1px 0 var(--border)}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:10px;font-weight:500;gap:4px;border:none;background:transparent;font-family:'Inter',sans-serif;transition:color .15s;padding:0;letter-spacing:.02em;position:relative}
+.bnav-item svg{width:22px;height:22px;stroke-width:1.8}
+.bnav-item.active{color:var(--brand)}.bnav-item.active svg{stroke-width:2.2}
 .bnav-dot{width:4px;height:4px;border-radius:50%;background:var(--brand);position:absolute;bottom:6px;opacity:0;transition:opacity .15s}
 .bnav-item.active .bnav-dot{opacity:1}
-
-/* AUTH */
 .auth-screen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 20px 32px;background:var(--bg);z-index:200;overflow-y:auto}
 .auth-logo{text-align:center;margin-bottom:28px;width:100%;max-width:420px}
 .auth-logo-mark{width:52px;height:52px;background:var(--brand);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
@@ -105,20 +83,14 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .auth-tabs{display:flex;background:#f3f4f6;border-radius:var(--radius-sm);padding:3px;margin-bottom:18px}
 .auth-tab{flex:1;padding:8px;text-align:center;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;transition:all .15s;color:var(--text-muted);border:none;background:transparent;font-family:'Inter',sans-serif}
 .auth-tab.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
-
-/* OTP */
 .otp-inputs{display:flex;gap:8px;justify-content:center;margin:14px 0}
 .otp-input{width:44px;height:52px;border:2px solid var(--border);border-radius:var(--radius-sm);text-align:center;font-size:22px;font-weight:700;color:var(--brand);outline:none;transition:all .15s;-webkit-appearance:none;appearance:none;cursor:text;font-family:'Inter',sans-serif;background:var(--surface)}
 .otp-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
 .otp-input.otp-filled{background:var(--brand-light);border-color:var(--brand)}
-
-/* AVATAR UPLOAD */
 .avatar-upload{width:74px;height:74px;border-radius:50%;border:2px dashed var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--brand-light);margin:0 auto 14px;overflow:hidden;font-size:11px;color:var(--brand);gap:3px;font-weight:500;transition:all .15s}
 .avatar-upload:hover{background:#e0e9ff}
 .avatar-upload img{width:100%;height:100%;object-fit:cover}
 .avatar-upload svg{width:22px;height:22px;stroke:var(--brand);fill:none;stroke-width:1.8}
-
-/* COURSE CARDS */
 .course-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .course-card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow)}
 .course-card:active{transform:scale(.97)}
@@ -130,10 +102,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .course-name{font-weight:600;font-size:13px;color:var(--text);line-height:1.3}
 .course-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
 .course-wa-btn{display:flex;align-items:center;gap:4px;margin-top:7px;font-size:11px;font-weight:600;color:#128C7E;text-decoration:none;background:#f0fdf9;border-radius:5px;padding:4px 8px;width:fit-content;transition:background .15s}
-.course-wa-btn:hover{background:#dcfce7}
 .course-wa-btn svg{width:13px;height:13px;fill:#128C7E}
-
-/* MATERIAL CARDS */
 .mat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:box-shadow .15s,border-color .15s;margin-bottom:9px}
 .mat-card:hover{box-shadow:var(--shadow-md);border-color:var(--border-strong)}
 .file-icon{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -149,88 +118,71 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .mat-meta{display:flex;align-items:center;gap:10px;margin-top:7px;flex-wrap:wrap}
 .mat-stat{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--text-muted);font-weight:500}
 .mat-stat svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:150;display:flex;align-items:flex-end;justify-content:center;width:100vw}
 .modal-overlay.hidden{display:none}
-.modal{background:var(--surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:20px;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal{background:var(--surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:20px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 14px}
 .modal-title{font-size:17px;font-weight:700;margin-bottom:14px;color:var(--text)}
-
-/* SEARCH */
 .search-wrap{position:relative;margin-bottom:14px}
 .search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--text-muted);fill:none;stroke-width:2;pointer-events:none}
 .search-input{width:100%;padding:10px 12px 10px 34px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;background:var(--surface);color:var(--text);outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
 .search-input:focus{border-color:var(--brand)}
-
-/* PILLS */
 .pill-scroll{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;margin-bottom:12px}
 .pill-scroll::-webkit-scrollbar{display:none}
 .pill{flex-shrink:0;padding:5px 13px;border-radius:999px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'Inter',sans-serif}
 .pill.active{background:var(--brand-light);color:var(--brand);border-color:var(--brand)}
-
-/* PROFILE */
 .profile-header{text-align:center;padding:20px 16px 14px}
-.profile-avatar-wrap{position:relative;display:inline-block;margin-bottom:10px}
 .profile-avatar{width:76px;height:76px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:var(--brand);overflow:hidden;border:3px solid var(--surface);box-shadow:0 0 0 2px var(--brand-light)}
 .profile-avatar img{width:100%;height:100%;object-fit:cover}
-
-/* ADMIN */
 .admin-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;margin-bottom:16px}
 .admin-tabs::-webkit-scrollbar{display:none}
-.admin-tab-btn{flex-shrink:0;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.02em}
+.admin-tab-btn{flex-shrink:0;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);transition:all .15s;font-family:'Inter',sans-serif}
 .admin-tab-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
-
-/* PROGRESS */
 .progress-bar{height:4px;background:#e5e7eb;border-radius:99px;overflow:hidden}
 .progress-fill{height:100%;background:var(--brand);border-radius:99px;transition:width .3s}
-
-/* UPLOAD DROP ZONE */
 .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa}
 .drop-zone:hover,.drop-zone.has-file{border-color:var(--brand);background:var(--brand-light)}
 .drop-zone-icon{width:40px;height:40px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;background:var(--border);border-radius:var(--radius-sm)}
 .drop-zone-icon svg{width:20px;height:20px;stroke:var(--text-muted);fill:none;stroke-width:1.8}
-.drop-zone.has-file .drop-zone-icon{background:var(--brand-light)}
 .drop-zone.has-file .drop-zone-icon svg{stroke:var(--brand)}
-
-/* SECTION TITLE */
 .section-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-.1px}
-
-/* EMPTY STATE */
 .empty-state{text-align:center;padding:40px 24px}
 .empty-icon{width:56px;height:56px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
 .empty-icon svg{width:26px;height:26px;stroke:var(--text-muted);fill:none;stroke-width:1.5}
 .empty-title{font-size:15px;font-weight:600;margin-bottom:4px}
 .empty-sub{font-size:13px;color:var(--text-muted)}
-
-/* ABOUT HERO */
 .about-hero{background:var(--brand);color:#fff;padding:28px 20px;border-radius:var(--radius-lg);margin-bottom:16px;text-align:center}
 .about-hero h2{font-size:20px;font-weight:700}
 .about-hero p{font-size:13px;opacity:.8;margin-top:5px}
-
-/* SPINNER */
 .spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:10px}
 .loading-state p{font-size:13px;color:var(--text-muted)}
-
-/* TOAST */
 #toast{position:fixed;bottom:calc(var(--nav-h) + 10px);left:50%;transform:translateX(-50%);z-index:300;pointer-events:none;width:calc(100% - 32px);max-width:400px}
 .toast-msg{background:#111827;color:#f9fafb;padding:11px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;margin-top:7px;animation:toastUp .25s ease;box-shadow:var(--shadow-lg);display:block;text-align:center}
 @keyframes toastUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-/* LIVE BADGE */
 .live-badge{display:inline-flex;align-items:center;gap:4px;background:var(--green-light);color:var(--green);padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.04em}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* DETAIL ROW */
 .detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
 .detail-row:last-child{border-bottom:none}
 .detail-key{color:var(--text-muted);font-weight:500}
 .detail-val{font-weight:500;color:var(--text)}
-
-/* COURSE COLORS (backgrounds for thumbnails) */
+.dev-card{background:linear-gradient(135deg,var(--brand-light) 0%,#f0f9ff 100%);border:1.5px solid #c3d0f8;border-radius:var(--radius-lg);padding:20px;text-align:center;margin-bottom:16px}
+.dev-avatar{width:72px;height:72px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(26,86,219,.3)}
+.dev-name{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
+.dev-role{font-size:12px;color:var(--text-muted);font-weight:500}
+.dev-school{font-size:12px;color:var(--brand);font-weight:600;margin-top:4px}
+.social-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.social-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-decoration:none;transition:all .15s;border:1.5px solid var(--border);color:var(--text);background:var(--surface)}
+.social-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.social-btn svg{width:17px;height:17px;flex-shrink:0}
+.s-fb{color:#1877f2;border-color:#c3d0f8;background:#f0f4ff}
+.s-wa{color:#128C7E;border-color:#bbf7d0;background:#f0fdf9}
+.s-ig{color:#c026d3;border-color:#e9d5ff;background:#fdf4ff}
+.s-tw{color:#0ea5e9;border-color:#bae6fd;background:#f0f9ff}
+.s-li{color:#0077b5;border-color:#bfdbfe;background:#f0f8ff}
+.s-em{color:#ea580c;border-color:#fed7aa;background:#fff7ed}
 .cc-0{background:linear-gradient(135deg,#1a56db,#3b82f6)}
 .cc-1{background:linear-gradient(135deg,#0e7f4f,#10b981)}
 .cc-2{background:linear-gradient(135deg,#b45309,#f59e0b)}
@@ -239,66 +191,33 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .cc-5{background:linear-gradient(135deg,#0e7490,#22d3ee)}
 .cc-6{background:linear-gradient(135deg,#be185d,#f472b6)}
 .cc-7{background:linear-gradient(135deg,#1e40af,#60a5fa)}
-
 @media(min-width:768px){
-  /* DESKTOP: full layout, no fixed nav tricks needed */
   body{background:#eef1f7;overflow:auto}
- #app-wrap{
-  width:100%;
-  max-width:100%;
-  min-height:100vh;
-  margin:0;
-  box-shadow:none;
-  border:none;
-  position:relative;
-
-  }
-  /* On desktop pages-wrap scrolls normally as part of page flow */
-  .pages-wrap{
-    overflow:visible;
-    flex:none;
-  }
-  .page{
-    position:static;
-    display:none;
-    overflow-y:visible;
-    min-height:calc(100vh - 54px - var(--nav-h));
-  }
+  #app-wrap{width:100%;max-width:100%;min-height:100vh;margin:0}
+  .pages-wrap{overflow:visible;flex:none}
+  .page{position:static;display:none;overflow-y:visible;min-height:calc(100vh - 54px - var(--nav-h))}
   .page.active{display:block}
-  /* Bottom nav sits at bottom of app-wrap, not fixed */
-  .bottomnav{
-    position:sticky;
-    bottom:0;
-    left:auto;
-    right:auto;
-    width:100%;
-    z-index:100;
-  }
-  /* Auth screen centres in the middle of the page */
-  .auth-screen{
-    position:fixed;
-    inset:0;
-    background:#eef1f7;
-  }
-  #toast{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    max-width:460px;
-  }
+  .bottomnav{position:sticky;bottom:0;left:auto;right:auto;width:100%;z-index:100}
+  .auth-screen{position:fixed;inset:0;background:#eef1f7}
+  #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);max-width:460px}
 }
 @media(max-width:360px){.stat-value{font-size:22px}.auth-card{padding:16px}}
 </style>
 </head>
 <body>
+<!-- SVG gradient for Instagram -->
+<svg width="0" height="0" style="position:absolute">
+  <defs><linearGradient id="igG" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" style="stop-color:#f09433"/><stop offset="25%" style="stop-color:#e6683c"/>
+    <stop offset="50%" style="stop-color:#dc2743"/><stop offset="75%" style="stop-color:#cc2366"/>
+    <stop offset="100%" style="stop-color:#bc1888"/>
+  </linearGradient></defs>
+</svg>
 
-<!-- AUTH -->
+<!-- AUTH SCREEN -->
 <div class="auth-screen" id="auth-screen" style="display:none">
   <div class="auth-logo">
-    <div class="auth-logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    </div>
+    <div class="auth-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
     <h1>TevetVault</h1>
     <p>Student Resource Platform &middot; Malawi</p>
   </div>
@@ -307,29 +226,20 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
       <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
     </div>
-
     <!-- LOGIN -->
     <div id="login-form">
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-input" id="l-email" placeholder="you@example.com" autocomplete="email"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="l-pass" placeholder="Enter password" autocomplete="current-password"/>
-      </div>
+      <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="l-email" placeholder="you@example.com" autocomplete="email"/></div>
+      <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="l-pass" placeholder="Enter password" autocomplete="current-password"/></div>
       <div id="l-err" class="form-error hidden"></div>
       <button class="btn btn-primary w-full btn-lg mt-2" id="l-btn" onclick="doLogin()">Sign In</button>
-      <!--<p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:12px">Admin: <strong>admin@edushare.mw</strong> / <strong>admin123</strong></p> -->
+      <p style="text-align:center;margin-top:12px">
+        <button onclick="showForgotPassword()" style="background:none;border:none;color:var(--brand);font-size:13px;font-weight:500;cursor:pointer;font-family:Inter,sans-serif">Forgot password?</button>
+      </p>
     </div>
-
     <!-- REGISTER -->
     <div id="register-form" class="hidden">
       <div id="r-step-email">
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" id="r-email" placeholder="you@example.com" autocomplete="email"/>
-        </div>
+        <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="r-email" placeholder="you@example.com" autocomplete="email"/></div>
         <button class="btn btn-primary w-full" id="r-otp-btn" onclick="sendOTP()">Send Verification Code</button>
       </div>
       <div id="r-step-otp" class="hidden">
@@ -369,7 +279,6 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 
 <!-- MAIN APP -->
 <div id="app-wrap" class="hidden">
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="flex items-center gap-2">
       <div class="topbar-brand">Tevet<span>Vault</span></div>
@@ -384,9 +293,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     </div>
   </div>
 
-  <!-- PAGES -->
   <div class="pages-wrap">
-
     <!-- HOME -->
     <div class="page active" id="page-home">
       <div style="margin-bottom:16px">
@@ -405,7 +312,6 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <div id="h-mats"></div>
     </div>
-
     <!-- BROWSE -->
     <div class="page" id="page-browse">
       <div class="section-title">All Materials</div>
@@ -418,17 +324,15 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500" id="b-count"></div>
       <div id="b-mats"></div>
     </div>
-
     <!-- MY UPLOADS -->
     <div class="page" id="page-uploads">
       <div class="section-title">My Uploads</div>
       <div id="u-list"></div>
     </div>
-
     <!-- PROFILE -->
     <div class="page" id="page-profile">
       <div class="profile-header">
-        <div class="profile-avatar-wrap">
+        <div style="display:inline-block;margin-bottom:10px">
           <div class="profile-avatar" id="p-avatar"></div>
         </div>
         <h2 style="font-size:17px;margin-bottom:2px" id="p-name"></h2>
@@ -445,54 +349,76 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       <div class="card mb-3">
         <div class="card-body" style="padding:6px 8px">
           <button onclick="openEditProfile()" class="btn btn-ghost w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Edit Profile
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit Profile
           </button>
           <div class="divider" style="margin:4px 0"></div>
           <button onclick="openChangePassword()" class="btn btn-ghost w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            Change Password
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password
           </button>
           <div class="divider" style="margin:4px 0"></div>
           <button onclick="switchPage('about')" class="btn btn-ghost w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            About TevetVault
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About TevetVault
           </button>
           <div class="divider" style="margin:4px 0"></div>
           <button onclick="doLogout()" class="btn btn-danger w-full" style="justify-content:flex-start;gap:10px;border:none;font-size:14px">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Sign Out
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out
           </button>
         </div>
       </div>
     </div>
-
     <!-- ABOUT -->
     <div class="page" id="page-about">
       <div class="about-hero">
         <h2>About TevetVault</h2>
-        <p>Connecting malawi students through shared knowledge</p>
+        <p>Connecting Malawi students through shared knowledge</p>
       </div>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h3 style="font-size:14px;margin-bottom:8px">Our Mission</h3>
-          <p style="font-size:13px;color:var(--text-muted);line-height:1.7">TevetVault is a centralized platform for students across Malawi's technical and vocational colleges to access, share and collaborate on educational resources. Every student deserves quality learning materials.</p>
+      <div class="card mb-3"><div class="card-body">
+        <h3 style="font-size:14px;margin-bottom:8px">Our Mission</h3>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.7">TevetVault is a centralized platform for students across Malawi's technical and vocational colleges to access, share and collaborate on educational resources. Every student deserves quality learning materials.</p>
+      </div></div>
+      <!-- DEVELOPER CARD -->
+      <div class="dev-card">
+        <div class="dev-avatar">L</div>
+        <div class="dev-name">Lonjezo Makhaula</div>
+        <div class="dev-role">Developer &amp; Designer</div>
+        <div class="dev-school">ICT Student &middot; Salima Technical College</div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.6">Designed and built TevetVault to help TEVET students across Malawi access and share educational resources with ease.</p>
+        <div class="social-links">
+          <!-- Replace # with your real profile URLs -->
+          <a href="#" target="_blank" class="social-btn s-fb">
+            <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook
+          </a>
+          <a href="https://wa.me/265992919010" target="_blank" class="social-btn s-wa">
+            <svg viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp
+          </a>
+          <a href="#" target="_blank" class="social-btn s-ig">
+            <svg viewBox="0 0 24 24" width="17" height="17"><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igG)"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#fff"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Instagram
+          </a>
+          <a href="#" target="_blank" class="social-btn s-tw">
+            <svg viewBox="0 0 24 24" fill="#0ea5e9"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>Twitter / X
+          </a>
+          <a href="#" target="_blank" class="social-btn s-li">
+            <svg viewBox="0 0 24 24" fill="#0077b5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2" fill="#0077b5"/></svg>LinkedIn
+          </a>
+          <a href="mailto:lonjezo@example.com" class="social-btn s-em">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>Email
+          </a>
         </div>
       </div>
       <div class="card mb-3">
         <div class="card-header">Send Feedback to Admin</div>
         <div class="card-body">
           <div class="form-group"><textarea class="form-textarea" id="fb-msg" placeholder="Your message, suggestions or issues..." rows="4"></textarea></div>
-          <button class="btn btn-primary w-full" onclick="sendFeedback()">Send Message</button>
-           <button class="btn btn-primary w-full" 
-            onclick="window.open('https://wa.me/265992919010?text=Hello%20I%20need%20help','_blank')">
-            WhatsApp
-           </button>
+          <button class="btn btn-primary w-full mb-2" onclick="sendFeedback()">Send Message</button>
+          <button class="btn btn-ghost w-full" onclick="window.open('https://wa.me/265992919010?text=Hello%20I%20need%20help','_blank')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#128C7E"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat on WhatsApp
+          </button>
         </div>
       </div>
+      <div style="text-align:center;font-size:11px;color:var(--text-muted);padding:8px 0 16px">&copy; 2025 TevetVault &middot; Built by Lonjezo Makhaula &middot; Salima Technical College</div>
       <button onclick="switchPage('home')" class="btn btn-ghost w-full">Back to Home</button>
     </div>
-
     <!-- ADMIN -->
     <div class="page" id="page-admin">
       <div class="flex justify-between items-center mb-4">
@@ -507,37 +433,69 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <div id="admin-body"></div>
     </div>
-
   </div>
 
   <!-- BOTTOM NAV -->
   <nav class="bottomnav">
     <button class="bnav-item active" id="nav-home" onclick="switchPage('home')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
-      <span class="bnav-dot"></span>
+      Home<span class="bnav-dot"></span>
     </button>
     <button class="bnav-item" id="nav-browse" onclick="switchPage('browse')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      Browse
-      <span class="bnav-dot"></span>
+      Browse<span class="bnav-dot"></span>
     </button>
     <button class="bnav-item" id="nav-uploads" onclick="switchPage('uploads')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      My Files
-      <span class="bnav-dot"></span>
+      My Files<span class="bnav-dot"></span>
     </button>
     <button class="bnav-item" id="nav-profile" onclick="switchPage('profile')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profile
-      <span class="bnav-dot"></span>
+      Profile<span class="bnav-dot"></span>
     </button>
     <button class="bnav-item hidden" id="nav-admin" onclick="switchPage('admin')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Admin
-      <span class="bnav-dot"></span>
+      Admin<span class="bnav-dot"></span>
     </button>
   </nav>
+</div>
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay hidden" id="m-forgot">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Reset Password</div>
+    <div id="fp-step-email">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Enter your registered email and we will send you a reset code.</p>
+      <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="fp-email" placeholder="you@example.com"/></div>
+      <div id="fp-err1" class="form-error hidden mb-2"></div>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost flex-1" onclick="closeModal('m-forgot')">Cancel</button>
+        <button class="btn btn-primary flex-1" id="fp-send-btn" onclick="fpSendOTP()">Send Reset Code</button>
+      </div>
+    </div>
+    <div id="fp-step-otp" class="hidden">
+      <p style="font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:12px">Enter the 6-digit code sent to your email</p>
+      <div class="otp-inputs">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="one-time-code" class="otp-input" id="fp-otp0" oninput="fpOtpInput(this,0)" onkeydown="fpOtpKey(event,0)" onpaste="fpOtpPaste(event)" onfocus="this.select()"/>
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="fp-otp1" oninput="fpOtpInput(this,1)" onkeydown="fpOtpKey(event,1)" onpaste="fpOtpPaste(event)" onfocus="this.select()"/>
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="fp-otp2" oninput="fpOtpInput(this,2)" onkeydown="fpOtpKey(event,2)" onpaste="fpOtpPaste(event)" onfocus="this.select()"/>
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="fp-otp3" oninput="fpOtpInput(this,3)" onkeydown="fpOtpKey(event,3)" onpaste="fpOtpPaste(event)" onfocus="this.select()"/>
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="fp-otp4" oninput="fpOtpInput(this,4)" onkeydown="fpOtpKey(event,4)" onpaste="fpOtpPaste(event)" onfocus="this.select()"/>
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" class="otp-input" id="fp-otp5" oninput="fpOtpInput(this,5)" onkeydown="fpOtpKey(event,5)" onpaste="fpOtpPaste(event)" onfocus="this.select()"/>
+      </div>
+      <div id="fp-otp-hint" style="text-align:center;font-size:12px;color:var(--brand);margin-bottom:10px;font-weight:500"></div>
+      <div id="fp-err2" class="form-error hidden mb-2"></div>
+      <button class="btn btn-primary w-full" id="fp-verify-btn" onclick="fpVerifyOTP()">Verify Code</button>
+      <button class="btn btn-ghost w-full mt-2" onclick="fpShowStep('fp-step-email')">Change Email</button>
+    </div>
+    <div id="fp-step-newpass" class="hidden">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Create a new password for your account.</p>
+      <div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" id="fp-newpass" placeholder="Minimum 6 characters"/></div>
+      <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" class="form-input" id="fp-confirmpass" placeholder="Repeat new password"/></div>
+      <div id="fp-err3" class="form-error hidden mb-2"></div>
+      <button class="btn btn-primary w-full btn-lg" id="fp-reset-btn" onclick="fpResetPassword()">Reset Password</button>
+    </div>
+  </div>
 </div>
 
 <!-- UPLOAD MODAL -->
@@ -590,7 +548,10 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="e-name"/></div>
     <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="e-uname"/></div>
     <div class="form-group"><label class="form-label">College</label><input type="text" class="form-input" id="e-college"/></div>
-    <div class="flex gap-2"><button class="btn btn-ghost flex-1" onclick="closeModal('m-edit')">Cancel</button><button class="btn btn-primary flex-1" onclick="saveProfile()">Save Changes</button></div>
+    <div class="flex gap-2">
+      <button class="btn btn-ghost flex-1" onclick="closeModal('m-edit')">Cancel</button>
+      <button class="btn btn-primary flex-1" onclick="saveProfile()">Save Changes</button>
+    </div>
   </div>
 </div>
 
@@ -603,7 +564,10 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     <div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" id="pw-new" placeholder="Minimum 6 characters"/></div>
     <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" class="form-input" id="pw-confirm" placeholder="Repeat new password"/></div>
     <div id="pw-err" class="form-error hidden mb-2"></div>
-    <div class="flex gap-2"><button class="btn btn-ghost flex-1" onclick="closeModal('m-password')">Cancel</button><button class="btn btn-primary flex-1" onclick="doChangePassword()">Update Password</button></div>
+    <div class="flex gap-2">
+      <button class="btn btn-ghost flex-1" onclick="closeModal('m-password')">Cancel</button>
+      <button class="btn btn-primary flex-1" onclick="doChangePassword()">Update Password</button>
+    </div>
   </div>
 </div>
 
@@ -613,347 +577,334 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     <div class="modal-handle"></div>
     <div class="modal-title" id="mc-title">Add Course</div>
     <div class="form-group"><label class="form-label">Course Name *</label><input type="text" class="form-input" id="mc-name" placeholder="e.g. Electrical Wiring"/></div>
-    <div class="form-group"><label class="form-label">Short Code (ID)</label><input type="text" class="form-input" id="mc-id" placeholder="e.g. electrical (auto-generated)"/></div>
+    <div class="form-group"><label class="form-label">Short Code (ID)</label><input type="text" class="form-input" id="mc-id" placeholder="Auto-generated from name"/></div>
     <div class="form-group">
       <label class="form-label">Course Profile Picture</label>
-      <div class="avatar-upload" style="width:100%;height:100px;border-radius:var(--radius);border-radius:10px;flex-direction:row;gap:10px" onclick="document.getElementById('mc-img').click()">
+      <div class="avatar-upload" style="width:100%;height:100px;border-radius:var(--radius);flex-direction:row;gap:10px" onclick="document.getElementById('mc-img').click()">
         <img id="mc-img-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px"/>
         <span id="mc-img-ph" style="display:flex;flex-direction:column;align-items:center;gap:4px">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--brand)" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span style="font-size:11px;font-weight:600">Upload course picture</span>
-          <span style="font-size:10px;color:var(--text-muted)">This shows as the course card image</span>
+          <span style="font-size:10px;color:var(--text-muted)">Shows as the course card image</span>
         </span>
       </div>
       <input type="file" id="mc-img" accept="image/*" class="hidden" onchange="previewCourseImage(this)"/>
     </div>
-    <div class="form-group"><label class="form-label">WhatsApp Group Link</label><input type="url" class="form-input" id="mc-wa" placeholder="https://chat.whatsapp.com/..."/><div class="form-hint" style="font-size:11px;color:var(--text-muted);margin-top:4px">Students will see a WhatsApp button on this course card</div></div>
+    <div class="form-group">
+      <label class="form-label">WhatsApp Group Link</label>
+      <input type="url" class="form-input" id="mc-wa" placeholder="https://chat.whatsapp.com/..."/>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Students will see a WhatsApp button on this course card</div>
+    </div>
     <div class="form-group"><label class="form-label">Subjects (one per line) *</label><textarea class="form-textarea" id="mc-subjects" rows="5" placeholder="Technology&#10;Science&#10;Numeracy&#10;OSH"></textarea></div>
-    <div class="flex gap-2"><button class="btn btn-ghost flex-1" onclick="closeModal('m-course')">Cancel</button><button class="btn btn-primary flex-1" onclick="saveCourse()">Save Course</button></div>
+    <div class="flex gap-2">
+      <button class="btn btn-ghost flex-1" onclick="closeModal('m-course')">Cancel</button>
+      <button class="btn btn-primary flex-1" onclick="saveCourse()">Save Course</button>
+    </div>
   </div>
 </div>
 
 <div id="toast"></div>
-
 <script>
-// ═══════════════════════════════════════════════
-//  CONFIG
-// ═══════════════════════════════════════════════
-const API_BASE = (window.location.port === '3001' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? `${window.location.protocol}//${window.location.hostname}:3001`
-  : window.location.origin;
+const API_BASE=(window.location.port==='3001'||window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')?`${window.location.protocol}//${window.location.hostname}:3001`:window.location.origin;
+let token=localStorage.getItem('es_token')||'';
+let currentUser=null,allCourses=[],browseFilter={course:'all',subject:'all'};
+let adminTab='overview',editingCourseId=null,selectedFile=null;
+let pendingOtpEmail='',pendingOtp='',fpEmail='',fpOtp='';
 
-// ═══════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════
-let token = localStorage.getItem('es_token') || '';
-let currentUser = null;
-let allCourses = [];
-let browseFilter = { course:'all', subject:'all' };
-let adminTab = 'overview';
-let editingCourseId = null;
-let selectedFile = null;
-let pendingOtpEmail = '';
-let pendingOtp = '';
-
-// ═══════════════════════════════════════════════
-//  API
-// ═══════════════════════════════════════════════
-async function api(method, path, body, isFormData) {
-  const opts = { method, headers: { ...(token ? { Authorization:'Bearer '+token } : {}) } };
-  if (body && !isFormData) { opts.headers['Content-Type']='application/json'; opts.body=JSON.stringify(body); }
-  else if (isFormData) { opts.body=body; }
-  const r = await fetch(API_BASE+path, opts);
-  const data = await r.json().catch(()=>({}));
-  if (!r.ok) throw new Error(data.error || 'Request failed');
+async function api(method,path,body,isFormData){
+  const opts={method,headers:{...(token?{Authorization:'Bearer '+token}:{})}};
+  if(body&&!isFormData){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(body);}
+  else if(isFormData){opts.body=body;}
+  const r=await fetch(API_BASE+path,opts);
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(data.error||'Request failed');
   return data;
 }
-
-// ═══════════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════════
-function toast(msg) {
-  const el = document.getElementById('toast');
-  const d = document.createElement('div');
-  d.className = 'toast-msg'; d.textContent = msg;
-  el.appendChild(d);
-  setTimeout(()=>d.remove(), 3200);
+function toast(msg){
+  const el=document.getElementById('toast');
+  const d=document.createElement('div');d.className='toast-msg';d.textContent=msg;
+  el.appendChild(d);setTimeout(()=>d.remove(),3200);
 }
+function openModal(id){document.getElementById(id).classList.remove('hidden');}
+function closeModal(id){document.getElementById(id).classList.add('hidden');}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hidden');}));
 
-// ═══════════════════════════════════════════════
-//  MODALS
-// ═══════════════════════════════════════════════
-function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-document.querySelectorAll('.modal-overlay').forEach(o=>
-  o.addEventListener('click', e=>{ if(e.target===o) o.classList.add('hidden'); })
-);
-
-// ═══════════════════════════════════════════════
-//  OTP
-// ═══════════════════════════════════════════════
-function otpInput(el, i) {
-  let v = el.value.replace(/\D/g,'');
-  if (v.length > 1) v = v.slice(-1);
-  el.value = v;
-  el.classList.toggle('otp-filled', v.length===1);
-  if (v && i < 5) { const n=document.getElementById('otp'+(i+1)); n.focus(); n.select(); }
-  const full = [0,1,2,3,4,5].every(n=>document.getElementById('otp'+n).value);
-  if (full) verifyOTP();
+// OTP helpers (registration)
+function otpInput(el,i){
+  let v=el.value.replace(/\D/g,'');if(v.length>1)v=v.slice(-1);
+  el.value=v;el.classList.toggle('otp-filled',v.length===1);
+  if(v&&i<5){const n=document.getElementById('otp'+(i+1));n.focus();n.select();}
+  if([0,1,2,3,4,5].every(n=>document.getElementById('otp'+n).value))verifyOTP();
 }
-function otpKey(e, i) {
-  const el = document.getElementById('otp'+i);
-  if (e.key==='Backspace') {
-    if (el.value) { el.value=''; el.classList.remove('otp-filled'); }
-    else if (i>0) { const p=document.getElementById('otp'+(i-1)); p.focus(); p.select(); }
-    e.preventDefault();
-  } else if (e.key==='ArrowLeft'&&i>0) document.getElementById('otp'+(i-1)).focus();
-  else if (e.key==='ArrowRight'&&i<5) document.getElementById('otp'+(i+1)).focus();
+function otpKey(e,i){
+  const el=document.getElementById('otp'+i);
+  if(e.key==='Backspace'){if(el.value){el.value='';el.classList.remove('otp-filled');}else if(i>0){const p=document.getElementById('otp'+(i-1));p.focus();p.select();}e.preventDefault();}
+  else if(e.key==='ArrowLeft'&&i>0)document.getElementById('otp'+(i-1)).focus();
+  else if(e.key==='ArrowRight'&&i<5)document.getElementById('otp'+(i+1)).focus();
 }
-function otpPaste(e) {
+function otpPaste(e){
   e.preventDefault();
-  const text=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
-  if (!text) return;
-  for (let i=0;i<6;i++) { const el=document.getElementById('otp'+i); el.value=text[i]||''; el.classList.toggle('otp-filled',!!text[i]); }
-  document.getElementById('otp'+Math.min(text.length,5)).focus();
-  if (text.length===6) verifyOTP();
+  const t=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+  if(!t)return;
+  for(let i=0;i<6;i++){const el=document.getElementById('otp'+i);el.value=t[i]||'';el.classList.toggle('otp-filled',!!t[i]);}
+  document.getElementById('otp'+Math.min(t.length,5)).focus();
+  if(t.length===6)verifyOTP();
 }
 
-// ═══════════════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════════════
-function switchAuthTab(tab) {
+// AUTH
+function switchAuthTab(tab){
   document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(tab==='login')===(i===0)));
   document.getElementById('login-form').classList.toggle('hidden',tab!=='login');
   document.getElementById('register-form').classList.toggle('hidden',tab!=='register');
-  if (tab==='register') showRStep('r-step-email');
+  if(tab==='register')showRStep('r-step-email');
 }
-function showRStep(id) {
+function showRStep(id){
   ['r-step-email','r-step-otp','r-step-profile'].forEach(s=>document.getElementById(s).classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
-async function sendOTP() {
+async function sendOTP(){
   const email=document.getElementById('r-email').value.trim();
-  if (!email||!email.includes('@')||!email.includes('.')) { toast('Enter a valid email address'); return; }
-  const btn=document.getElementById('r-otp-btn');
-  btn.disabled=true; btn.textContent='Sending...';
-  try {
+  if(!email||!email.includes('@')||!email.includes('.')){toast('Enter a valid email address');return;}
+  const btn=document.getElementById('r-otp-btn');btn.disabled=true;btn.textContent='Sending...';
+  try{
     const res=await api('POST','/api/auth/send-otp',{email});
     pendingOtpEmail=email;
-    [0,1,2,3,4,5].forEach(i=>{ const el=document.getElementById('otp'+i); el.value=''; el.classList.remove('otp-filled'); el.style.borderColor=''; });
-    const hint=document.getElementById('r-otp-hint');
-    hint.innerHTML = res.demo_otp ? `Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>` : 'Check your inbox (also check spam)';
-    showRStep('r-step-otp');
-    setTimeout(()=>document.getElementById('otp0').focus(),150);
+    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
+    document.getElementById('r-otp-hint').innerHTML=res.demo_otp?`Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>`:'Check your inbox (also check spam)';
+    showRStep('r-step-otp');setTimeout(()=>document.getElementById('otp0').focus(),150);
     toast('Verification code sent');
-  } catch(err) { toast('Error: '+err.message); }
-  finally { btn.disabled=false; btn.textContent='Send Verification Code'; }
+  }catch(err){toast('Error: '+err.message);}
+  finally{btn.disabled=false;btn.textContent='Send Verification Code';}
 }
-async function verifyOTP() {
+async function verifyOTP(){
   const otp=[0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
-  if (otp.length<6) { toast('Please enter all 6 digits'); return; }
+  if(otp.length<6){toast('Please enter all 6 digits');return;}
   const btn=document.getElementById('r-verify-btn');
-  if (btn) { btn.disabled=true; btn.textContent='Verifying...'; }
-  try {
+  if(btn){btn.disabled=true;btn.textContent='Verifying...';}
+  try{
     await api('POST','/api/auth/verify-otp',{email:pendingOtpEmail,otp});
     pendingOtp=otp;
-    const sel=document.getElementById('r-course');
-    sel.innerHTML='<option value="">Select your course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-    showRStep('r-step-profile');
-    toast('Email verified successfully');
-  } catch(err) {
-    [0,1,2,3,4,5].forEach(i=>{ const el=document.getElementById('otp'+i); el.value=''; el.classList.remove('otp-filled'); el.style.borderColor='var(--red)'; setTimeout(()=>el.style.borderColor='',1500); });
-    document.getElementById('otp0').focus();
-    toast('Incorrect code — try again');
-  } finally { if(btn){btn.disabled=false;btn.textContent='Verify Code';} }
+    document.getElementById('r-course').innerHTML='<option value="">Select your course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    showRStep('r-step-profile');toast('Email verified successfully');
+  }catch(err){
+    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='var(--red)';setTimeout(()=>el.style.borderColor='',1500);});
+    document.getElementById('otp0').focus();toast('Incorrect code — try again');
+  }finally{if(btn){btn.disabled=false;btn.textContent='Verify Code';}}
 }
-async function doRegister() {
-  const name=document.getElementById('r-name').value.trim();
-  const username=document.getElementById('r-username').value.trim();
-  const course=document.getElementById('r-course').value;
-  const college=document.getElementById('r-college').value.trim();
-  const password=document.getElementById('r-pass').value;
-  const errEl=document.getElementById('r-err');
-  if (!name||!username||!course||!college||!password) { errEl.textContent='Please fill all required fields'; errEl.classList.remove('hidden'); return; }
-  if (password.length<6) { errEl.textContent='Password must be at least 6 characters'; errEl.classList.remove('hidden'); return; }
+async function doRegister(){
+  const name=document.getElementById('r-name').value.trim(),username=document.getElementById('r-username').value.trim();
+  const course=document.getElementById('r-course').value,college=document.getElementById('r-college').value.trim();
+  const password=document.getElementById('r-pass').value,errEl=document.getElementById('r-err');
+  if(!name||!username||!course||!college||!password){errEl.textContent='Please fill all required fields';errEl.classList.remove('hidden');return;}
+  if(password.length<6){errEl.textContent='Password must be at least 6 characters';errEl.classList.remove('hidden');return;}
   errEl.classList.add('hidden');
-  let avatar='';
-  const af=document.getElementById('r-avatar').files[0];
-  if (af) avatar=await toBase64(af);
-  const btn=document.getElementById('r-submit');
-  btn.disabled=true; btn.textContent='Creating account...';
-  try {
+  let avatar='';const af=document.getElementById('r-avatar').files[0];if(af)avatar=await toBase64(af);
+  const btn=document.getElementById('r-submit');btn.disabled=true;btn.textContent='Creating account...';
+  try{
     const res=await api('POST','/api/auth/register',{email:pendingOtpEmail,otp:pendingOtp,name,username,course,college,password,avatar});
-    token=res.token; currentUser=res.user;
-    localStorage.setItem('es_token',token);
-    toast('Welcome to EduShare, '+currentUser.name.split(' ')[0]+'!');
-    launchApp();
-  } catch(err) { errEl.textContent=err.message; errEl.classList.remove('hidden'); }
-  finally { btn.disabled=false; btn.textContent='Create Account'; }
+    token=res.token;currentUser=res.user;localStorage.setItem('es_token',token);
+    toast('Welcome to TevetVault, '+currentUser.name.split(' ')[0]+'!');launchApp();
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+  finally{btn.disabled=false;btn.textContent='Create Account';}
 }
-async function doLogin() {
-  const email=document.getElementById('l-email').value.trim();
-  const pass=document.getElementById('l-pass').value;
-  const errEl=document.getElementById('l-err');
-  const btn=document.getElementById('l-btn');
-  errEl.classList.add('hidden');
-  btn.disabled=true; btn.textContent='Signing in...';
-  try {
+async function doLogin(){
+  const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
+  const errEl=document.getElementById('l-err'),btn=document.getElementById('l-btn');
+  errEl.classList.add('hidden');btn.disabled=true;btn.textContent='Signing in...';
+  try{
     const res=await api('POST','/api/auth/login',{email,password:pass});
-    token=res.token; currentUser=res.user;
-    localStorage.setItem('es_token',token);
-    toast('Welcome back, '+currentUser.name.split(' ')[0]);
-    launchApp();
-  } catch(err) { errEl.textContent=err.message; errEl.classList.remove('hidden'); }
-  finally { btn.disabled=false; btn.textContent='Sign In'; }
+    token=res.token;currentUser=res.user;localStorage.setItem('es_token',token);
+    toast('Welcome back, '+currentUser.name.split(' ')[0]);launchApp();
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+  finally{btn.disabled=false;btn.textContent='Sign In';}
 }
-function doLogout() {
-  token=''; currentUser=null; localStorage.removeItem('es_token');
+function doLogout(){
+  token='';currentUser=null;localStorage.removeItem('es_token');
   document.getElementById('app-wrap').classList.add('hidden');
   document.getElementById('auth-screen').style.display='';
   toast('Signed out');
 }
 
-// ═══════════════════════════════════════════════
-//  APP LAUNCH
-// ═══════════════════════════════════════════════
-async function launchApp() {
+// FORGOT PASSWORD
+function showForgotPassword(){
+  fpEmail='';fpOtp='';
+  document.getElementById('fp-email').value='';
+  document.getElementById('fp-err1').classList.add('hidden');
+  [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('fp-otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
+  document.getElementById('fp-newpass').value='';document.getElementById('fp-confirmpass').value='';
+  document.getElementById('fp-err3').classList.add('hidden');
+  fpShowStep('fp-step-email');openModal('m-forgot');
+}
+function fpShowStep(id){
+  ['fp-step-email','fp-step-otp','fp-step-newpass'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function fpOtpInput(el,i){
+  let v=el.value.replace(/\D/g,'');if(v.length>1)v=v.slice(-1);
+  el.value=v;el.classList.toggle('otp-filled',v.length===1);
+  if(v&&i<5){const n=document.getElementById('fp-otp'+(i+1));n.focus();n.select();}
+  if([0,1,2,3,4,5].every(n=>document.getElementById('fp-otp'+n).value))fpVerifyOTP();
+}
+function fpOtpKey(e,i){
+  const el=document.getElementById('fp-otp'+i);
+  if(e.key==='Backspace'){if(el.value){el.value='';el.classList.remove('otp-filled');}else if(i>0){const p=document.getElementById('fp-otp'+(i-1));p.focus();p.select();}e.preventDefault();}
+}
+function fpOtpPaste(e){
+  e.preventDefault();
+  const t=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+  if(!t)return;
+  for(let i=0;i<6;i++){const el=document.getElementById('fp-otp'+i);el.value=t[i]||'';el.classList.toggle('otp-filled',!!t[i]);}
+  document.getElementById('fp-otp'+Math.min(t.length,5)).focus();
+  if(t.length===6)fpVerifyOTP();
+}
+async function fpSendOTP(){
+  const email=document.getElementById('fp-email').value.trim();
+  const errEl=document.getElementById('fp-err1');
+  if(!email||!email.includes('@')){errEl.textContent='Enter a valid email address';errEl.classList.remove('hidden');return;}
+  const btn=document.getElementById('fp-send-btn');btn.disabled=true;btn.textContent='Sending...';
+  try{
+    const res=await api('POST','/api/auth/forgot-password',{email});
+    fpEmail=email;
+    document.getElementById('fp-otp-hint').innerHTML=res.demo_otp?`Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>`:'Check your inbox (also check spam)';
+    fpShowStep('fp-step-otp');setTimeout(()=>document.getElementById('fp-otp0').focus(),150);
+    toast('Reset code sent');errEl.classList.add('hidden');
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+  finally{btn.disabled=false;btn.textContent='Send Reset Code';}
+}
+async function fpVerifyOTP(){
+  const otp=[0,1,2,3,4,5].map(i=>document.getElementById('fp-otp'+i).value).join('');
+  if(otp.length<6){toast('Enter all 6 digits');return;}
+  const btn=document.getElementById('fp-verify-btn');btn.disabled=true;btn.textContent='Verifying...';
+  try{
+    await api('POST','/api/auth/verify-otp',{email:fpEmail,otp});
+    fpOtp=otp;fpShowStep('fp-step-newpass');toast('Code verified — set your new password');
+  }catch(err){
+    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('fp-otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='var(--red)';setTimeout(()=>el.style.borderColor='',1500);});
+    document.getElementById('fp-otp0').focus();toast('Incorrect code — try again');
+  }finally{btn.disabled=false;btn.textContent='Verify Code';}
+}
+async function fpResetPassword(){
+  const newPass=document.getElementById('fp-newpass').value,confirm=document.getElementById('fp-confirmpass').value;
+  const errEl=document.getElementById('fp-err3');
+  if(!newPass||!confirm){errEl.textContent='Please fill both fields';errEl.classList.remove('hidden');return;}
+  if(newPass.length<6){errEl.textContent='Password must be at least 6 characters';errEl.classList.remove('hidden');return;}
+  if(newPass!==confirm){errEl.textContent='Passwords do not match';errEl.classList.remove('hidden');return;}
+  errEl.classList.add('hidden');
+  const btn=document.getElementById('fp-reset-btn');btn.disabled=true;btn.textContent='Resetting...';
+  try{
+    await api('POST','/api/auth/reset-password',{email:fpEmail,otp:fpOtp,newPassword:newPass});
+    closeModal('m-forgot');toast('Password reset! Please sign in with your new password');
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+  finally{btn.disabled=false;btn.textContent='Reset Password';}
+}
+
+// APP LAUNCH
+async function launchApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app-wrap').classList.remove('hidden');
-  if (currentUser.role==='admin') document.getElementById('nav-admin').classList.remove('hidden');
-  await loadCourses();
-  updateTopbarAvatar();
-  renderHome();
-  switchPage('home');
+  if(currentUser.role==='admin')document.getElementById('nav-admin').classList.remove('hidden');
+  await loadCourses();updateTopbarAvatar();renderHome();switchPage('home');
 }
-async function tryRestoreSession() {
-  if (!token) return false;
-  try { currentUser=await api('GET','/api/auth/me'); return true; }
-  catch { token=''; localStorage.removeItem('es_token'); return false; }
+async function tryRestoreSession(){
+  if(!token)return false;
+  try{currentUser=await api('GET','/api/auth/me');return true;}
+  catch{token='';localStorage.removeItem('es_token');return false;}
 }
 
-// ═══════════════════════════════════════════════
-//  COURSES
-// ═══════════════════════════════════════════════
-async function loadCourses() {
-  try { allCourses=await api('GET','/api/courses'); populateUploadCourseSelect(); }
-  catch {}
+// COURSES
+async function loadCourses(){try{allCourses=await api('GET','/api/courses');populateUploadCourseSelect();}catch{}}
+function populateUploadCourseSelect(){
+  document.getElementById('up-course').innerHTML='<option value="">Select course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
-function populateUploadCourseSelect() {
-  const sel=document.getElementById('up-course');
-  sel.innerHTML='<option value="">Select course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-}
-function fillSubjects(cid, sid) {
+function fillSubjects(cid,sid){
   const c=allCourses.find(x=>x.id===document.getElementById(cid).value);
-  const sel=document.getElementById(sid);
-  sel.innerHTML='<option value="">Select subject</option>'+(c?c.subjects.map(s=>`<option value="${s}">${s}</option>`).join(''):'');
+  document.getElementById(sid).innerHTML='<option value="">Select subject</option>'+(c?c.subjects.map(s=>`<option value="${s}">${s}</option>`).join(''):'');
 }
-function courseColorClass(idx) { return 'cc-'+(idx%8); }
+function courseColorClass(i){return 'cc-'+(i%8);}
 
-// ═══════════════════════════════════════════════
-//  PAGE NAVIGATION
-// ═══════════════════════════════════════════════
-function switchPage(page) {
+// PAGE NAVIGATION — with admin guard
+function switchPage(page){
+  if(page==='admin'&&(!currentUser||currentUser.role!=='admin')){toast('Access denied — admins only');page='home';}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
-  const nb=document.getElementById('nav-'+page);
-  if (nb) nb.classList.add('active');
-  if (page==='home') renderHome();
-  if (page==='browse') { renderBrowsePills(); loadBrowse(); }
-  if (page==='uploads') loadMyUploads();
-  if (page==='profile') renderProfile();
-  if (page==='admin') renderAdmin();
+  const nb=document.getElementById('nav-'+page);if(nb)nb.classList.add('active');
+  if(page==='home')renderHome();
+  if(page==='browse'){renderBrowsePills();loadBrowse();}
+  if(page==='uploads')loadMyUploads();
+  if(page==='profile')renderProfile();
+  if(page==='admin')renderAdmin();
   document.getElementById('page-'+page).scrollTop=0;
 }
 
-// ═══════════════════════════════════════════════
-//  HOME
-// ═══════════════════════════════════════════════
-async function renderHome() {
+// HOME
+async function renderHome(){
   document.getElementById('h-name').textContent=currentUser.name.split(' ')[0];
-  const cEl=document.getElementById('h-courses');
-  cEl.innerHTML=allCourses.slice(0,6).map((c,i)=>`
+  const WA_SVG=`<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  document.getElementById('h-courses').innerHTML=allCourses.slice(0,6).map((c,i)=>`
     <div class="course-card" onclick="goToCourse('${c.id}')">
-      <div class="course-thumb ${c.image?'':'courseColorClass(i)'}">
-        ${c.image
-          ? `<img src="${c.image}" alt="${c.name}"/>`
-          : `<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`
-        }
-      </div>
+      <div class="course-thumb">${c.image?`<img src="${c.image}" alt="${c.name}"/>`:`<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`}</div>
       <div class="course-info">
         <div class="course-name">${c.name}</div>
         <div class="course-meta">${c.materialCount||0} material${c.materialCount!==1?'s':''}</div>
-        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" onclick="event.stopPropagation()" class="course-wa-btn">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp Group
-        </a>`:''}
+        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" onclick="event.stopPropagation()" class="course-wa-btn">${WA_SVG}WhatsApp Group</a>`:''}
       </div>
     </div>`).join('');
-
   document.getElementById('h-mats').innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
-  try {
+  try{
     const mats=await api('GET','/api/materials?sort=downloads');
     document.getElementById('h-mats').innerHTML=mats.slice(0,5).map(matCard).join('')||emptyState('No materials yet','Be the first to upload');
-  } catch { document.getElementById('h-mats').innerHTML='<p class="text-sm text-muted">Could not load materials</p>'; }
+  }catch{document.getElementById('h-mats').innerHTML='<p class="text-sm text-muted">Could not load materials</p>';}
 }
-async function homeSearch() {
+async function homeSearch(){
   const q=document.getElementById('h-search').value.trim();
-  if (!q) { renderHome(); return; }
-  try {
+  if(!q){renderHome();return;}
+  try{
     const mats=await api('GET','/api/materials?search='+encodeURIComponent(q));
     document.getElementById('h-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No results for "'+q+'"','Try different keywords');
-  } catch {}
+  }catch{}
 }
-function goToCourse(id) { browseFilter={course:id,subject:'all'}; switchPage('browse'); }
+function goToCourse(id){browseFilter={course:id,subject:'all'};switchPage('browse');}
 
-// ═══════════════════════════════════════════════
-//  BROWSE
-// ═══════════════════════════════════════════════
-function renderBrowsePills() {
-  document.getElementById('b-course-pills').innerHTML=
-    `<button class="pill ${browseFilter.course==='all'?'active':''}" onclick="setBCourse('all')">All Courses</button>`+
-    allCourses.map(c=>`<button class="pill ${browseFilter.course===c.id?'active':''}" onclick="setBCourse('${c.id}')">${c.name}</button>`).join('');
-  const cp=document.getElementById('b-subject-pills');
-  if (browseFilter.course==='all') { cp.innerHTML=''; return; }
+// BROWSE
+function renderBrowsePills(){
+  document.getElementById('b-course-pills').innerHTML=`<button class="pill ${browseFilter.course==='all'?'active':''}" onclick="setBCourse('all')">All Courses</button>`+allCourses.map(c=>`<button class="pill ${browseFilter.course===c.id?'active':''}" onclick="setBCourse('${c.id}')">${c.name}</button>`).join('');
+  const sp=document.getElementById('b-subject-pills');
+  if(browseFilter.course==='all'){sp.innerHTML='';return;}
   const c=allCourses.find(x=>x.id===browseFilter.course);
-  cp.innerHTML=c?`<button class="pill ${browseFilter.subject==='all'?'active':''}" onclick="setBSubject('all')">All Subjects</button>`+
-    c.subjects.map(s=>`<button class="pill ${browseFilter.subject===s?'active':''}" onclick="setBSubject('${s}')">${s}</button>`).join(''):'';
+  sp.innerHTML=c?`<button class="pill ${browseFilter.subject==='all'?'active':''}" onclick="setBSubject('all')">All Subjects</button>`+c.subjects.map(s=>`<button class="pill ${browseFilter.subject===s?'active':''}" onclick="setBSubject('${s}')">${s}</button>`).join(''):'';
 }
-function setBCourse(id) { browseFilter={course:id,subject:'all'}; renderBrowsePills(); loadBrowse(); }
-function setBSubject(s) { browseFilter.subject=s; renderBrowsePills(); loadBrowse(); }
-async function loadBrowse() {
+function setBCourse(id){browseFilter={course:id,subject:'all'};renderBrowsePills();loadBrowse();}
+function setBSubject(s){browseFilter.subject=s;renderBrowsePills();loadBrowse();}
+async function loadBrowse(){
   const q=document.getElementById('b-search').value.trim();
   let url='/api/materials?';
-  if (browseFilter.course!=='all') url+=`course=${browseFilter.course}&`;
-  if (browseFilter.subject!=='all') url+=`subject=${encodeURIComponent(browseFilter.subject)}&`;
-  if (q) url+=`search=${encodeURIComponent(q)}&`;
+  if(browseFilter.course!=='all')url+=`course=${browseFilter.course}&`;
+  if(browseFilter.subject!=='all')url+=`subject=${encodeURIComponent(browseFilter.subject)}&`;
+  if(q)url+=`search=${encodeURIComponent(q)}&`;
   document.getElementById('b-mats').innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
-  try {
+  try{
     const mats=await api('GET',url);
     document.getElementById('b-count').textContent=`${mats.length} material${mats.length!==1?'s':''}`;
     document.getElementById('b-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No materials found','Be the first to upload for this filter');
-  } catch { document.getElementById('b-mats').innerHTML='<p class="text-sm text-muted">Failed to load</p>'; }
+  }catch{document.getElementById('b-mats').innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
 
-// ═══════════════════════════════════════════════
-//  MATERIAL CARD
-// ═══════════════════════════════════════════════
-const FILE_SVG = {
-  pdf:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+// MATERIAL CARD
+const FILE_SVG={
+  pdf:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
   doc:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
   ppt:`<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
   img:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
-  txt:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  txt:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>`,
   other:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`
 };
-function matCard(m) {
-  const c=allCourses.find(x=>x.id===m.course);
-  const ft=m.fileType||'other';
-  const icon=FILE_SVG[ft]||FILE_SVG.other;
+function matCard(m){
+  const c=allCourses.find(x=>x.id===m.course),ft=m.fileType||'other';
   const d=new Date(m.createdAt||m.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   return `<div class="mat-card" onclick="viewMaterial('${m.id}')">
     <div class="flex gap-3">
-      <div class="file-icon fi-${ft}">${icon}</div>
+      <div class="file-icon fi-${ft}">${FILE_SVG[ft]||FILE_SVG.other}</div>
       <div style="flex:1;min-width:0">
         <div class="mat-title truncate">${m.title}</div>
         <div class="mat-desc">${m.description}</div>
@@ -964,34 +915,25 @@ function matCard(m) {
         <div class="mat-meta">
           <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${m.uploaderName}</span>
           <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${m.downloads}</span>
-          <span class="mat-stat"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${d}</span>
+          <span class="mat-stat"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${d}</span>
           ${m.size?`<span class="mat-stat">${m.size}</span>`:''}
         </div>
       </div>
     </div>
   </div>`;
 }
-
-async function viewMaterial(id) {
-  try {
-    const mats=await api('GET','/api/materials');
-    const m=mats.find(x=>x.id===id);
-    if (!m) return;
-    const c=allCourses.find(x=>x.id===m.course);
-    const ft=m.fileType||'other';
-    const icon=FILE_SVG[ft]||FILE_SVG.other;
+async function viewMaterial(id){
+  try{
+    const mats=await api('GET','/api/materials'),m=mats.find(x=>x.id===id);if(!m)return;
+    const c=allCourses.find(x=>x.id===m.course),ft=m.fileType||'other';
     const d=new Date(m.createdAt||m.date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    const isOwner=m.uploaderId===currentUser.id;
-    const isAdmin=currentUser.role==='admin';
+    const isOwner=m.uploaderId===currentUser.id,isAdmin=currentUser.role==='admin';
     document.getElementById('m-view-body').innerHTML=`
       <div class="flex gap-3 items-center mb-4">
-        <div class="file-icon fi-${ft}" style="width:48px;height:48px;flex-shrink:0">${icon}</div>
+        <div class="file-icon fi-${ft}" style="width:48px;height:48px;flex-shrink:0">${FILE_SVG[ft]||FILE_SVG.other}</div>
         <div style="flex:1;min-width:0">
           <h3 style="font-size:15px;font-weight:700;line-height:1.3">${m.title}</h3>
-          <div class="flex gap-2 mt-1 flex-wrap">
-            ${c?`<span class="badge badge-brand">${c.name}</span>`:''}
-            <span class="badge badge-gray">${m.subject}</span>
-          </div>
+          <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand">${c.name}</span>`:''}<span class="badge badge-gray">${m.subject}</span></div>
         </div>
       </div>
       <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">${m.description}</p>
@@ -1004,387 +946,275 @@ async function viewMaterial(id) {
       <div class="flex gap-2">
         <button class="btn btn-ghost flex-1" onclick="closeModal('m-view')">Close</button>
         <button class="btn btn-primary flex-1" id="dl-btn-${m.id}" onclick="downloadMat('${m.id}')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download
         </button>
       </div>
       ${isOwner||isAdmin?`<button class="btn btn-danger w-full mt-2" onclick="deleteMat('${m.id}')">Delete Material</button>`:''}`;
     openModal('m-view');
-  } catch(err) { toast('Error loading material'); }
+  }catch{toast('Error loading material');}
 }
-
-async function downloadMat(id) {
+async function downloadMat(id){
   const btn=document.getElementById('dl-btn-'+id);
   const dlIcon='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-  if (btn) { btn.disabled=true; btn.textContent='Starting download...'; }
-  try {
-    // Call API to increment download counter and get file status
-    const res = await api('GET', `/api/materials/${id}/download`);
-    if (res.demo) {
-      toast('Demo material — no real file attached yet');
-    } else {
-      // Use the /file endpoint which streams directly — works in all browsers
-      const fileUrl = `${API_BASE}/api/materials/${id}/file?token=${encodeURIComponent(token)}`;
-      const a = document.createElement('a');
-      a.href = fileUrl;
-      a.download = '';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => document.body.removeChild(a), 500);
+  if(btn){btn.disabled=true;btn.textContent='Starting download...';}
+  try{
+    const res=await api('GET',`/api/materials/${id}/download`);
+    if(res.demo){toast('Demo material — no real file attached yet');}
+    else{
+      const a=document.createElement('a');
+      a.href=`${API_BASE}/api/materials/${id}/file?token=${encodeURIComponent(token)}`;
+      a.download='';a.style.display='none';document.body.appendChild(a);a.click();
+      setTimeout(()=>document.body.removeChild(a),500);
       toast('Download started — check your downloads folder');
     }
-    closeModal('m-view');
-    // Refresh counts
-    renderHome();
-    if (document.getElementById('page-uploads').classList.contains('active')) loadMyUploads();
-  } catch(err) { toast('Download failed: ' + err.message); }
-  finally { if(btn){btn.disabled=false; btn.innerHTML=dlIcon+' Download';} }
+    closeModal('m-view');renderHome();
+    if(document.getElementById('page-uploads').classList.contains('active'))loadMyUploads();
+  }catch(err){toast('Download failed: '+err.message);}
+  finally{if(btn){btn.disabled=false;btn.innerHTML=dlIcon+' Download';}}
 }
-
-async function deleteMat(id) {
-  if (!confirm('Delete this material? This cannot be undone.')) return;
-  try {
-    await api('DELETE','/api/materials/'+id);
-    closeModal('m-view'); toast('Material deleted');
+async function deleteMat(id){
+  if(!confirm('Delete this material? This cannot be undone.'))return;
+  try{
+    await api('DELETE','/api/materials/'+id);closeModal('m-view');toast('Material deleted');
     renderHome();
-    if (document.getElementById('page-uploads').classList.contains('active')) loadMyUploads();
-    if (document.getElementById('page-browse').classList.contains('active')) loadBrowse();
+    if(document.getElementById('page-uploads').classList.contains('active'))loadMyUploads();
+    if(document.getElementById('page-browse').classList.contains('active'))loadBrowse();
     await loadCourses();
-  } catch(err) { toast('Error: '+err.message); }
+  }catch(err){toast('Error: '+err.message);}
 }
 
-// ═══════════════════════════════════════════════
-//  UPLOAD
-// ═══════════════════════════════════════════════
-function openUpload() { populateUploadCourseSelect(); openModal('m-upload'); }
-function fileChosen(input) {
+// UPLOAD
+function openUpload(){populateUploadCourseSelect();openModal('m-upload');}
+function fileChosen(input){
   selectedFile=input.files[0]||null;
-  if (selectedFile) {
-    document.getElementById('up-fname').textContent=selectedFile.name;
-    document.getElementById('up-fname').style.color='var(--text)';
-    document.getElementById('up-drop').classList.add('has-file');
-  }
+  if(selectedFile){document.getElementById('up-fname').textContent=selectedFile.name;document.getElementById('up-fname').style.color='var(--text)';document.getElementById('up-drop').classList.add('has-file');}
 }
-async function submitUpload() {
-  const course=document.getElementById('up-course').value;
-  const subject=document.getElementById('up-subject').value;
-  const desc=document.getElementById('up-desc').value.trim();
-  const errEl=document.getElementById('up-err');
-  if (!course||!subject||!desc||!selectedFile) { errEl.textContent='Please fill all fields and select a file'; errEl.classList.remove('hidden'); return; }
+async function submitUpload(){
+  const course=document.getElementById('up-course').value,subject=document.getElementById('up-subject').value;
+  const desc=document.getElementById('up-desc').value.trim(),errEl=document.getElementById('up-err');
+  if(!course||!subject||!desc||!selectedFile){errEl.textContent='Please fill all fields and select a file';errEl.classList.remove('hidden');return;}
   errEl.classList.add('hidden');
-  const fd=new FormData();
-  fd.append('course',course); fd.append('subject',subject); fd.append('description',desc); fd.append('file',selectedFile);
-  const btn=document.getElementById('up-btn');
-  const prog=document.getElementById('up-prog');
-  const fill=document.getElementById('up-fill');
-  const ptxt=document.getElementById('up-ptxt');
-  btn.disabled=true; prog.classList.remove('hidden');
-  let pct=0;
-  const iv=setInterval(()=>{ pct=Math.min(pct+Math.random()*15+5,88); fill.style.width=pct+'%'; ptxt.textContent=`Uploading... ${Math.round(pct)}%`; },250);
-  try {
-    await api('POST','/api/materials',fd,true);
-    clearInterval(iv); fill.style.width='100%'; ptxt.textContent='Done!';
+  const fd=new FormData();fd.append('course',course);fd.append('subject',subject);fd.append('description',desc);fd.append('file',selectedFile);
+  const btn=document.getElementById('up-btn'),prog=document.getElementById('up-prog'),fill=document.getElementById('up-fill'),ptxt=document.getElementById('up-ptxt');
+  btn.disabled=true;prog.classList.remove('hidden');
+  let pct=0;const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*15+5,88);fill.style.width=pct+'%';ptxt.textContent=`Uploading... ${Math.round(pct)}%`;},250);
+  try{
+    await api('POST','/api/materials',fd,true);clearInterval(iv);fill.style.width='100%';ptxt.textContent='Done!';
     await loadCourses();
     setTimeout(()=>{
-      closeModal('m-upload');
-      selectedFile=null;
-      document.getElementById('up-fname').textContent='Tap to select file';
-      document.getElementById('up-fname').style.color='';
-      document.getElementById('up-drop').classList.remove('has-file');
-      document.getElementById('up-course').value='';
-      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';
-      document.getElementById('up-desc').value='';
-      fill.style.width='0%'; prog.classList.add('hidden'); btn.disabled=false;
-      toast('Material uploaded successfully');
-      renderHome();
+      closeModal('m-upload');selectedFile=null;
+      document.getElementById('up-fname').textContent='Tap to select file';document.getElementById('up-fname').style.color='';
+      document.getElementById('up-drop').classList.remove('has-file');document.getElementById('up-course').value='';
+      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';document.getElementById('up-desc').value='';
+      fill.style.width='0%';prog.classList.add('hidden');btn.disabled=false;
+      toast('Material uploaded successfully');renderHome();
     },600);
-  } catch(err) {
-    clearInterval(iv); errEl.textContent=err.message; errEl.classList.remove('hidden');
-    prog.classList.add('hidden'); btn.disabled=false;
-  }
+  }catch(err){clearInterval(iv);errEl.textContent=err.message;errEl.classList.remove('hidden');prog.classList.add('hidden');btn.disabled=false;}
 }
 
-// ═══════════════════════════════════════════════
-//  MY UPLOADS
-// ═══════════════════════════════════════════════
-async function loadMyUploads() {
+// MY UPLOADS
+async function loadMyUploads(){
   const el=document.getElementById('u-list');
   el.innerHTML='<div class="loading-state"><div class="spinner"></div><p>Loading...</p></div>';
-  try {
+  try{
     const mats=await api('GET','/api/materials/my');
-    if (!mats.length) { el.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">No uploads yet</div><div class="empty-sub">Share your first material with fellow students</div><button class="btn btn-primary mt-4" onclick="openUpload()">Upload Now</button></div>`; return; }
+    if(!mats.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">No uploads yet</div><div class="empty-sub">Share your first material with fellow students</div><button class="btn btn-primary mt-4" onclick="openUpload()">Upload Now</button></div>`;return;}
     const total=mats.reduce((a,m)=>a+m.downloads,0);
     el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} file${mats.length!==1?'s':''} &middot; ${total} total downloads</div>`+mats.map(matCard).join('');
-  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load uploads</p>'; }
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load uploads</p>';}
 }
 
-// ═══════════════════════════════════════════════
-//  PROFILE
-// ═══════════════════════════════════════════════
-async function renderProfile() {
+// PROFILE
+async function renderProfile(){
   const c=allCourses.find(x=>x.id===currentUser.course);
   setAvatarEl(document.getElementById('p-avatar'),currentUser);
   document.getElementById('p-name').textContent=currentUser.name;
   document.getElementById('p-uname').textContent='@'+currentUser.username;
   document.getElementById('p-course').textContent=c?c.name:currentUser.course||'—';
   document.getElementById('p-college').textContent=currentUser.college||'—';
-  try {
-    const mats=await api('GET','/api/materials/my');
-    document.getElementById('p-uploads').textContent=mats.length;
-    document.getElementById('p-dls').textContent=mats.reduce((a,m)=>a+m.downloads,0);
-  } catch {}
+  try{const mats=await api('GET','/api/materials/my');document.getElementById('p-uploads').textContent=mats.length;document.getElementById('p-dls').textContent=mats.reduce((a,m)=>a+m.downloads,0);}catch{}
 }
-function setAvatarEl(el,user) {
-  if (user.avatar) { el.innerHTML=`<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover"/>`; }
-  else { el.textContent=user.name.charAt(0).toUpperCase(); el.style.background='var(--brand-light)'; el.style.color='var(--brand)'; }
+function setAvatarEl(el,user){
+  if(user.avatar){el.innerHTML=`<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;}
+  else{el.textContent=user.name.charAt(0).toUpperCase();el.style.background='var(--brand-light)';el.style.color='var(--brand)';}
 }
-function updateTopbarAvatar() {
+function updateTopbarAvatar(){
   const el=document.getElementById('topbar-av');
-  if (currentUser.avatar) el.innerHTML=`<img src="${currentUser.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;
+  if(currentUser.avatar)el.innerHTML=`<img src="${currentUser.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;
   else el.textContent=currentUser.name.charAt(0).toUpperCase();
 }
-function openEditProfile() {
-  document.getElementById('e-name').value=currentUser.name;
-  document.getElementById('e-uname').value=currentUser.username;
-  document.getElementById('e-college').value=currentUser.college||'';
-  const img=document.getElementById('e-avatar-img');
-  const ph=document.getElementById('e-avatar-ph');
-  if (currentUser.avatar) { img.src=currentUser.avatar; img.style.display='block'; ph.style.display='none'; }
-  else { img.style.display='none'; ph.style.display='flex'; }
+function openEditProfile(){
+  document.getElementById('e-name').value=currentUser.name;document.getElementById('e-uname').value=currentUser.username;document.getElementById('e-college').value=currentUser.college||'';
+  const img=document.getElementById('e-avatar-img'),ph=document.getElementById('e-avatar-ph');
+  if(currentUser.avatar){img.src=currentUser.avatar;img.style.display='block';ph.style.display='none';}
+  else{img.style.display='none';ph.style.display='flex';}
   openModal('m-edit');
 }
-async function saveProfile() {
-  const name=document.getElementById('e-name').value.trim();
-  const username=document.getElementById('e-uname').value.trim();
-  const college=document.getElementById('e-college').value.trim();
-  if (!name||!username) { toast('Name and username required'); return; }
-  let avatar=currentUser.avatar;
-  const af=document.getElementById('e-avatar').files[0];
-  if (af) avatar=await toBase64(af);
-  try {
+async function saveProfile(){
+  const name=document.getElementById('e-name').value.trim(),username=document.getElementById('e-uname').value.trim(),college=document.getElementById('e-college').value.trim();
+  if(!name||!username){toast('Name and username required');return;}
+  let avatar=currentUser.avatar;const af=document.getElementById('e-avatar').files[0];if(af)avatar=await toBase64(af);
+  try{
     const updated=await api('PUT','/api/auth/profile',{name,username,college,avatar});
-    currentUser={...currentUser,...updated};
-    updateTopbarAvatar(); closeModal('m-edit'); renderProfile();
-    toast('Profile updated');
-  } catch(err) { toast('Error: '+err.message); }
+    currentUser={...currentUser,...updated};updateTopbarAvatar();closeModal('m-edit');renderProfile();toast('Profile updated');
+  }catch(err){toast('Error: '+err.message);}
 }
 
-// ═══════════════════════════════════════════════
-//  CHANGE PASSWORD
-// ═══════════════════════════════════════════════
-function openChangePassword() {
-  document.getElementById('pw-current').value='';
-  document.getElementById('pw-new').value='';
-  document.getElementById('pw-confirm').value='';
-  document.getElementById('pw-err').classList.add('hidden');
-  openModal('m-password');
+// CHANGE PASSWORD
+function openChangePassword(){
+  document.getElementById('pw-current').value='';document.getElementById('pw-new').value='';document.getElementById('pw-confirm').value='';
+  document.getElementById('pw-err').classList.add('hidden');openModal('m-password');
 }
-async function doChangePassword() {
-  const current=document.getElementById('pw-current').value;
-  const newPw=document.getElementById('pw-new').value;
-  const confirm=document.getElementById('pw-confirm').value;
+async function doChangePassword(){
+  const current=document.getElementById('pw-current').value,newPw=document.getElementById('pw-new').value,confirm=document.getElementById('pw-confirm').value;
   const errEl=document.getElementById('pw-err');
-  if (!current||!newPw||!confirm) { errEl.textContent='All fields required'; errEl.classList.remove('hidden'); return; }
-  if (newPw.length<6) { errEl.textContent='New password must be at least 6 characters'; errEl.classList.remove('hidden'); return; }
-  if (newPw!==confirm) { errEl.textContent='New passwords do not match'; errEl.classList.remove('hidden'); return; }
+  if(!current||!newPw||!confirm){errEl.textContent='All fields required';errEl.classList.remove('hidden');return;}
+  if(newPw.length<6){errEl.textContent='New password must be at least 6 characters';errEl.classList.remove('hidden');return;}
+  if(newPw!==confirm){errEl.textContent='New passwords do not match';errEl.classList.remove('hidden');return;}
   errEl.classList.add('hidden');
-  try {
-    await api('PUT','/api/auth/change-password',{currentPassword:current,newPassword:newPw});
-    closeModal('m-password');
-    toast('Password changed successfully');
-  } catch(err) { errEl.textContent=err.message; errEl.classList.remove('hidden'); }
+  try{await api('PUT','/api/auth/change-password',{currentPassword:current,newPassword:newPw});closeModal('m-password');toast('Password changed successfully');}
+  catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
 }
 
-// ═══════════════════════════════════════════════
-//  ABOUT / FEEDBACK
-// ═══════════════════════════════════════════════
-async function sendFeedback() {
-  const msg=document.getElementById('fb-msg').value.trim();
-  if (!msg) { toast('Please write a message first'); return; }
-  try { await api('POST','/api/feedback',{message:msg}); document.getElementById('fb-msg').value=''; toast('Feedback sent to admin'); }
-  catch(err) { toast('Error: '+err.message); }
+// FEEDBACK
+async function sendFeedback(){
+  const msg=document.getElementById('fb-msg').value.trim();if(!msg){toast('Please write a message first');return;}
+  try{await api('POST','/api/feedback',{message:msg});document.getElementById('fb-msg').value='';toast('Feedback sent to admin');}
+  catch(err){toast('Error: '+err.message);}
 }
 
-// ═══════════════════════════════════════════════
-//  ADMIN
-// ═══════════════════════════════════════════════
-function switchAdminTab(tab) {
+// ADMIN
+function switchAdminTab(tab){
   adminTab=tab;
   document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses'][i]===tab));
   renderAdmin();
 }
-async function renderAdmin() {
-  if (currentUser.role!=='admin') return;
+async function renderAdmin(){
+  if(!currentUser||currentUser.role!=='admin'){switchPage('home');toast('Access denied');return;}
   const el=document.getElementById('admin-body');
   el.innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
-  if (adminTab==='overview') await renderAdminOverview(el);
-  else if (adminTab==='users') await renderAdminUsers(el);
-  else if (adminTab==='materials') await renderAdminMaterials(el);
+  if(adminTab==='overview')await renderAdminOverview(el);
+  else if(adminTab==='users')await renderAdminUsers(el);
+  else if(adminTab==='materials')await renderAdminMaterials(el);
   else await renderAdminCourses(el);
 }
-async function renderAdminOverview(el) {
-  try {
+async function renderAdminOverview(el){
+  try{
     const s=await api('GET','/api/admin/stats');
     el.innerHTML=`
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <div class="stat-card"><div class="stat-icon" style="background:#eff4ff"><svg width="18" height="18" fill="none" stroke="var(--brand)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-value">${s.totalStudents}</div><div class="stat-label">Students</div></div>
+        <div class="stat-card"><div class="stat-icon" style="background:#eff4ff"><svg width="18" height="18" fill="none" stroke="var(--brand)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-value">${s.totalStudents}</div><div class="stat-label">Students</div></div>
         <div class="stat-card"><div class="stat-icon" style="background:#ecfdf5"><svg width="18" height="18" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-value">${s.totalMaterials}</div><div class="stat-label">Materials</div></div>
         <div class="stat-card"><div class="stat-icon" style="background:#fffbeb"><svg width="18" height="18" fill="none" stroke="var(--amber)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="stat-value">${s.totalDownloads}</div><div class="stat-label">Downloads</div></div>
         <div class="stat-card"><div class="stat-icon" style="background:#fef2f2"><svg width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div class="stat-value">${s.totalCourses}</div><div class="stat-label">Courses</div></div>
       </div>
       <div class="card mb-3"><div class="card-header">Materials by Course</div><div class="card-body" style="padding-top:10px">
-        ${s.courseBreakdown.filter(c=>c.count>0).map(c=>`
-          <div class="flex justify-between items-center mb-2"><span style="font-size:13px;font-weight:500">${c.name}</span><span class="badge badge-brand">${c.count}</span></div>
-          <div class="progress-bar mb-3"><div class="progress-fill" style="width:${s.totalMaterials?Math.round(c.count/s.totalMaterials*100):0}%"></div></div>
-        `).join('')}
+        ${s.courseBreakdown.filter(c=>c.count>0).map(c=>`<div class="flex justify-between items-center mb-2"><span style="font-size:13px;font-weight:500">${c.name}</span><span class="badge badge-brand">${c.count}</span></div><div class="progress-bar mb-3"><div class="progress-fill" style="width:${s.totalMaterials?Math.round(c.count/s.totalMaterials*100):0}%"></div></div>`).join('')}
       </div></div>
       <div class="card"><div class="card-header">Top Uploaders</div><div class="card-body" style="padding:0 16px">
         ${s.topUploaders.map((u,i)=>`<div class="detail-row"><div class="flex items-center gap-2"><span style="font-size:13px;color:var(--text-muted);font-weight:700;min-width:18px">${i+1}</span><span style="font-size:13px;font-weight:600">@${u.username}</span></div><span style="font-size:12px;color:var(--text-muted)">${u.count} upload${u.count!==1?'s':''}</span></div>`).join('')}
       </div></div>`;
-  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load stats</p>'; }
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load stats</p>';}
 }
-async function renderAdminUsers(el) {
-  try {
+async function renderAdminUsers(el){
+  try{
     const users=await api('GET','/api/admin/users');
     el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${users.length} registered students</div>`+
-      (users.map(u=>{
-        const c=allCourses.find(x=>x.id===u.course);
-        return `<div class="card mb-3"><div class="card-body">
-          <div class="flex gap-3 items-center mb-3">
-            <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--brand);overflow:hidden;flex-shrink:0">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover"/>`:`${u.name.charAt(0)}`}</div>
-            <div style="flex:1;min-width:0">
-              <div style="font-weight:600;font-size:14px">${u.name}</div>
-              <div style="font-size:12px;color:var(--text-muted)">@${u.username} &middot; ${u.email}</div>
-              <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}${u.college?`<span class="badge badge-gray" style="font-size:10px">${u.college}</span>`:''}</div>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.uploads}</div><div class="stat-label">Uploads</div></div>
-            <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.totalDownloads}</div><div class="stat-label">Downloads</div></div>
-          </div>
-        </div></div>`;
-      }).join('')||emptyState('No students yet',''));
-  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load</p>'; }
+      (users.map(u=>{const c=allCourses.find(x=>x.id===u.course);return `<div class="card mb-3"><div class="card-body">
+        <div class="flex gap-3 items-center mb-3">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--brand);overflow:hidden;flex-shrink:0">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover"/>`:`${u.name.charAt(0)}`}</div>
+          <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">${u.name}</div><div style="font-size:12px;color:var(--text-muted)">@${u.username} &middot; ${u.email}</div>
+          <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}${u.college?`<span class="badge badge-gray" style="font-size:10px">${u.college}</span>`:''}</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.uploads}</div><div class="stat-label">Uploads</div></div>
+          <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.totalDownloads}</div><div class="stat-label">Downloads</div></div>
+        </div>
+      </div></div>`;}).join('')||emptyState('No students yet',''));
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
-async function renderAdminMaterials(el) {
-  try {
+async function renderAdminMaterials(el){
+  try{
     const mats=await api('GET','/api/materials');
     el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} total materials</div>`+
-      (mats.map(m=>{
-        const c=allCourses.find(x=>x.id===m.course);
-        return `<div class="card mb-2"><div class="card-body" style="padding:11px 14px">
-          <div class="flex gap-3 items-start">
-            <div class="file-icon fi-${m.fileType||'other'}" style="width:34px;height:34px;flex-shrink:0">${FILE_SVG[m.fileType||'other']||FILE_SVG.other}</div>
-            <div style="flex:1;min-width:0">
-              <div style="font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</div>
-              <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}
-              <span class="badge badge-gray" style="font-size:10px">${m.subject}</span></div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:500">@${m.uploaderName} &middot; ${m.downloads} downloads</div>
-            </div>
-            <button class="btn btn-danger btn-sm" style="flex-shrink:0" onclick="adminDeleteMat('${m.id}')">Delete</button>
-          </div>
-        </div></div>`;
-      }).join('')||emptyState('No materials yet',''));
-  } catch { el.innerHTML='<p class="text-sm text-muted">Failed to load</p>'; }
+      (mats.map(m=>{const c=allCourses.find(x=>x.id===m.course);return `<div class="card mb-2"><div class="card-body" style="padding:11px 14px">
+        <div class="flex gap-3 items-start">
+          <div class="file-icon fi-${m.fileType||'other'}" style="width:34px;height:34px;flex-shrink:0">${FILE_SVG[m.fileType||'other']||FILE_SVG.other}</div>
+          <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</div>
+          <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}<span class="badge badge-gray" style="font-size:10px">${m.subject}</span></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:500">@${m.uploaderName} &middot; ${m.downloads} downloads</div></div>
+          <button class="btn btn-danger btn-sm" style="flex-shrink:0" onclick="adminDeleteMat('${m.id}')">Delete</button>
+        </div>
+      </div></div>`;}).join('')||emptyState('No materials yet',''));
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
-async function adminDeleteMat(id) {
-  if (!confirm('Delete this material?')) return;
-  try { await api('DELETE','/api/materials/'+id); toast('Deleted'); renderAdminMaterials(document.getElementById('admin-body')); }
-  catch(err) { toast('Error: '+err.message); }
+async function adminDeleteMat(id){
+  if(!confirm('Delete this material?'))return;
+  try{await api('DELETE','/api/materials/'+id);toast('Deleted');renderAdminMaterials(document.getElementById('admin-body'));}
+  catch(err){toast('Error: '+err.message);}
 }
-async function renderAdminCourses(el) {
+async function renderAdminCourses(el){
   await loadCourses();
+  const WA_SVG=`<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
   el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openCourseModal()">Add New Course</button>`+
     allCourses.map((c,i)=>`<div class="card mb-3">
-      <div class="course-thumb ${c.image?'':'courseColorClass(i)'}" style="height:70px;border-radius:0">
-        ${c.image?`<img src="${c.image}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`}
-      </div>
+      <div class="course-thumb" style="height:70px;border-radius:0">${c.image?`<img src="${c.image}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`}</div>
       <div class="card-body">
         <div class="flex justify-between items-start mb-2">
           <div><div style="font-weight:700;font-size:14px">${c.name}</div><div style="font-size:11px;color:var(--text-muted)">${c.subjects.length} subjects &middot; ${c.materialCount||0} materials</div></div>
-          <div class="flex gap-2">
-            <button class="btn btn-ghost btn-sm" onclick="openCourseModal('${c.id}')">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="adminDeleteCourse('${c.id}')">Delete</button>
-          </div>
+          <div class="flex gap-2"><button class="btn btn-ghost btn-sm" onclick="openCourseModal('${c.id}')">Edit</button><button class="btn btn-danger btn-sm" onclick="adminDeleteCourse('${c.id}')">Delete</button></div>
         </div>
         <div style="font-size:11px;color:var(--text-muted);line-height:1.6">${c.subjects.join(' &middot; ')}</div>
-        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" class="course-wa-btn mt-2">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp Group
-        </a>`:'<p style="font-size:11px;color:var(--text-muted);margin-top:6px">No WhatsApp link — add one by editing this course</p>'}
+        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" class="course-wa-btn mt-2">${WA_SVG}WhatsApp Group</a>`:'<p style="font-size:11px;color:var(--text-muted);margin-top:6px">No WhatsApp link — edit to add one</p>'}
       </div>
     </div>`).join('');
 }
-function openCourseModal(id) {
-  editingCourseId=id||null;
-  const c=id?allCourses.find(x=>x.id===id):null;
+function openCourseModal(id){
+  editingCourseId=id||null;const c=id?allCourses.find(x=>x.id===id):null;
   document.getElementById('mc-title').textContent=id?'Edit Course':'Add Course';
-  document.getElementById('mc-name').value=c?c.name:'';
-  document.getElementById('mc-id').value=c?c.id:'';
-  document.getElementById('mc-wa').value=c?(c.whatsapp||''):'';
-  document.getElementById('mc-subjects').value=c?c.subjects.join('\n'):'';
-  const prev=document.getElementById('mc-img-preview');
-  const ph=document.getElementById('mc-img-ph');
-  if (c&&c.image) { prev.src=c.image; prev.style.display='block'; ph.style.display='none'; }
-  else { prev.style.display='none'; ph.style.display='flex'; }
+  document.getElementById('mc-name').value=c?c.name:'';document.getElementById('mc-id').value=c?c.id:'';
+  document.getElementById('mc-wa').value=c?(c.whatsapp||''):'';document.getElementById('mc-subjects').value=c?c.subjects.join('\n'):'';
+  const prev=document.getElementById('mc-img-preview'),ph=document.getElementById('mc-img-ph');
+  if(c&&c.image){prev.src=c.image;prev.style.display='block';ph.style.display='none';}
+  else{prev.style.display='none';ph.style.display='flex';}
   openModal('m-course');
 }
-function previewCourseImage(input) {
-  const f=input.files[0]; if (!f) return;
-  const r=new FileReader();
-  r.onload=e=>{ const p=document.getElementById('mc-img-preview'); p.src=e.target.result; p.style.display='block'; document.getElementById('mc-img-ph').style.display='none'; };
-  r.readAsDataURL(f);
+function previewCourseImage(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{const p=document.getElementById('mc-img-preview');p.src=e.target.result;p.style.display='block';document.getElementById('mc-img-ph').style.display='none';};r.readAsDataURL(f);
 }
-async function saveCourse() {
-  const name=document.getElementById('mc-name').value.trim();
-  const whatsapp=document.getElementById('mc-wa').value.trim();
+async function saveCourse(){
+  const name=document.getElementById('mc-name').value.trim(),whatsapp=document.getElementById('mc-wa').value.trim();
   const subjects=document.getElementById('mc-subjects').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
-  if (!name) { toast('Course name required'); return; }
-  let image='';
-  const imgFile=document.getElementById('mc-img').files[0];
-  if (imgFile) image=await toBase64(imgFile);
-  else if (editingCourseId) { const ec=allCourses.find(x=>x.id===editingCourseId); if(ec) image=ec.image||''; }
-  try {
-    if (editingCourseId) { await api('PUT','/api/courses/'+editingCourseId,{name,whatsapp,subjects,image}); toast('Course updated'); }
-    else { await api('POST','/api/courses',{name,whatsapp,subjects,image}); toast('Course added'); }
-    closeModal('m-course');
-    renderAdminCourses(document.getElementById('admin-body'));
-  } catch(err) { toast('Error: '+err.message); }
+  if(!name){toast('Course name required');return;}
+  let image='';const imgFile=document.getElementById('mc-img').files[0];
+  if(imgFile)image=await toBase64(imgFile);
+  else if(editingCourseId){const ec=allCourses.find(x=>x.id===editingCourseId);if(ec)image=ec.image||'';}
+  try{
+    if(editingCourseId){await api('PUT','/api/courses/'+editingCourseId,{name,whatsapp,subjects,image});toast('Course updated');}
+    else{await api('POST','/api/courses',{name,whatsapp,subjects,image});toast('Course added');}
+    closeModal('m-course');renderAdminCourses(document.getElementById('admin-body'));
+  }catch(err){toast('Error: '+err.message);}
 }
-async function adminDeleteCourse(id) {
-  if (!confirm('Delete this course?')) return;
-  try { await api('DELETE','/api/courses/'+id); toast('Course deleted'); renderAdminCourses(document.getElementById('admin-body')); }
-  catch(err) { toast('Error: '+err.message); }
+async function adminDeleteCourse(id){
+  if(!confirm('Delete this course?'))return;
+  try{await api('DELETE','/api/courses/'+id);toast('Course deleted');renderAdminCourses(document.getElementById('admin-body'));}
+  catch(err){toast('Error: '+err.message);}
 }
 
-// ═══════════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════════
-function toBase64(file) {
-  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file); });
+// HELPERS
+function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsDataURL(file);});}
+function previewAvatar(inputId,imgId,phId){
+  const f=document.getElementById(inputId).files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{const img=document.getElementById(imgId);img.src=e.target.result;img.style.display='block';document.getElementById(phId).style.display='none';};r.readAsDataURL(f);
 }
-function previewAvatar(inputId,imgId,phId) {
-  const f=document.getElementById(inputId).files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=e=>{ const img=document.getElementById(imgId); img.src=e.target.result; img.style.display='block'; document.getElementById(phId).style.display='none'; };
-  r.readAsDataURL(f);
-}
-function emptyState(title,sub) {
-  return `<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
-}
+function emptyState(title,sub){return `<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;}
 
-// ═══════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════
+// INIT
 (async()=>{
-  try { allCourses=await api('GET','/api/courses'); } catch {}
-  const authEl=document.getElementById('auth-screen');
-  if (token) {
-    const ok=await tryRestoreSession();
-    if (ok) { launchApp(); return; }
-  }
-  authEl.style.display='flex';
+  try{allCourses=await api('GET','/api/courses');}catch{}
+  if(token){const ok=await tryRestoreSession();if(ok){launchApp();return;}}
+  document.getElementById('auth-screen').style.display='flex';
 })();
 </script>
 </body>
