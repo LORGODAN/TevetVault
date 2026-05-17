@@ -13,17 +13,12 @@ require('dotenv').config();
 
 const nodemailer = require('nodemailer');
 
-// Email transporter — uses Gmail SMTP port 465 (SSL) which works on Render
+// Email transporter — using Gmail service shortcut (handles ports automatically)
 const mailer = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    rejectUnauthorized: false
   }
 });
 
@@ -457,4 +452,3 @@ app.get('/{*splat}', (req, res) => {
 
 app.listen(PORT, () => console.log(`✅ TevetVault API running on port ${PORT}`));
 module.exports = app;
-
