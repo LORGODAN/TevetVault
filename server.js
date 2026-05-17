@@ -13,25 +13,51 @@ require('dotenv').config();
 
 const nodemailer = require('nodemailer');
 
-// Email transporter — using Gmail service shortcut (handles ports automatically)
-const mailer = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+// Email transporter
+// Supports two providers:
+// 1. Brevo SMTP (recommended — works on Railway/Render free plans)
+//    Set BREVO_USER and BREVO_PASS in environment variables
+// 2. Gmail SMTP fallback
+//    Set EMAIL_USER and EMAIL_PASS in environment variables
+function createMailer() {
+  if (process.env.BREVO_USER && process.env.BREVO_PASS) {
+    console.log('Email: Using Brevo SMTP');
+    return nodemailer.createTransport({
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS
+      }
+    });
+  } else if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    console.log('Email: Using Gmail SMTP');
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+  } else {
+    console.log('Email: No credentials set — running in demo mode');
+    return null;
   }
-});
+}
+const mailer = createMailer();
 
 // Send email helper
 async function sendEmail(to, subject, html) {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  if (!mailer) {
     console.log(`[EMAIL SKIPPED - no credentials] To: ${to} | Subject: ${subject}`);
     return false;
   }
-  await mailer.sendMail({
-    from: process.env.EMAIL_FROM || `TevetVault <${process.env.EMAIL_USER}>`,
-    to, subject, html
-  });
+  const from = process.env.EMAIL_FROM ||
+    (process.env.BREVO_USER ? `TevetVault <${process.env.BREVO_USER}>` :
+    `TevetVault <${process.env.EMAIL_USER}>`);
+  await mailer.sendMail({ from, to, subject, html });
+  console.log(`[EMAIL SENT] To: ${to} | Subject: ${subject}`);
   return true;
 }
 
@@ -54,9 +80,22 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'edushare_secret_2024_mw';
 
-const dataDir = path.join(__dirname, 'data');
-const uploadsDir = path.join(__dirname, 'uploads');
-[dataDir, uploadsDir].forEach(d => !fs.existsSync(d) && fs.mkdirSync(d, { recursive: true }));
+// Use /app/data and /app/uploads on Railway/cloud — falls back to local for development
+const isProd = process.env.NODE_ENV === 'production';
+const dataDir = isProd
+  ? '/app/data'
+  : path.join(__dirname, 'data');
+const uploadsDir = isProd
+  ? '/app/uploads'
+  : path.join(__dirname, 'uploads');
+[dataDir, uploadsDir].forEach(d => {
+  if (!fs.existsSync(d)) {
+    try { fs.mkdirSync(d, { recursive: true }); }
+    catch(e) { console.warn('Could not create dir:', d, e.message); }
+  }
+});
+console.log('Data dir:', dataDir);
+console.log('Uploads dir:', uploadsDir);
 
 const adapter = new FileSync(path.join(dataDir, 'db.json'));
 const db = low(adapter);
