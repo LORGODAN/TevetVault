@@ -13,14 +13,17 @@ require('dotenv').config();
 
 const nodemailer = require('nodemailer');
 
-// Email transporter — uses Gmail SMTP from environment variables
+// Email transporter — uses Gmail SMTP port 465 (SSL) which works on Render
 const mailer = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.EMAIL_PORT || '587'),
-  secure: false,
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
