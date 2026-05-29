@@ -16,8 +16,8 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'tevetvault_secret_2024_malawi';
 
 // ── SUPABASE CLIENT ─────────────────────────────────────────
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rhssrsarpsdwxjxzjter.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoc3Nyc2FycHNkd3hqeHpqdGVyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTEyNTM5NiwiZXhwIjoyMDk0NzAxMzk2fQ.W86V2siMDU8Ow-xV9D7SB5qbITmrFGodsT_4rm4OeHg';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tezspfftmduvguaqfhyl.supabase.co';
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlenNwZmZ0bWR1dmd1YXFmaHlsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTg3Njk3NCwiZXhwIjoyMDk1NDUyOTc0fQ.xiYhUHkZBhfNqJiId9antZchNwn4hWSLcOMlukYFo-g';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 console.log('Supabase URL:', SUPABASE_URL);
