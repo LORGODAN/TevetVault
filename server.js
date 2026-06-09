@@ -369,7 +369,12 @@ app.get('/api/materials/:id/download', auth, async (req, res) => {
     // Get signed URL from Supabase Storage (valid for 60 seconds)
     const { data: urlData } = await supabase.storage.from('uploads').createSignedUrl(mat.filename, 60);
     if (urlData?.signedUrl) {
-      return res.json({ success: true, url: urlData.signedUrl, downloads: mat.downloads + 1 });
+      return res.json({
+        success: true,
+        url: urlData.signedUrl,
+        filename: mat.original_name || mat.filename,
+        downloads: mat.downloads + 1
+      });
     }
   }
   res.json({ success: true, demo: true, downloads: mat.downloads + 1 });
