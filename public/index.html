@@ -407,13 +407,13 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
           <a href="https://wa.me/265992919010" target="_blank" class="social-btn s-wa">
             <svg viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp
           </a>
-          <a href="https://www.instagram.com/lorgodan/?hl=en " target="_blank" class="social-btn s-ig">
+          <a href="https://www.instagram.com/lorgodan/" target="_blank" class="social-btn s-ig">
             <svg viewBox="0 0 24 24" width="17" height="17"><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igG)"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#fff"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Instagram
           </a>
-          <a href=" https://x.com/makhaura " target="_blank" class="social-btn s-tw">
+          <a href="https://x.com/makhaura" target="_blank" class="social-btn s-tw">
             <svg viewBox="0 0 24 24" fill="#0ea5e9"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>Twitter / X
           </a>
-          <a href="https://www.linkedin.com/in/lonjezo-makhaula" target="_blank" class="social-btn s-li">
+          <a href="https://linkedin.com/in/lonjezo-makhaula" target="_blank" class="social-btn s-li">
             <svg viewBox="0 0 24 24" fill="#0077b5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2" fill="#0077b5"/></svg>LinkedIn
           </a>
           <a href="mailto:lonjezomakhaula@gmail.com" class="social-btn s-em">
@@ -515,9 +515,76 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Upload Material</div>
-    <div class="form-group"><label class="form-label">Course *</label><select class="form-select" id="up-course" onchange="fillSubjects('up-course','up-subject')"><option value="">Select course</option></select></div>
-    <div class="form-group"><label class="form-label">Subject *</label><select class="form-select" id="up-subject"><option value="">Select subject</option></select></div>
-    <div class="form-group"><label class="form-label">Description *</label><textarea class="form-textarea" id="up-desc" placeholder="Briefly describe this material and its level 1,2,3..." rows="3"></textarea></div>
+
+    <!-- Course and Level -->
+    <div class="form-group">
+      <label class="form-label">Course *</label>
+      <select class="form-select" id="up-course" onchange="fillSubjects('up-course','up-subject')"><option value="">Select course</option></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Course Level *</label>
+      <select class="form-select" id="up-level">
+        <option value="">Select level</option>
+        <option value="Level 1">Level 1</option>
+        <option value="Level 2">Level 2</option>
+        <option value="Level 3">Level 3</option>
+        <option value="Level 4">Level 4</option>
+      </select>
+    </div>
+
+    <!-- Material Type -->
+    <div class="form-group">
+      <label class="form-label">Material Type *</label>
+      <select class="form-select" id="up-type" onchange="toggleUploadFields()">
+        <option value="">Select type</option>
+        <option value="Notes">Notes / Study Material</option>
+        <option value="Examination">Examination Paper</option>
+      </select>
+    </div>
+
+    <!-- Notes fields — subject -->
+    <div id="up-notes-fields" class="hidden">
+      <div class="form-group">
+        <label class="form-label">Subject *</label>
+        <select class="form-select" id="up-subject"><option value="">Select subject</option></select>
+      </div>
+    </div>
+
+    <!-- Exam fields -->
+    <div id="up-exam-fields" class="hidden">
+      <div class="form-group">
+        <label class="form-label">Examination Type *</label>
+        <select class="form-select" id="up-exam-type">
+          <option value="">Select examination type</option>
+          <option value="Fundamental">Fundamental</option>
+          <option value="Occupation">Occupation</option>
+          <option value="Practical">Practical</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Examination Year *</label>
+        <select class="form-select" id="up-exam-year">
+          <option value="">Select year</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label class="form-label">Description *</label>
+      <textarea class="form-textarea" id="up-desc" placeholder="Briefly describe this material..." rows="2"></textarea>
+    </div>
+
+    <!-- File -->
     <div class="form-group">
       <label class="form-label">File *</label>
       <div class="drop-zone" id="up-drop" onclick="document.getElementById('up-file').click()">
@@ -527,6 +594,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <input type="file" id="up-file" class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.jpeg,.png" onchange="fileChosen(this)"/>
     </div>
+
     <div id="up-prog" class="hidden mb-3">
       <div class="progress-bar"><div class="progress-fill" id="up-fill"></div></div>
       <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:5px" id="up-ptxt">Uploading...</div>
@@ -771,7 +839,9 @@ function doLogout(){
 // FORGOT PASSWORD
 function showForgotPassword(){
   fpEmail='';fpOtp='';
-  document.getElementById('fp-email').value='';
+  // Pre-fill email from login field if student already typed it
+  const loginEmail=document.getElementById('l-email').value.trim();
+  document.getElementById('fp-email').value=loginEmail||'';
   document.getElementById('fp-err1').classList.add('hidden');
   [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('fp-otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
   document.getElementById('fp-newpass').value='';document.getElementById('fp-confirmpass').value='';
@@ -871,6 +941,22 @@ async function tryRestoreSession(){
 
 // COURSES
 async function loadCourses(){try{allCourses=await api('GET','/api/courses');populateUploadCourseSelect();}catch{}}
+
+function toggleUploadFields(){
+  const type=document.getElementById('up-type').value;
+  const notesFields=document.getElementById('up-notes-fields');
+  const examFields=document.getElementById('up-exam-fields');
+  if(type==='Notes'){
+    notesFields.classList.remove('hidden');
+    examFields.classList.add('hidden');
+  } else if(type==='Examination'){
+    notesFields.classList.add('hidden');
+    examFields.classList.remove('hidden');
+  } else {
+    notesFields.classList.add('hidden');
+    examFields.classList.add('hidden');
+  }
+}
 function populateUploadCourseSelect(){
   document.getElementById('up-course').innerHTML='<option value="">Select course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
@@ -1078,11 +1164,34 @@ function fileChosen(input){
   if(selectedFile){document.getElementById('up-fname').textContent=selectedFile.name;document.getElementById('up-fname').style.color='var(--text)';document.getElementById('up-drop').classList.add('has-file');}
 }
 async function submitUpload(){
-  const course=document.getElementById('up-course').value,subject=document.getElementById('up-subject').value;
-  const desc=document.getElementById('up-desc').value.trim(),errEl=document.getElementById('up-err');
-  if(!course||!subject||!desc||!selectedFile){errEl.textContent='Please fill all fields and select a file';errEl.classList.remove('hidden');return;}
+  const course=document.getElementById('up-course').value;
+  const level=document.getElementById('up-level').value;
+  const type=document.getElementById('up-type').value;
+  const desc=document.getElementById('up-desc').value.trim();
+  const errEl=document.getElementById('up-err');
+
+  if(!course||!level||!type||!desc||!selectedFile){
+    errEl.textContent='Please fill all required fields and select a file';
+    errEl.classList.remove('hidden');return;
+  }
+
+  let subject='';
+  let fullDesc=desc;
+
+  if(type==='Notes'){
+    subject=document.getElementById('up-subject').value;
+    if(!subject){errEl.textContent='Please select a subject';errEl.classList.remove('hidden');return;}
+    fullDesc=`[${level}] [Notes] [${subject}] ${desc}`;
+  } else if(type==='Examination'){
+    const examType=document.getElementById('up-exam-type').value;
+    const examYear=document.getElementById('up-exam-year').value;
+    if(!examType||!examYear){errEl.textContent='Please select examination type and year';errEl.classList.remove('hidden');return;}
+    subject=`${examType} Paper ${examYear}`;
+    fullDesc=`[${level}] [${examType} Paper] [${examYear}] ${desc}`;
+  }
+
   errEl.classList.add('hidden');
-  const fd=new FormData();fd.append('course',course);fd.append('subject',subject);fd.append('description',desc);fd.append('file',selectedFile);
+  const fd=new FormData();fd.append('course',course);fd.append('subject',subject);fd.append('description',fullDesc);fd.append('file',selectedFile);
   const btn=document.getElementById('up-btn'),prog=document.getElementById('up-prog'),fill=document.getElementById('up-fill'),ptxt=document.getElementById('up-ptxt');
   btn.disabled=true;prog.classList.remove('hidden');
   let pct=0;const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*15+5,88);fill.style.width=pct+'%';ptxt.textContent=`Uploading... ${Math.round(pct)}%`;},250);
@@ -1092,8 +1201,16 @@ async function submitUpload(){
     setTimeout(()=>{
       closeModal('m-upload');selectedFile=null;
       document.getElementById('up-fname').textContent='Tap to select file';document.getElementById('up-fname').style.color='';
-      document.getElementById('up-drop').classList.remove('has-file');document.getElementById('up-course').value='';
-      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';document.getElementById('up-desc').value='';
+      document.getElementById('up-drop').classList.remove('has-file');
+      document.getElementById('up-course').value='';
+      document.getElementById('up-level').value='';
+      document.getElementById('up-type').value='';
+      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';
+      document.getElementById('up-desc').value='';
+      document.getElementById('up-notes-fields').classList.add('hidden');
+      document.getElementById('up-exam-fields').classList.add('hidden');
+      if(document.getElementById('up-exam-type'))document.getElementById('up-exam-type').value='';
+      if(document.getElementById('up-exam-year'))document.getElementById('up-exam-year').value='';
       fill.style.width='0%';prog.classList.add('hidden');btn.disabled=false;
       toast('Material uploaded successfully');renderHome();
     },600);
