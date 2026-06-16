@@ -191,6 +191,46 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 .cc-5{background:linear-gradient(135deg,#0e7490,#22d3ee)}
 .cc-6{background:linear-gradient(135deg,#be185d,#f472b6)}
 .cc-7{background:linear-gradient(135deg,#1e40af,#60a5fa)}
+/* STARS */
+.stars{display:flex;gap:3px;align-items:center}
+.star{width:18px;height:18px;cursor:pointer;transition:transform .1s}
+.star:hover{transform:scale(1.2)}
+.star svg{width:18px;height:18px;transition:fill .15s,stroke .15s}
+.star.filled svg{fill:#f59e0b;stroke:#f59e0b}
+.star.empty svg{fill:none;stroke:#d1d5db}
+.star:hover svg,.star.hovered svg{fill:#fcd34d;stroke:#fcd34d}
+.rating-count{font-size:11px;color:var(--text-muted);margin-left:4px;font-weight:500}
+
+/* BOOKMARK */
+.bookmark-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.bookmark-btn svg{width:18px;height:18px;fill:none;stroke:#9ca3af;stroke-width:2;transition:all .15s}
+.bookmark-btn.saved svg{fill:#f59e0b;stroke:#f59e0b}
+.bookmark-btn:hover svg{stroke:var(--brand)}
+
+/* NOTIFICATION BADGE */
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1}
+.notif-wrap{position:relative;display:inline-flex}
+
+/* ANNOUNCEMENT BANNER */
+.announcement-banner{background:linear-gradient(135deg,var(--brand),#4f78f0);color:#fff;border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;cursor:pointer}
+.announcement-title{font-weight:700;font-size:13px;margin-bottom:2px}
+.announcement-msg{font-size:12px;opacity:.85;line-height:1.5}
+
+/* REPORT */
+.report-btn{background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);font-family:'Inter',sans-serif;padding:4px 8px;border-radius:6px;transition:all .15s;display:flex;align-items:center;gap:4px}
+.report-btn:hover{color:var(--red);background:var(--red-light)}
+.report-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* HISTORY / BOOKMARKS TABS */
+.tab-row{display:flex;background:#f3f4f6;border-radius:var(--radius-sm);padding:3px;margin-bottom:14px}
+.tab-btn{flex:1;padding:7px;text-align:center;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;color:var(--text-muted);border:none;background:transparent;font-family:'Inter',sans-serif}
+.tab-btn.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
+
+/* SHARE */
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);font-family:'Inter',sans-serif;transition:all .15s}
+.share-btn:hover{background:var(--brand-light);color:var(--brand);border-color:var(--brand)}
+.share-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+
 /* FILE VIEWER */
 .viewer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:250;display:flex;flex-direction:column}
 .viewer-overlay.hidden{display:none}
