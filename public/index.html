@@ -1678,8 +1678,7 @@ async function toggleBookmark(matId) {
 // ═══════════════════════════════════════════════
 async function shareMaterial(matId, title) {
   const url = window.location.origin + '?material=' + matId;
-  const text = 'Check out this material on TevetVault: ' + title + '
-' + url;
+const text = 'Check out this material on TevetVault: ' + title + '\n' + url;
   if (navigator.share) {
     try {
       await navigator.share({ title: title, text: 'Check this out on TevetVault', url });
