@@ -271,7 +271,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 </svg>
 
 <!-- AUTH SCREEN -->
-<div class="auth-screen" id="auth-screen" style="display:none">
+<div class="auth-screen" id="auth-screen">
   <div class="auth-logo">
     <div class="auth-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
     <h1>TevetVault</h1>
@@ -354,8 +354,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
   </div>
 
   <div class="pages-wrap">
-
-   <!-- HOME -->
+    <!-- HOME -->
     <div class="page active" id="page-home">
       <div style="margin-bottom:16px">
         <h2 style="font-size:18px;font-weight:700">Hello, <span id="h-name">there</span></h2>
@@ -374,7 +373,6 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <div id="h-mats"></div>
     </div>
-
     <!-- BROWSE -->
     <div class="page" id="page-browse">
       <div class="section-title">All Materials</div>
@@ -388,7 +386,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500" id="b-count"></div>
       <div id="b-mats"></div>
     </div>
-     <!-- MY UPLOADS -->
+    <!-- MY UPLOADS -->
     <div class="page" id="page-uploads">
       <div class="section-title">My Files</div>
       <div class="tab-row">
@@ -398,7 +396,6 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <div id="u-list"></div>
     </div>
-    
     <!-- PROFILE -->
     <div class="page" id="page-profile">
       <div class="profile-header">
@@ -436,7 +433,6 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
         </div>
       </div>
     </div>
-
     <!-- ABOUT -->
     <div class="page" id="page-about">
       <div class="about-hero">
@@ -508,8 +504,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     </div>
   </div>
 
-
- <!-- BOTTOM NAV -->
+  <!-- BOTTOM NAV -->
   <nav class="bottomnav">
     <button class="bnav-item active" id="nav-home" onclick="switchPage('home')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -533,7 +528,6 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     </button>
   </nav>
 </div>
-
 <!-- FORGOT PASSWORD MODAL -->
 <div class="modal-overlay hidden" id="m-forgot">
   <div class="modal">
@@ -652,7 +646,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       <div class="drop-zone" id="up-drop" onclick="document.getElementById('up-file').click()">
         <div class="drop-zone-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
         <div id="up-fname" style="font-size:13px;font-weight:600;color:var(--text-muted)">Tap to select file</div>
-        <div style="font-size:11px;color:var(--text-light);margin-top:3px">PDF, Word, PPT, Images, TXT &mdash; max 20MB</div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:3px">PDF, Word, PPT, Images, TXT &mdash; max 50MB</div>
       </div>
       <input type="file" id="up-file" class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.jpeg,.png" onchange="fileChosen(this)"/>
     </div>
@@ -746,6 +740,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 </div>
 
 <div id="toast"></div>
+
 <!-- REPORT MODAL -->
 <div class="modal-overlay hidden" id="m-report">
   <div class="modal">
@@ -817,12 +812,19 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
   </div>
 </div>
 <script>
+// ═══════════════════════════════════════════════
+//  CONFIG & STATE
+// ═══════════════════════════════════════════════
 const API_BASE=(window.location.port==='3001'||window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')?`${window.location.protocol}//${window.location.hostname}:3001`:window.location.origin;
 let token=localStorage.getItem('es_token')||'';
-let currentUser=null,allCourses=[],browseFilter={course:'all',subject:'all'};
+let currentUser=null,allCourses=[],browseFilter={course:'all',subject:'all'},browseLevel='all';
 let adminTab='overview',editingCourseId=null,selectedFile=null;
 let pendingOtpEmail='',pendingOtp='',fpEmail='',fpOtp='';
+let currentRating=0,reportingMatId=null,viewerMatId=null,currentFilesTab='uploads';
 
+// ═══════════════════════════════════════════════
+//  API
+// ═══════════════════════════════════════════════
 async function api(method,path,body,isFormData){
   const opts={method,headers:{...(token?{Authorization:'Bearer '+token}:{})}};
   if(body&&!isFormData){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(body);}
@@ -840,8 +842,16 @@ function toast(msg){
 function openModal(id){document.getElementById(id).classList.remove('hidden');}
 function closeModal(id){document.getElementById(id).classList.add('hidden');}
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hidden');}));
+function emptyState(title,sub){return `<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;}
+function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsDataURL(file);});}
+function previewAvatar(inputId,imgId,phId){
+  const f=document.getElementById(inputId).files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{const img=document.getElementById(imgId);img.src=e.target.result;img.style.display='block';document.getElementById(phId).style.display='none';};r.readAsDataURL(f);
+}
 
-// OTP helpers (registration)
+// ═══════════════════════════════════════════════
+//  OTP HELPERS
+// ═══════════════════════════════════════════════
 function otpInput(el,i){
   let v=el.value.replace(/\D/g,'');if(v.length>1)v=v.slice(-1);
   el.value=v;el.classList.toggle('otp-filled',v.length===1);
@@ -851,8 +861,6 @@ function otpInput(el,i){
 function otpKey(e,i){
   const el=document.getElementById('otp'+i);
   if(e.key==='Backspace'){if(el.value){el.value='';el.classList.remove('otp-filled');}else if(i>0){const p=document.getElementById('otp'+(i-1));p.focus();p.select();}e.preventDefault();}
-  else if(e.key==='ArrowLeft'&&i>0)document.getElementById('otp'+(i-1)).focus();
-  else if(e.key==='ArrowRight'&&i<5)document.getElementById('otp'+(i+1)).focus();
 }
 function otpPaste(e){
   e.preventDefault();
@@ -861,110 +869,6 @@ function otpPaste(e){
   for(let i=0;i<6;i++){const el=document.getElementById('otp'+i);el.value=t[i]||'';el.classList.toggle('otp-filled',!!t[i]);}
   document.getElementById('otp'+Math.min(t.length,5)).focus();
   if(t.length===6)verifyOTP();
-}
-
-// AUTH
-function switchAuthTab(tab){
-  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(tab==='login')===(i===0)));
-  document.getElementById('login-form').classList.toggle('hidden',tab!=='login');
-  document.getElementById('register-form').classList.toggle('hidden',tab!=='register');
-  if(tab==='register')showRStep('r-step-email');
-}
-function showRStep(id){
-  ['r-step-email','r-step-otp','r-step-profile'].forEach(s=>document.getElementById(s).classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-}
-async function sendOTP(){
-  const email=document.getElementById('r-email').value.trim();
-  if(!email||!email.includes('@')||!email.includes('.')){toast('Enter a valid email address');return;}
-  const btn=document.getElementById('r-otp-btn');btn.disabled=true;btn.textContent='Sending...';
-  try{
-    const res=await api('POST','/api/auth/send-otp',{email});
-    pendingOtpEmail=email;
-    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
-    const hint=document.getElementById('r-otp-hint');
-    if(res.demo_otp){
-      hint.innerHTML=`Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>`;
-      // Auto fill OTP boxes immediately so user does not have to type
-      res.demo_otp.toString().split('').forEach((d,i)=>{
-        const el=document.getElementById('otp'+i);
-        if(el){el.value=d;el.classList.add('otp-filled');}
-      });
-      showRStep('r-step-otp');
-      toast('Code filled automatically — click Verify');
-    } else {
-      hint.innerHTML='Check your inbox (also check spam)';
-      showRStep('r-step-otp');
-      setTimeout(()=>document.getElementById('otp0').focus(),150);
-      toast('Verification code sent to your email');
-    }
-  }catch(err){toast('Error: '+err.message);}
-  finally{btn.disabled=false;btn.textContent='Send Verification Code';}
-}
-async function verifyOTP(){
-  const otp=[0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
-  if(otp.length<6){toast('Please enter all 6 digits');return;}
-  const btn=document.getElementById('r-verify-btn');
-  if(btn){btn.disabled=true;btn.textContent='Verifying...';}
-  try{
-    await api('POST','/api/auth/verify-otp',{email:pendingOtpEmail,otp});
-    pendingOtp=otp;
-    document.getElementById('r-course').innerHTML='<option value="">Select your course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-    showRStep('r-step-profile');toast('Email verified successfully');
-  }catch(err){
-    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='var(--red)';setTimeout(()=>el.style.borderColor='',1500);});
-    document.getElementById('otp0').focus();toast('Incorrect code — try again');
-  }finally{if(btn){btn.disabled=false;btn.textContent='Verify Code';}}
-}
-async function doRegister(){
-  const name=document.getElementById('r-name').value.trim(),username=document.getElementById('r-username').value.trim();
-  const course=document.getElementById('r-course').value,college=document.getElementById('r-college').value.trim();
-  const password=document.getElementById('r-pass').value,errEl=document.getElementById('r-err');
-  if(!name||!username||!course||!college||!password){errEl.textContent='Please fill all required fields';errEl.classList.remove('hidden');return;}
-  if(password.length<6){errEl.textContent='Password must be at least 6 characters';errEl.classList.remove('hidden');return;}
-  errEl.classList.add('hidden');
-  let avatar='';const af=document.getElementById('r-avatar').files[0];if(af)avatar=await toBase64(af);
-  const btn=document.getElementById('r-submit');btn.disabled=true;btn.textContent='Creating account...';
-  try{
-    const res=await api('POST','/api/auth/register',{email:pendingOtpEmail,otp:pendingOtp,name,username,course,college,password,avatar});
-    token=res.token;currentUser=res.user;localStorage.setItem('es_token',token);
-    toast('Welcome to TevetVault, '+currentUser.name.split(' ')[0]+'!');launchApp();
-  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
-  finally{btn.disabled=false;btn.textContent='Create Account';}
-}
-async function doLogin(){
-  const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
-  const errEl=document.getElementById('l-err'),btn=document.getElementById('l-btn');
-  errEl.classList.add('hidden');btn.disabled=true;btn.textContent='Signing in...';
-  try{
-    const res=await api('POST','/api/auth/login',{email,password:pass});
-    token=res.token;currentUser=res.user;localStorage.setItem('es_token',token);
-    toast('Welcome back, '+currentUser.name.split(' ')[0]);launchApp();
-  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
-  finally{btn.disabled=false;btn.textContent='Sign In';}
-}
-function doLogout(){
-  token='';currentUser=null;localStorage.removeItem('es_token');
-  document.getElementById('app-wrap').classList.add('hidden');
-  document.getElementById('auth-screen').style.display='';
-  toast('Signed out');
-}
-
-// FORGOT PASSWORD
-function showForgotPassword(){
-  fpEmail='';fpOtp='';
-  // Pre-fill email from login field if student already typed it
-  const loginEmail=document.getElementById('l-email').value.trim();
-  document.getElementById('fp-email').value=loginEmail||'';
-  document.getElementById('fp-err1').classList.add('hidden');
-  [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('fp-otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
-  document.getElementById('fp-newpass').value='';document.getElementById('fp-confirmpass').value='';
-  document.getElementById('fp-err3').classList.add('hidden');
-  fpShowStep('fp-step-email');openModal('m-forgot');
-}
-function fpShowStep(id){
-  ['fp-step-email','fp-step-otp','fp-step-newpass'].forEach(s=>document.getElementById(s).classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
 }
 function fpOtpInput(el,i){
   let v=el.value.replace(/\D/g,'');if(v.length>1)v=v.slice(-1);
@@ -984,30 +888,137 @@ function fpOtpPaste(e){
   document.getElementById('fp-otp'+Math.min(t.length,5)).focus();
   if(t.length===6)fpVerifyOTP();
 }
+
+// ═══════════════════════════════════════════════
+//  AUTH TABS
+// ═══════════════════════════════════════════════
+function switchAuthTab(tab){
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(tab==='login')===(i===0)));
+  document.getElementById('login-form').classList.toggle('hidden',tab!=='login');
+  document.getElementById('register-form').classList.toggle('hidden',tab!=='register');
+  if(tab==='register')showRStep('r-step-email');
+}
+function showRStep(id){
+  ['r-step-email','r-step-otp','r-step-profile'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+// ═══════════════════════════════════════════════
+//  LOGIN / REGISTER / LOGOUT
+// ═══════════════════════════════════════════════
+async function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const errEl=document.getElementById('l-err');
+  const btn=document.getElementById('l-btn');
+  if(!email||!pass){errEl.textContent='Please enter email and password';errEl.classList.remove('hidden');return;}
+  errEl.classList.add('hidden');btn.disabled=true;btn.textContent='Signing in...';
+  try{
+    const res=await api('POST','/api/auth/login',{email,password:pass});
+    token=res.token;currentUser=res.user;
+    localStorage.setItem('es_token',token);
+    toast('Welcome back, '+currentUser.name.split(' ')[0]);
+    launchApp();
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+  finally{btn.disabled=false;btn.textContent='Sign In';}
+}
+async function sendOTP(){
+  const email=document.getElementById('r-email').value.trim();
+  if(!email||!email.includes('@')){toast('Enter a valid email');return;}
+  const btn=document.getElementById('r-otp-btn');btn.disabled=true;btn.textContent='Sending...';
+  try{
+    const res=await api('POST','/api/auth/send-otp',{email});
+    pendingOtpEmail=email;
+    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
+    const hint=document.getElementById('r-otp-hint');
+    if(res.demo_otp){
+      hint.innerHTML=`Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>`;
+      res.demo_otp.toString().split('').forEach((d,i)=>{const el=document.getElementById('otp'+i);if(el){el.value=d;el.classList.add('otp-filled');}});
+      showRStep('r-step-otp');toast('Code filled — click Verify');
+    }else{
+      hint.innerHTML='Check your inbox (also check spam)';
+      showRStep('r-step-otp');setTimeout(()=>document.getElementById('otp0').focus(),150);
+      toast('Verification code sent');
+    }
+  }catch(err){toast('Error: '+err.message);}
+  finally{btn.disabled=false;btn.textContent='Send Verification Code';}
+}
+async function verifyOTP(){
+  const otp=[0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
+  if(otp.length<6){toast('Enter all 6 digits');return;}
+  const btn=document.getElementById('r-verify-btn');
+  btn.disabled=true;btn.textContent='Verifying...';
+  try{
+    await api('POST','/api/auth/verify-otp',{email:pendingOtpEmail,otp});
+    pendingOtp=otp;
+    document.getElementById('r-course').innerHTML='<option value="">Select your course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    showRStep('r-step-profile');toast('Email verified!');
+  }catch(err){
+    [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='var(--red)';setTimeout(()=>el.style.borderColor='',1500);});
+    document.getElementById('otp0').focus();toast('Incorrect code — try again');
+  }finally{btn.disabled=false;btn.textContent='Verify Code';}
+}
+async function doRegister(){
+  const name=document.getElementById('r-name').value.trim();
+  const username=document.getElementById('r-username').value.trim();
+  const course=document.getElementById('r-course').value;
+  const college=document.getElementById('r-college').value.trim();
+  const password=document.getElementById('r-pass').value;
+  const errEl=document.getElementById('r-err');
+  if(!name||!username||!course||!college||!password){errEl.textContent='Please fill all required fields';errEl.classList.remove('hidden');return;}
+  if(password.length<6){errEl.textContent='Password must be at least 6 characters';errEl.classList.remove('hidden');return;}
+  errEl.classList.add('hidden');
+  let avatar='';const af=document.getElementById('r-avatar').files[0];if(af)avatar=await toBase64(af);
+  const btn=document.getElementById('r-submit');btn.disabled=true;btn.textContent='Creating account...';
+  try{
+    const res=await api('POST','/api/auth/register',{email:pendingOtpEmail,otp:pendingOtp,name,username,course,college,password,avatar});
+    token=res.token;currentUser=res.user;localStorage.setItem('es_token',token);
+    toast('Welcome to TevetVault, '+currentUser.name.split(' ')[0]+'!');launchApp();
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+  finally{btn.disabled=false;btn.textContent='Create Account';}
+}
+function doLogout(){
+  token='';currentUser=null;localStorage.removeItem('es_token');
+  document.getElementById('app-wrap').classList.add('hidden');
+  document.getElementById('auth-screen').style.display='flex';
+  toast('Signed out');
+}
+
+// ═══════════════════════════════════════════════
+//  FORGOT PASSWORD
+// ═══════════════════════════════════════════════
+function showForgotPassword(){
+  fpEmail='';fpOtp='';
+  const loginEmail=document.getElementById('l-email').value.trim();
+  document.getElementById('fp-email').value=loginEmail||'';
+  document.getElementById('fp-err1').classList.add('hidden');
+  [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('fp-otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='';});
+  document.getElementById('fp-newpass').value='';
+  document.getElementById('fp-confirmpass').value='';
+  document.getElementById('fp-err3').classList.add('hidden');
+  fpShowStep('fp-step-email');openModal('m-forgot');
+}
+function fpShowStep(id){
+  ['fp-step-email','fp-step-otp','fp-step-newpass'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
 async function fpSendOTP(){
   const email=document.getElementById('fp-email').value.trim();
   const errEl=document.getElementById('fp-err1');
-  if(!email||!email.includes('@')){errEl.textContent='Enter a valid email address';errEl.classList.remove('hidden');return;}
+  if(!email||!email.includes('@')){errEl.textContent='Enter a valid email';errEl.classList.remove('hidden');return;}
   const btn=document.getElementById('fp-send-btn');btn.disabled=true;btn.textContent='Sending...';
   try{
     const res=await api('POST','/api/auth/forgot-password',{email});
     fpEmail=email;
-    const fpHint=document.getElementById('fp-otp-hint');
+    const hint=document.getElementById('fp-otp-hint');
     if(res.demo_otp){
-      fpHint.innerHTML=`Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>`;
-      // Auto fill forgot password OTP boxes
-      const digits=res.demo_otp.toString().split('');
-      digits.forEach((d,i)=>{
-        const el=document.getElementById('fp-otp'+i);
-        if(el){el.value=d;el.classList.add('otp-filled');}
-      });
-      fpShowStep('fp-step-otp');
-      toast('Code filled automatically — click Verify');
-    } else {
-      fpHint.innerHTML='Check your inbox (also check spam)';
-      fpShowStep('fp-step-otp');
-      setTimeout(()=>document.getElementById('fp-otp0').focus(),150);
-      toast('Reset code sent to your email');
+      hint.innerHTML=`Code: <strong style="letter-spacing:4px;font-size:16px">${res.demo_otp}</strong>`;
+      res.demo_otp.toString().split('').forEach((d,i)=>{const el=document.getElementById('fp-otp'+i);if(el){el.value=d;el.classList.add('otp-filled');}});
+      fpShowStep('fp-step-otp');toast('Code filled — click Verify');
+    }else{
+      hint.innerHTML='Check your inbox (also check spam)';
+      fpShowStep('fp-step-otp');setTimeout(()=>document.getElementById('fp-otp0').focus(),150);
+      toast('Reset code sent');
     }
     errEl.classList.add('hidden');
   }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
@@ -1019,33 +1030,37 @@ async function fpVerifyOTP(){
   const btn=document.getElementById('fp-verify-btn');btn.disabled=true;btn.textContent='Verifying...';
   try{
     await api('POST','/api/auth/verify-otp',{email:fpEmail,otp});
-    fpOtp=otp;fpShowStep('fp-step-newpass');toast('Code verified — set your new password');
+    fpOtp=otp;fpShowStep('fp-step-newpass');toast('Code verified!');
   }catch(err){
     [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById('fp-otp'+i);el.value='';el.classList.remove('otp-filled');el.style.borderColor='var(--red)';setTimeout(()=>el.style.borderColor='',1500);});
-    document.getElementById('fp-otp0').focus();toast('Incorrect code — try again');
+    document.getElementById('fp-otp0').focus();toast('Incorrect code');
   }finally{btn.disabled=false;btn.textContent='Verify Code';}
 }
 async function fpResetPassword(){
-  const newPass=document.getElementById('fp-newpass').value,confirm=document.getElementById('fp-confirmpass').value;
+  const newPass=document.getElementById('fp-newpass').value;
+  const confirm=document.getElementById('fp-confirmpass').value;
   const errEl=document.getElementById('fp-err3');
-  if(!newPass||!confirm){errEl.textContent='Please fill both fields';errEl.classList.remove('hidden');return;}
+  if(!newPass||!confirm){errEl.textContent='Fill both fields';errEl.classList.remove('hidden');return;}
   if(newPass.length<6){errEl.textContent='Password must be at least 6 characters';errEl.classList.remove('hidden');return;}
   if(newPass!==confirm){errEl.textContent='Passwords do not match';errEl.classList.remove('hidden');return;}
   errEl.classList.add('hidden');
   const btn=document.getElementById('fp-reset-btn');btn.disabled=true;btn.textContent='Resetting...';
   try{
     await api('POST','/api/auth/reset-password',{email:fpEmail,otp:fpOtp,newPassword:newPass});
-    closeModal('m-forgot');toast('Password reset! Please sign in with your new password');
+    closeModal('m-forgot');toast('Password reset! Please sign in');
   }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
   finally{btn.disabled=false;btn.textContent='Reset Password';}
 }
 
-// APP LAUNCH
+// ═══════════════════════════════════════════════
+//  APP LAUNCH
+// ═══════════════════════════════════════════════
 async function launchApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app-wrap').classList.remove('hidden');
   if(currentUser.role==='admin')document.getElementById('nav-admin').classList.remove('hidden');
   await loadCourses();updateTopbarAvatar();renderHome();switchPage('home');
+  setTimeout(()=>{loadNotifications();loadAnnouncements();},1500);
 }
 async function tryRestoreSession(){
   if(!token)return false;
@@ -1053,24 +1068,10 @@ async function tryRestoreSession(){
   catch{token='';localStorage.removeItem('es_token');return false;}
 }
 
-// COURSES
+// ═══════════════════════════════════════════════
+//  COURSES
+// ═══════════════════════════════════════════════
 async function loadCourses(){try{allCourses=await api('GET','/api/courses');populateUploadCourseSelect();}catch{}}
-
-function toggleUploadFields(){
-  const type=document.getElementById('up-type').value;
-  const notesFields=document.getElementById('up-notes-fields');
-  const examFields=document.getElementById('up-exam-fields');
-  if(type==='Notes'){
-    notesFields.classList.remove('hidden');
-    examFields.classList.add('hidden');
-  } else if(type==='Examination'){
-    notesFields.classList.add('hidden');
-    examFields.classList.remove('hidden');
-  } else {
-    notesFields.classList.add('hidden');
-    examFields.classList.add('hidden');
-  }
-}
 function populateUploadCourseSelect(){
   document.getElementById('up-course').innerHTML='<option value="">Select course</option>'+allCourses.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
@@ -1079,39 +1080,36 @@ function fillSubjects(cid,sid){
   document.getElementById(sid).innerHTML='<option value="">Select subject</option>'+(c?c.subjects.map(s=>`<option value="${s}">${s}</option>`).join(''):'');
 }
 function courseColorClass(i){return 'cc-'+(i%8);}
+function toggleUploadFields(){
+  const type=document.getElementById('up-type').value;
+  document.getElementById('up-notes-fields').classList.toggle('hidden',type!=='Notes');
+  document.getElementById('up-exam-fields').classList.toggle('hidden',type!=='Examination');
+}
 
-// PAGE NAVIGATION — with admin guard
+// ═══════════════════════════════════════════════
+//  PAGE NAVIGATION
+// ═══════════════════════════════════════════════
 function switchPage(page){
-  if(page==='admin'&&(!currentUser||currentUser.role!=='admin')){toast('Access denied — admins only');page='home';}
+  if(page==='admin'&&(!currentUser||currentUser.role!=='admin')){toast('Access denied');page='home';}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
   const nb=document.getElementById('nav-'+page);if(nb)nb.classList.add('active');
   if(page==='home')renderHome();
   if(page==='browse'){renderBrowsePills();loadBrowse();}
-  if(page==='uploads')loadMyUploads();
+  if(page==='uploads'){currentFilesTab='uploads';loadMyUploads();}
   if(page==='profile')renderProfile();
   if(page==='admin')renderAdmin();
   document.getElementById('page-'+page).scrollTop=0;
 }
-  async function renderHome() {
-  document.getElementById('h-name').textContent = currentUser.name.split(' ')[0];
 
-  // Show announcement banner on Home page
-  await loadAnnouncements();
-
-  // rest of your existing code...
-  }
-// HOME
+// ═══════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════
 async function renderHome(){
   document.getElementById('h-name').textContent=currentUser.name.split(' ')[0];
-  // Sort courses — student's registered course comes first
-  const studentCourse = currentUser.course;
-  allCourses.sort((a,b)=>{
-    if(a.id===studentCourse) return -1;
-    if(b.id===studentCourse) return 1;
-    return 0;
-  });
+  const studentCourse=currentUser.course;
+  allCourses.sort((a,b)=>{if(a.id===studentCourse)return -1;if(b.id===studentCourse)return 1;return 0;});
   const WA_SVG=`<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
   document.getElementById('h-courses').innerHTML=allCourses.map((c,i)=>`
     <div class="course-card" onclick="goToCourse('${c.id}')" style="${c.id===studentCourse?'border:2px solid var(--brand);box-shadow:0 0 0 3px var(--brand-light)':''}">
@@ -1128,42 +1126,56 @@ async function renderHome(){
     const mats=await api('GET','/api/materials?sort=downloads');
     document.getElementById('h-mats').innerHTML=mats.slice(0,5).map(matCard).join('')||emptyState('No materials yet','Be the first to upload');
   }catch{document.getElementById('h-mats').innerHTML='<p class="text-sm text-muted">Could not load materials</p>';}
+  loadAnnouncements();
 }
 async function homeSearch(){
   const q=document.getElementById('h-search').value.trim();
   if(!q){renderHome();return;}
-  try{
-    const mats=await api('GET','/api/materials?search='+encodeURIComponent(q));
-    document.getElementById('h-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No results for "'+q+'"','Try different keywords');
-  }catch{}
+  try{const mats=await api('GET','/api/materials?search='+encodeURIComponent(q));document.getElementById('h-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No results','Try different keywords');}catch{}
 }
 function goToCourse(id){browseFilter={course:id,subject:'all'};switchPage('browse');}
 
-// BROWSE
+// ═══════════════════════════════════════════════
+//  BROWSE
+// ═══════════════════════════════════════════════
 function renderBrowsePills(){
   document.getElementById('b-course-pills').innerHTML=`<button class="pill ${browseFilter.course==='all'?'active':''}" onclick="setBCourse('all')">All Courses</button>`+allCourses.map(c=>`<button class="pill ${browseFilter.course===c.id?'active':''}" onclick="setBCourse('${c.id}')">${c.name}</button>`).join('');
   const sp=document.getElementById('b-subject-pills');
-  if(browseFilter.course==='all'){sp.innerHTML='';return;}
   const c=allCourses.find(x=>x.id===browseFilter.course);
-  sp.innerHTML=c?`<button class="pill ${browseFilter.subject==='all'?'active':''}" onclick="setBSubject('all')">All Subjects</button>`+c.subjects.map(s=>`<button class="pill ${browseFilter.subject===s?'active':''}" onclick="setBSubject('${s}')">${s}</button>`).join(''):'';
+  sp.innerHTML=browseFilter.course==='all'?'':`<button class="pill ${browseFilter.subject==='all'?'active':''}" onclick="setBSubject('all')">All Subjects</button>`+(c?c.subjects.map(s=>`<button class="pill ${browseFilter.subject===s?'active':''}" onclick="setBSubject('${s}')">${s}</button>`).join(''):'');
+  renderLevelPills();
 }
 function setBCourse(id){browseFilter={course:id,subject:'all'};renderBrowsePills();loadBrowse();}
 function setBSubject(s){browseFilter.subject=s;renderBrowsePills();loadBrowse();}
+function renderLevelPills(){
+  const el=document.getElementById('b-level-pills');if(!el)return;
+  ['all','Level 1','Level 2','Level 3','Level 4'].forEach(l=>{
+    const btn=document.createElement('button');
+    btn.className='pill'+(browseLevel===l?' active':'');
+    btn.textContent=l==='all'?'All Levels':l;
+    btn.onclick=()=>setBLevel(l);
+    el.appendChild(btn);
+  });
+}
+function setBLevel(level){browseLevel=level;const el=document.getElementById('b-level-pills');el.innerHTML='';renderLevelPills();loadBrowse();}
 async function loadBrowse(){
   const q=document.getElementById('b-search').value.trim();
   let url='/api/materials?';
   if(browseFilter.course!=='all')url+=`course=${browseFilter.course}&`;
   if(browseFilter.subject!=='all')url+=`subject=${encodeURIComponent(browseFilter.subject)}&`;
+  if(browseLevel!=='all')url+=`level=${encodeURIComponent(browseLevel)}&`;
   if(q)url+=`search=${encodeURIComponent(q)}&`;
   document.getElementById('b-mats').innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
   try{
     const mats=await api('GET',url);
     document.getElementById('b-count').textContent=`${mats.length} material${mats.length!==1?'s':''}`;
-    document.getElementById('b-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No materials found','Be the first to upload for this filter');
+    document.getElementById('b-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No materials found','Try a different filter');
   }catch{document.getElementById('b-mats').innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
 
-// MATERIAL CARD
+// ═══════════════════════════════════════════════
+//  MATERIAL CARD
+// ═══════════════════════════════════════════════
 const FILE_SVG={
   pdf:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
   doc:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
@@ -1178,6 +1190,7 @@ function matCard(m){
   const uploaderName=m.uploader_name||m.uploaderName||'unknown';
   const dateStr=m.created_at||m.createdAt||m.date||new Date().toISOString();
   const d=new Date(dateStr).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const isNew=(new Date()-new Date(dateStr))<7*24*60*60*1000;
   return `<div class="mat-card" onclick="viewMaterial('${m.id}')">
     <div class="flex gap-3">
       <div class="file-icon fi-${ft}">${FILE_SVG[ft]||FILE_SVG.other}</div>
@@ -1186,107 +1199,123 @@ function matCard(m){
         <div class="mat-desc">${m.description}</div>
         <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
           ${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}
-          <span class="badge badge-gray" style="font-size:10px">${m.subject}</span>
+          <span class="badge badge-gray" style="font-size:10px">${m.subject||''}</span>
+          ${m.level?`<span class="badge badge-amber" style="font-size:10px">${m.level}</span>`:''}
         </div>
         <div class="mat-meta">
           <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${uploaderName}</span>
-          <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${m.downloads}</span>
+          <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${m.downloads||0}</span>
           <span class="mat-stat"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${d}</span>
-          ${m.size?`<span class="mat-stat">${m.size}</span>`:''}
+          ${isNew?`<span class="badge badge-green" style="font-size:10px">New</span>`:''}
         </div>
       </div>
     </div>
   </div>`;
 }
+
+// ═══════════════════════════════════════════════
+//  VIEW MATERIAL
+// ═══════════════════════════════════════════════
 async function viewMaterial(id){
   try{
-    const mats=await api('GET','/api/materials'),m=mats.find(x=>x.id===id);if(!m)return;
+    const mats=await api('GET','/api/materials');
+    const m=mats.find(x=>x.id===id);if(!m)return;
     const c=allCourses.find(x=>x.id===m.course);
     const ft=m.file_type||m.fileType||'other';
     const uploaderName=m.uploader_name||m.uploaderName||'unknown';
     const dateStr=m.created_at||m.createdAt||m.date||new Date().toISOString();
     const d=new Date(dateStr).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    const isOwner=(m.uploader_id||m.uploaderId)===currentUser.id,isAdmin=currentUser.role==='admin';
+    const isOwner=(m.uploader_id||m.uploaderId)===currentUser.id;
+    const isAdmin=currentUser.role==='admin';
     document.getElementById('m-view-body').innerHTML=`
       <div class="flex gap-3 items-center mb-4">
         <div class="file-icon fi-${ft}" style="width:48px;height:48px;flex-shrink:0">${FILE_SVG[ft]||FILE_SVG.other}</div>
         <div style="flex:1;min-width:0">
           <h3 style="font-size:15px;font-weight:700;line-height:1.3">${m.title}</h3>
-          <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand">${c.name}</span>`:''}<span class="badge badge-gray">${m.subject}</span></div>
+          <div class="flex gap-2 mt-1 flex-wrap">
+            ${c?`<span class="badge badge-brand">${c.name}</span>`:''}
+            <span class="badge badge-gray">${m.subject||''}</span>
+            ${m.level?`<span class="badge badge-amber">${m.level}</span>`:''}
+          </div>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">${m.description}</p>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">${m.description||''}</p>
       <div style="background:var(--bg);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px">
         <div class="detail-row"><span class="detail-key">Uploaded by</span><span class="detail-val">@${uploaderName}</span></div>
         <div class="detail-row"><span class="detail-key">Date</span><span class="detail-val">${d}</span></div>
-        <div class="detail-row"><span class="detail-key">Downloads</span><span class="detail-val" style="color:var(--brand);font-weight:700">${m.downloads}</span></div>
+        <div class="detail-row"><span class="detail-key">Downloads</span><span class="detail-val" style="color:var(--brand);font-weight:700">${m.downloads||0}</span></div>
         ${m.size?`<div class="detail-row"><span class="detail-key">File size</span><span class="detail-val">${m.size}</span></div>`:''}
       </div>
       <div class="flex gap-2 mb-2">
-        <button class="btn btn-outline flex-1" onclick="openViewer('${m.id}','${(m.title||'').replace(/'/g,"\'")}','${m.file_type||m.fileType||'other'}')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          View
+        <button class="btn btn-outline flex-1" onclick="openViewer('${m.id}','${(m.title||'').replace(/'/g,"\\'")}','${ft}')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View
         </button>
         <button class="btn btn-primary flex-1" id="dl-btn-${m.id}" onclick="downloadMat('${m.id}')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download
         </button>
       </div>
-      <button class="btn btn-ghost w-full" onclick="closeModal('m-view')">Close</button>
-      ${isOwner||isAdmin?`<button class="btn btn-danger w-full mt-2" onclick="deleteMat('${m.id}')">Delete Material</button>`:''}`;
+      <div class="flex gap-2 mb-2">
+        <button class="share-btn flex-1" onclick="shareMaterial('${m.id}','${(m.title||'').replace(/'/g,"\\'")}')">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share
+        </button>
+        <button class="btn btn-ghost flex-1" id="bm-btn-${m.id}" onclick="toggleBookmark('${m.id}')">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          <span id="bm-label-${m.id}" style="margin-left:4px">Bookmark</span>
+        </button>
+      </div>
+      <div id="rating-area-${m.id}" style="margin-bottom:10px"></div>
+      <button class="btn btn-ghost w-full mb-2" onclick="closeModal('m-view')">Close</button>
+      <div class="flex gap-2">
+        <button class="report-btn flex-1" onclick="openReport('${m.id}')">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Report
+        </button>
+        ${isOwner||isAdmin?`<button class="btn btn-danger flex-1" onclick="deleteMat('${m.id}')">Delete</button>`:'<span></span>'}
+      </div>`;
     openModal('m-view');
-  }catch{toast('Error loading material');}
+    loadRatingArea(m.id);
+    loadBookmarkState(m.id);
+  }catch(e){toast('Error loading material: '+e.message);}
 }
+
+// ═══════════════════════════════════════════════
+//  DOWNLOAD
+// ═══════════════════════════════════════════════
 async function downloadMat(id){
   const btn=document.getElementById('dl-btn-'+id);
   const dlIcon='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-  if(btn){btn.disabled=true;btn.textContent='Starting download...';}
+  if(btn){btn.disabled=true;btn.textContent='Starting...';}
   try{
     const res=await api('GET',`/api/materials/${id}/download`);
-    if(res.demo){
-      toast('Demo material — no real file attached yet');
-    } else if(res.url){
-      // Fetch the file as blob and force download — prevents opening in new tab
-      try {
-        const resp = await fetch(res.url);
-        const blob = await resp.blob();
-        const blobUrl = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = res.filename || 'tevetvault-material';
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          window.URL.revokeObjectURL(blobUrl);
-          document.body.removeChild(a);
-        }, 1000);
-        toast('Download started — check your downloads folder');
-      } catch(e) {
-        // Fallback if blob fails
-        window.open(res.url, '_blank');
-        toast('File opened — save it manually');
-      }
+    if(res.demo){toast('Demo material — no real file attached');}
+    else if(res.url){
+      try{
+        const resp=await fetch(res.url);
+        const blob=await resp.blob();
+        const blobUrl=window.URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=blobUrl;a.download=res.filename||'material';a.style.display='none';
+        document.body.appendChild(a);a.click();
+        setTimeout(()=>{window.URL.revokeObjectURL(blobUrl);document.body.removeChild(a);},1000);
+        toast('Download started!');
+      }catch{window.open(res.url,'_blank');toast('File opened — save it manually');}
     }
-    closeModal('m-view');
-    renderHome();
+    closeModal('m-view');renderHome();
     if(document.getElementById('page-uploads').classList.contains('active'))loadMyUploads();
   }catch(err){toast('Download failed: '+err.message);}
   finally{if(btn){btn.disabled=false;btn.innerHTML=dlIcon+' Download';}}
 }
 async function deleteMat(id){
-  if(!confirm('Delete this material? This cannot be undone.'))return;
+  if(!confirm('Delete this material?'))return;
   try{
-    await api('DELETE','/api/materials/'+id);
-    closeModal('m-view');toast('Material deleted');
-    renderHome();
+    await api('DELETE','/api/materials/'+id);closeModal('m-view');toast('Deleted');
+    renderHome();loadCourses();
     if(document.getElementById('page-uploads').classList.contains('active'))loadMyUploads();
     if(document.getElementById('page-browse').classList.contains('active'))loadBrowse();
-    await loadCourses();
   }catch(err){toast('Error: '+err.message);}
 }
 
-// UPLOAD
+// ═══════════════════════════════════════════════
+//  UPLOAD
+// ═══════════════════════════════════════════════
 function openUpload(){populateUploadCourseSelect();openModal('m-upload');}
 function fileChosen(input){
   selectedFile=input.files[0]||null;
@@ -1298,67 +1327,86 @@ async function submitUpload(){
   const type=document.getElementById('up-type').value;
   const desc=document.getElementById('up-desc').value.trim();
   const errEl=document.getElementById('up-err');
-
-  if(!course||!level||!type||!desc||!selectedFile){
-    errEl.textContent='Please fill all required fields and select a file';
-    errEl.classList.remove('hidden');return;
-  }
-
-  let subject='';
-  let fullDesc=desc;
-
+  if(!course||!level||!type||!desc||!selectedFile){errEl.textContent='Please fill all required fields and select a file';errEl.classList.remove('hidden');return;}
+  let subject='',fullDesc=desc;
   if(type==='Notes'){
     subject=document.getElementById('up-subject').value;
     if(!subject){errEl.textContent='Please select a subject';errEl.classList.remove('hidden');return;}
     fullDesc=`[${level}] [Notes] [${subject}] ${desc}`;
-  } else if(type==='Examination'){
+  }else if(type==='Examination'){
     const examType=document.getElementById('up-exam-type').value;
     const examYear=document.getElementById('up-exam-year').value;
     if(!examType||!examYear){errEl.textContent='Please select examination type and year';errEl.classList.remove('hidden');return;}
     subject=`${examType} Paper ${examYear}`;
     fullDesc=`[${level}] [${examType} Paper] [${examYear}] ${desc}`;
   }
-
   errEl.classList.add('hidden');
-  const fd=new FormData();fd.append('course',course);fd.append('subject',subject);fd.append('description',fullDesc);fd.append('file',selectedFile);
+  const fd=new FormData();fd.append('course',course);fd.append('subject',subject);fd.append('level',level);fd.append('description',fullDesc);fd.append('file',selectedFile);
   const btn=document.getElementById('up-btn'),prog=document.getElementById('up-prog'),fill=document.getElementById('up-fill'),ptxt=document.getElementById('up-ptxt');
   btn.disabled=true;prog.classList.remove('hidden');
   let pct=0;const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*15+5,88);fill.style.width=pct+'%';ptxt.textContent=`Uploading... ${Math.round(pct)}%`;},250);
   try{
-    await api('POST','/api/materials',fd,true);clearInterval(iv);fill.style.width='100%';ptxt.textContent='Done!';
-    await loadCourses();
+    await api('POST','/api/materials',fd,true);clearInterval(iv);fill.style.width='100%';ptxt.textContent='Done!';await loadCourses();
     setTimeout(()=>{
       closeModal('m-upload');selectedFile=null;
       document.getElementById('up-fname').textContent='Tap to select file';document.getElementById('up-fname').style.color='';
-      document.getElementById('up-drop').classList.remove('has-file');
-      document.getElementById('up-course').value='';
-      document.getElementById('up-level').value='';
-      document.getElementById('up-type').value='';
-      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';
-      document.getElementById('up-desc').value='';
-      document.getElementById('up-notes-fields').classList.add('hidden');
-      document.getElementById('up-exam-fields').classList.add('hidden');
-      if(document.getElementById('up-exam-type'))document.getElementById('up-exam-type').value='';
-      if(document.getElementById('up-exam-year'))document.getElementById('up-exam-year').value='';
+      document.getElementById('up-drop').classList.remove('has-file');document.getElementById('up-course').value='';
+      document.getElementById('up-level').value='';document.getElementById('up-type').value='';
+      document.getElementById('up-subject').innerHTML='<option value="">Select subject</option>';document.getElementById('up-desc').value='';
+      document.getElementById('up-notes-fields').classList.add('hidden');document.getElementById('up-exam-fields').classList.add('hidden');
       fill.style.width='0%';prog.classList.add('hidden');btn.disabled=false;
-      toast('Material uploaded successfully');renderHome();
+      toast('Uploaded successfully!');renderHome();
     },600);
   }catch(err){clearInterval(iv);errEl.textContent=err.message;errEl.classList.remove('hidden');prog.classList.add('hidden');btn.disabled=false;}
 }
 
-// MY UPLOADS
+// ═══════════════════════════════════════════════
+//  MY FILES
+// ═══════════════════════════════════════════════
 async function loadMyUploads(){
   const el=document.getElementById('u-list');
   el.innerHTML='<div class="loading-state"><div class="spinner"></div><p>Loading...</p></div>';
   try{
     const mats=await api('GET','/api/materials/my');
-    if(!mats.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">No uploads yet</div><div class="empty-sub">Share your first material with fellow students</div><button class="btn btn-primary mt-4" onclick="openUpload()">Upload Now</button></div>`;return;}
-    const total=mats.reduce((a,m)=>a+m.downloads,0);
-    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} file${mats.length!==1?'s':''} &middot; ${total} total downloads</div>`+mats.map(matCard).join('');
-  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load uploads</p>';}
+    if(!mats.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">No uploads yet</div><div class="empty-sub">Share your first material</div><button class="btn btn-primary mt-4" onclick="openUpload()">Upload Now</button></div>`;return;}
+    const total=mats.reduce((a,m)=>a+(m.downloads||0),0);
+    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} file${mats.length!==1?'s':''} · ${total} total downloads</div>`+mats.map(matCard).join('');
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
+}
+function switchFilesTab(tab){
+  currentFilesTab=tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(tab==='uploads')loadMyUploads();
+  else if(tab==='bookmarks')loadBookmarksTab();
+  else if(tab==='history')loadHistoryTab();
+}
+async function loadBookmarksTab(){
+  const el=document.getElementById('u-list');
+  el.innerHTML='<div class="loading-state"><div class="spinner"></div><p>Loading bookmarks...</p></div>';
+  try{
+    const mats=await api('GET','/api/bookmarks');
+    if(!mats.length){el.innerHTML='<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div class="empty-title">No bookmarks yet</div><div class="empty-sub">Tap Bookmark on any material to save it here</div></div>';return;}
+    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} bookmarked</div>`+mats.map(matCard).join('');
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
+}
+async function loadHistoryTab(){
+  const el=document.getElementById('u-list');
+  el.innerHTML='<div class="loading-state"><div class="spinner"></div><p>Loading history...</p></div>';
+  try{
+    const history=await api('GET','/api/history');
+    if(!history.length){el.innerHTML='<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="empty-title">No history yet</div><div class="empty-sub">Materials you download will appear here</div></div>';return;}
+    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${history.length} download${history.length!==1?'s':''}</div>`+
+      history.map(h=>`<div class="mat-card" style="cursor:default">
+        <div style="font-weight:500;font-size:14px">${h.material_title||'Unknown'}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">${new Date(h.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>`).join('');
+  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
 
-// PROFILE
+// ═══════════════════════════════════════════════
+//  PROFILE
+// ═══════════════════════════════════════════════
 async function renderProfile(){
   const c=allCourses.find(x=>x.id===currentUser.course);
   setAvatarEl(document.getElementById('p-avatar'),currentUser);
@@ -1366,7 +1414,7 @@ async function renderProfile(){
   document.getElementById('p-uname').textContent='@'+currentUser.username;
   document.getElementById('p-course').textContent=c?c.name:currentUser.course||'—';
   document.getElementById('p-college').textContent=currentUser.college||'—';
-  try{const mats=await api('GET','/api/materials/my');document.getElementById('p-uploads').textContent=mats.length;document.getElementById('p-dls').textContent=mats.reduce((a,m)=>a+m.downloads,0);}catch{}
+  try{const mats=await api('GET','/api/materials/my');document.getElementById('p-uploads').textContent=mats.length;document.getElementById('p-dls').textContent=mats.reduce((a,m)=>a+(m.downloads||0),0);}catch{}
 }
 function setAvatarEl(el,user){
   if(user.avatar){el.innerHTML=`<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover"/>`;}
@@ -1378,14 +1426,18 @@ function updateTopbarAvatar(){
   else el.textContent=currentUser.name.charAt(0).toUpperCase();
 }
 function openEditProfile(){
-  document.getElementById('e-name').value=currentUser.name;document.getElementById('e-uname').value=currentUser.username;document.getElementById('e-college').value=currentUser.college||'';
+  document.getElementById('e-name').value=currentUser.name;
+  document.getElementById('e-uname').value=currentUser.username;
+  document.getElementById('e-college').value=currentUser.college||'';
   const img=document.getElementById('e-avatar-img'),ph=document.getElementById('e-avatar-ph');
   if(currentUser.avatar){img.src=currentUser.avatar;img.style.display='block';ph.style.display='none';}
   else{img.style.display='none';ph.style.display='flex';}
   openModal('m-edit');
 }
 async function saveProfile(){
-  const name=document.getElementById('e-name').value.trim(),username=document.getElementById('e-uname').value.trim(),college=document.getElementById('e-college').value.trim();
+  const name=document.getElementById('e-name').value.trim();
+  const username=document.getElementById('e-uname').value.trim();
+  const college=document.getElementById('e-college').value.trim();
   if(!name||!username){toast('Name and username required');return;}
   let avatar=currentUser.avatar;const af=document.getElementById('e-avatar').files[0];if(af)avatar=await toBase64(af);
   try{
@@ -1393,33 +1445,172 @@ async function saveProfile(){
     currentUser={...currentUser,...updated};updateTopbarAvatar();closeModal('m-edit');renderProfile();toast('Profile updated');
   }catch(err){toast('Error: '+err.message);}
 }
-
-// CHANGE PASSWORD
 function openChangePassword(){
   document.getElementById('pw-current').value='';document.getElementById('pw-new').value='';document.getElementById('pw-confirm').value='';
   document.getElementById('pw-err').classList.add('hidden');openModal('m-password');
 }
 async function doChangePassword(){
-  const current=document.getElementById('pw-current').value,newPw=document.getElementById('pw-new').value,confirm=document.getElementById('pw-confirm').value;
+  const current=document.getElementById('pw-current').value;
+  const newPw=document.getElementById('pw-new').value;
+  const confirm=document.getElementById('pw-confirm').value;
   const errEl=document.getElementById('pw-err');
   if(!current||!newPw||!confirm){errEl.textContent='All fields required';errEl.classList.remove('hidden');return;}
-  if(newPw.length<6){errEl.textContent='New password must be at least 6 characters';errEl.classList.remove('hidden');return;}
-  if(newPw!==confirm){errEl.textContent='New passwords do not match';errEl.classList.remove('hidden');return;}
+  if(newPw.length<6){errEl.textContent='Password must be at least 6 characters';errEl.classList.remove('hidden');return;}
+  if(newPw!==confirm){errEl.textContent='Passwords do not match';errEl.classList.remove('hidden');return;}
   errEl.classList.add('hidden');
-  try{await api('PUT','/api/auth/change-password',{currentPassword:current,newPassword:newPw});closeModal('m-password');toast('Password changed successfully');}
+  try{await api('PUT','/api/auth/change-password',{currentPassword:current,newPassword:newPw});closeModal('m-password');toast('Password changed');}
   catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
 }
 
-// FEEDBACK
+// ═══════════════════════════════════════════════
+//  FEEDBACK
+// ═══════════════════════════════════════════════
 async function sendFeedback(){
-  const msg=document.getElementById('fb-msg').value.trim();if(!msg){toast('Please write a message first');return;}
+  const msg=document.getElementById('fb-msg').value.trim();
+  if(!msg){toast('Please write a message');return;}
   try{await api('POST','/api/feedback',{message:msg});document.getElementById('fb-msg').value='';toast('Feedback sent to admin');}
   catch(err){toast('Error: '+err.message);}
 }
-  
 
+// ═══════════════════════════════════════════════
+//  RATINGS
+// ═══════════════════════════════════════════════
+async function loadRatingArea(matId){
+  const el=document.getElementById('rating-area-'+matId);if(!el)return;
+  try{
+    const r=await api('GET','/api/ratings/'+matId);
+    currentRating=r.my_rating||0;
+    el.innerHTML=`<div style="background:var(--bg);border-radius:var(--radius);padding:10px 12px">
+      <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px">Rate this material</div>
+      <div class="flex items-center gap-2">
+        <div class="stars" id="stars-${matId}">
+          ${[1,2,3,4,5].map(n=>`<span class="star ${n<=currentRating?'filled':'empty'}" data-val="${n}" onclick="rateMaterial('${matId}',${n})" onmouseover="hoverStars('${matId}',${n})" onmouseout="resetStars('${matId}')">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </span>`).join('')}
+        </div>
+        <span class="rating-count">${r.average>0?r.average+' ('+r.count+' rating'+(r.count!==1?'s':'')+')'  :'No ratings yet'}</span>
+      </div>
+    </div>`;
+  }catch{}
+}
+function hoverStars(matId,val){for(let i=1;i<=5;i++){const s=document.querySelector(`#stars-${matId} [data-val="${i}"]`);if(s)s.className='star '+(i<=val?'filled':'empty');}}
+function resetStars(matId){for(let i=1;i<=5;i++){const s=document.querySelector(`#stars-${matId} [data-val="${i}"]`);if(s)s.className='star '+(i<=currentRating?'filled':'empty');}}
+async function rateMaterial(matId,stars){
+  try{await api('POST','/api/ratings',{material_id:matId,stars});currentRating=stars;toast(stars>=4?'Thanks for rating!':'Rating submitted');loadRatingArea(matId);}
+  catch(err){toast('Error: '+err.message);}
+}
 
-// ADMIN
+// ═══════════════════════════════════════════════
+//  BOOKMARKS
+// ═══════════════════════════════════════════════
+async function loadBookmarkState(matId){
+  try{
+    const bookmarks=await api('GET','/api/bookmarks');
+    const isBm=bookmarks.some(b=>b.id===matId);
+    const btn=document.getElementById('bm-btn-'+matId);
+    const label=document.getElementById('bm-label-'+matId);
+    if(btn)btn.classList.toggle('saved',isBm);
+    if(label)label.textContent=isBm?'Saved':'Bookmark';
+  }catch{}
+}
+async function toggleBookmark(matId){
+  try{
+    const res=await api('POST','/api/bookmarks/'+matId);
+    const btn=document.getElementById('bm-btn-'+matId);
+    const label=document.getElementById('bm-label-'+matId);
+    if(btn)btn.classList.toggle('saved',res.bookmarked);
+    if(label)label.textContent=res.bookmarked?'Saved':'Bookmark';
+    toast(res.bookmarked?'Bookmarked!':'Bookmark removed');
+  }catch(err){toast('Error: '+err.message);}
+}
+
+// ═══════════════════════════════════════════════
+//  SHARE
+// ═══════════════════════════════════════════════
+async function shareMaterial(matId,title){
+  const url=window.location.origin+'?material='+matId;
+  const text='Check out this material on TevetVault: '+title+'\n'+url;
+  if(navigator.share){try{await navigator.share({title,text:'Check this out on TevetVault',url});return;}catch{}}
+  try{await navigator.clipboard.writeText(text);toast('Link copied! Share it via WhatsApp or any app');}
+  catch{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
+}
+
+// ═══════════════════════════════════════════════
+//  REPORT
+// ═══════════════════════════════════════════════
+function openReport(matId){
+  reportingMatId=matId;
+  document.getElementById('report-reason').value='';
+  document.getElementById('report-err').classList.add('hidden');
+  openModal('m-report');
+}
+async function submitReport(){
+  const reason=document.getElementById('report-reason').value;
+  const errEl=document.getElementById('report-err');
+  if(!reason){errEl.textContent='Please select a reason';errEl.classList.remove('hidden');return;}
+  try{await api('POST','/api/reports',{material_id:reportingMatId,reason});closeModal('m-report');toast('Report submitted');}
+  catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+}
+
+// ═══════════════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════════════
+async function loadNotifications(){
+  try{
+    const notifs=await api('GET','/api/notifications');
+    const unread=notifs.filter(n=>!n.read).length;
+    const badge=document.getElementById('notif-badge');
+    if(badge){badge.textContent=unread;badge.classList.toggle('hidden',unread===0);}
+  }catch{}
+}
+async function openNotifications(){
+  openModal('m-notifications');
+  try{
+    const notifs=await api('GET','/api/notifications');
+    const el=document.getElementById('notif-list');
+    if(!notifs.length){el.innerHTML='<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="empty-title">No notifications</div><div class="empty-sub">You are all caught up</div></div>';return;}
+    el.innerHTML=notifs.map(n=>`<div style="padding:12px;border-bottom:1px solid var(--border);${!n.read?'background:var(--brand-light);':''};border-radius:var(--radius-sm);margin-bottom:4px">
+      <div style="font-size:13px;font-weight:${n.read?'400':'600'};color:var(--text);line-height:1.5">${n.message}</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(n.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+    </div>`).join('');
+    await api('PUT','/api/notifications/read');
+    const badge=document.getElementById('notif-badge');
+    if(badge){badge.textContent='0';badge.classList.add('hidden');}
+  }catch{}
+}
+async function markAllRead(){
+  try{await api('PUT','/api/notifications/read');const b=document.getElementById('notif-badge');if(b){b.textContent='0';b.classList.add('hidden');}}catch{}
+}
+
+// ═══════════════════════════════════════════════
+//  ANNOUNCEMENTS
+// ═══════════════════════════════════════════════
+async function loadAnnouncements(){
+  try{
+    const anns=await api('GET','/api/announcements');
+    const el=document.getElementById('announcement-area');
+    if(!el||!anns.length){if(el)el.innerHTML='';return;}
+    el.innerHTML=anns.slice(0,1).map(a=>`<div class="announcement-banner" onclick="toast('${a.message.replace(/'/g,"\\'")}')">
+      <div class="announcement-title">📢 ${a.title}</div>
+      <div class="announcement-msg">${a.message.length>80?a.message.slice(0,80)+'...':a.message}</div>
+    </div>`).join('');
+  }catch{}
+}
+async function sendAnnouncement(){
+  const title=document.getElementById('ann-title').value.trim();
+  const message=document.getElementById('ann-msg').value.trim();
+  const errEl=document.getElementById('ann-err');
+  if(!title||!message){errEl.textContent='Title and message required';errEl.classList.remove('hidden');return;}
+  try{
+    await api('POST','/api/announcements',{title,message});
+    document.getElementById('ann-title').value='';document.getElementById('ann-msg').value='';
+    closeModal('m-announcement');toast('Announcement sent to all students!');
+  }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
+}
+
+// ═══════════════════════════════════════════════
+//  ADMIN
+// ═══════════════════════════════════════════════
 function switchAdminTab(tab){
   adminTab=tab;
   document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses','feedback','announce'][i]===tab));
@@ -1439,19 +1630,18 @@ async function renderAdmin(){
 async function renderAdminOverview(el){
   try{
     const s=await api('GET','/api/admin/stats');
-    el.innerHTML=`
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <div class="stat-card"><div class="stat-icon" style="background:#eff4ff"><svg width="18" height="18" fill="none" stroke="var(--brand)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-value">${s.totalStudents}</div><div class="stat-label">Students</div></div>
-        <div class="stat-card"><div class="stat-icon" style="background:#ecfdf5"><svg width="18" height="18" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-value">${s.totalMaterials}</div><div class="stat-label">Materials</div></div>
-        <div class="stat-card"><div class="stat-icon" style="background:#fffbeb"><svg width="18" height="18" fill="none" stroke="var(--amber)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="stat-value">${s.totalDownloads}</div><div class="stat-label">Downloads</div></div>
-        <div class="stat-card"><div class="stat-icon" style="background:#fef2f2"><svg width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div class="stat-value">${s.totalCourses}</div><div class="stat-label">Courses</div></div>
-      </div>
-      <div class="card mb-3"><div class="card-header">Materials by Course</div><div class="card-body" style="padding-top:10px">
-        ${s.courseBreakdown.filter(c=>c.count>0).map(c=>`<div class="flex justify-between items-center mb-2"><span style="font-size:13px;font-weight:500">${c.name}</span><span class="badge badge-brand">${c.count}</span></div><div class="progress-bar mb-3"><div class="progress-fill" style="width:${s.totalMaterials?Math.round(c.count/s.totalMaterials*100):0}%"></div></div>`).join('')}
-      </div></div>
-      <div class="card"><div class="card-header">Top Uploaders</div><div class="card-body" style="padding:0 16px">
-        ${s.topUploaders.map((u,i)=>`<div class="detail-row"><div class="flex items-center gap-2"><span style="font-size:13px;color:var(--text-muted);font-weight:700;min-width:18px">${i+1}</span><span style="font-size:13px;font-weight:600">@${u.username}</span></div><span style="font-size:12px;color:var(--text-muted)">${u.count} upload${u.count!==1?'s':''}</span></div>`).join('')}
-      </div></div>`;
+    el.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="stat-card"><div class="stat-icon" style="background:#eff4ff"><svg width="18" height="18" fill="none" stroke="var(--brand)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-value">${s.totalStudents}</div><div class="stat-label">Students</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#ecfdf5"><svg width="18" height="18" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-value">${s.totalMaterials}</div><div class="stat-label">Materials</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fffbeb"><svg width="18" height="18" fill="none" stroke="var(--amber)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="stat-value">${s.totalDownloads}</div><div class="stat-label">Downloads</div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fef2f2"><svg width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div class="stat-value">${s.totalCourses}</div><div class="stat-label">Courses</div></div>
+    </div>
+    <div class="card mb-3"><div class="card-header">Materials by Course</div><div class="card-body" style="padding-top:10px">
+      ${s.courseBreakdown.filter(c=>c.count>0).map(c=>`<div class="flex justify-between items-center mb-2"><span style="font-size:13px;font-weight:500">${c.name}</span><span class="badge badge-brand">${c.count}</span></div><div class="progress-bar mb-3"><div class="progress-fill" style="width:${s.totalMaterials?Math.round(c.count/s.totalMaterials*100):0}%"></div></div>`).join('')}
+    </div></div>
+    <div class="card"><div class="card-header">Top Uploaders</div><div class="card-body" style="padding:0 16px">
+      ${s.topUploaders.map((u,i)=>`<div class="detail-row"><div class="flex items-center gap-2"><span style="font-size:13px;color:var(--text-muted);font-weight:700;min-width:18px">${i+1}</span><span style="font-size:13px;font-weight:600">@${u.username}</span></div><span style="font-size:12px;color:var(--text-muted)">${u.count} upload${u.count!==1?'s':''}</span></div>`).join('')}
+    </div></div>`;
   }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load stats</p>';}
 }
 async function renderAdminUsers(el){
@@ -1461,15 +1651,21 @@ async function renderAdminUsers(el){
       (users.map(u=>{const c=allCourses.find(x=>x.id===u.course);return `<div class="card mb-3"><div class="card-body">
         <div class="flex gap-3 items-center mb-3">
           <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--brand);overflow:hidden;flex-shrink:0">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover"/>`:`${u.name.charAt(0)}`}</div>
-          <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">${u.name}</div><div style="font-size:12px;color:var(--text-muted)">@${u.username} &middot; ${u.email}</div>
+          <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">${u.name}</div><div style="font-size:12px;color:var(--text-muted)">@${u.username} · ${u.email}</div>
           <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}${u.college?`<span class="badge badge-gray" style="font-size:10px">${u.college}</span>`:''}</div></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
           <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.uploads}</div><div class="stat-label">Uploads</div></div>
           <div class="stat-card" style="padding:10px;text-align:center"><div style="font-size:20px;font-weight:700">${u.totalDownloads}</div><div class="stat-label">Downloads</div></div>
         </div>
+        <button class="btn btn-danger w-full btn-sm" onclick="adminDeleteUser('${u.id}')">Delete User Account</button>
       </div></div>`;}).join('')||emptyState('No students yet',''));
   }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
+}
+async function adminDeleteUser(id){
+  if(!confirm('Delete this student account? This cannot be undone.'))return;
+  try{await api('DELETE','/api/admin/users/'+id);toast('User deleted');renderAdminUsers(document.getElementById('admin-body'));}
+  catch(err){toast('Error: '+err.message);}
 }
 async function renderAdminMaterials(el){
   try{
@@ -1477,10 +1673,10 @@ async function renderAdminMaterials(el){
     el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${mats.length} total materials</div>`+
       (mats.map(m=>{const c=allCourses.find(x=>x.id===m.course);return `<div class="card mb-2"><div class="card-body" style="padding:11px 14px">
         <div class="flex gap-3 items-start">
-          <div class="file-icon fi-${m.fileType||'other'}" style="width:34px;height:34px;flex-shrink:0">${FILE_SVG[m.fileType||'other']||FILE_SVG.other}</div>
+          <div class="file-icon fi-${m.file_type||'other'}" style="width:34px;height:34px;flex-shrink:0">${FILE_SVG[m.file_type||'other']||FILE_SVG.other}</div>
           <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</div>
-          <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}<span class="badge badge-gray" style="font-size:10px">${m.subject}</span></div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:500">@${m.uploaderName} &middot; ${m.downloads} downloads</div></div>
+          <div class="flex gap-2 mt-1 flex-wrap">${c?`<span class="badge badge-brand" style="font-size:10px">${c.name}</span>`:''}<span class="badge badge-gray" style="font-size:10px">${m.subject||''}</span>${m.level?`<span class="badge badge-amber" style="font-size:10px">${m.level}</span>`:''}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px">@${m.uploader_name||m.uploaderName||''} · ${m.downloads||0} downloads</div></div>
           <button class="btn btn-danger btn-sm" style="flex-shrink:0" onclick="adminDeleteMat('${m.id}')">Delete</button>
         </div>
       </div></div>`;}).join('')||emptyState('No materials yet',''));
@@ -1491,26 +1687,10 @@ async function adminDeleteMat(id){
   try{await api('DELETE','/api/materials/'+id);toast('Deleted');renderAdminMaterials(document.getElementById('admin-body'));}
   catch(err){toast('Error: '+err.message);}
 }
-async function renderAdminCourses(el){
-  await loadCourses();
-  const WA_SVG=`<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-  el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openCourseModal()">Add New Course</button>`+
-    allCourses.map((c,i)=>`<div class="card mb-3">
-      <div class="course-thumb" style="height:70px;border-radius:0">${c.image?`<img src="${c.image}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`}</div>
-      <div class="card-body">
-        <div class="flex justify-between items-start mb-2">
-          <div><div style="font-weight:700;font-size:14px">${c.name}</div><div style="font-size:11px;color:var(--text-muted)">${c.subjects.length} subjects &middot; ${c.materialCount||0} materials</div></div>
-          <div class="flex gap-2"><button class="btn btn-ghost btn-sm" onclick="openCourseModal('${c.id}')">Edit</button><button class="btn btn-danger btn-sm" onclick="adminDeleteCourse('${c.id}')">Delete</button></div>
-        </div>
-        <div style="font-size:11px;color:var(--text-muted);line-height:1.6">${c.subjects.join(' &middot; ')}</div>
-        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" class="course-wa-btn mt-2">${WA_SVG}WhatsApp Group</a>`:'<p style="font-size:11px;color:var(--text-muted);margin-top:6px">No WhatsApp link — edit to add one</p>'}
-      </div>
-    </div>`).join('');
-}
 async function renderAdminFeedback(el){
   try{
     const fb=await api('GET','/api/feedback');
-    if(!fb.length){el.innerHTML=emptyState('No feedback yet','Students have not sent any feedback');return;}
+    if(!fb.length){el.innerHTML=emptyState('No feedback yet','Students have not sent any messages');return;}
     el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${fb.length} message${fb.length!==1?'s':''}</div>`+
       fb.map(f=>`<div class="card mb-2"><div class="card-body" style="padding:12px 14px">
         <div style="font-weight:600;font-size:13px;margin-bottom:4px">${f.user_name||'Unknown'}</div>
@@ -1519,35 +1699,41 @@ async function renderAdminFeedback(el){
       </div></div>`).join('');
   }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
-
 async function renderAdminAnnounce(el){
   try{
     const anns=await api('GET','/api/announcements');
-    el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openModal('m-announcement')">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 000 6h20a3 3 0 000-6z"/><path d="M15 10c0 3.87-3.13 7-7 7s-7-3.13-7-7 3.13-7 7-7 7 3.13 7 7z"/></svg>
-      Send New Announcement
-    </button>` +
-    (anns.length?anns.map(a=>`<div class="card mb-2"><div class="card-body" style="padding:12px 14px">
-      <div class="flex justify-between items-start">
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:14px;margin-bottom:4px">📢 ${a.title}</div>
+    el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openModal('m-announcement')">Send New Announcement</button>`+
+      (anns.length?anns.map(a=>`<div class="card mb-2"><div class="card-body" style="padding:12px 14px">
+        <div class="flex justify-between items-start">
+          <div style="flex:1"><div style="font-weight:700;font-size:14px;margin-bottom:4px">📢 ${a.title}</div>
           <div style="font-size:13px;color:var(--text-muted);line-height:1.5">${a.message}</div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:6px">${new Date(a.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px">${new Date(a.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div></div>
+          <button class="btn btn-danger btn-sm" style="flex-shrink:0;margin-left:8px" onclick="deleteAnnouncement('${a.id}')">Delete</button>
         </div>
-        <button class="btn btn-danger btn-sm" style="flex-shrink:0;margin-left:8px" onclick="deleteAnnouncement('${a.id}')">Delete</button>
-      </div>
-    </div></div>`).join(''):emptyState('No announcements yet','Click the button above to send one'));
+      </div></div>`).join(''):emptyState('No announcements yet','Click the button above to send one'));
   }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
-  // Load announcements
 }
-  
-  
 async function deleteAnnouncement(id){
   if(!confirm('Delete this announcement?'))return;
   try{await api('DELETE','/api/announcements/'+id);toast('Deleted');renderAdminAnnounce(document.getElementById('admin-body'));}
   catch(err){toast('Error: '+err.message);}
 }
-
+async function renderAdminCourses(el){
+  await loadCourses();
+  const WA_SVG=`<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#128C7E"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openCourseModal()">Add New Course</button>`+
+    allCourses.map((c,i)=>`<div class="card mb-3">
+      <div class="course-thumb" style="height:70px;border-radius:0">${c.image?`<img src="${c.image}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="course-thumb-placeholder ${courseColorClass(i)}"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>`}</div>
+      <div class="card-body">
+        <div class="flex justify-between items-start mb-2">
+          <div><div style="font-weight:700;font-size:14px">${c.name}</div><div style="font-size:11px;color:var(--text-muted)">${c.subjects.length} subjects · ${c.materialCount||0} materials</div></div>
+          <div class="flex gap-2"><button class="btn btn-ghost btn-sm" onclick="openCourseModal('${c.id}')">Edit</button><button class="btn btn-danger btn-sm" onclick="adminDeleteCourse('${c.id}')">Delete</button></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);line-height:1.6">${c.subjects.join(' · ')}</div>
+        ${c.whatsapp?`<a href="${c.whatsapp}" target="_blank" class="course-wa-btn mt-2">${WA_SVG}WhatsApp Group</a>`:''}
+      </div>
+    </div>`).join('');
+}
 function openCourseModal(id){
   editingCourseId=id||null;const c=id?allCourses.find(x=>x.id===id):null;
   document.getElementById('mc-title').textContent=id?'Edit Course':'Add Course';
@@ -1563,7 +1749,8 @@ function previewCourseImage(input){
   const r=new FileReader();r.onload=e=>{const p=document.getElementById('mc-img-preview');p.src=e.target.result;p.style.display='block';document.getElementById('mc-img-ph').style.display='none';};r.readAsDataURL(f);
 }
 async function saveCourse(){
-  const name=document.getElementById('mc-name').value.trim(),whatsapp=document.getElementById('mc-wa').value.trim();
+  const name=document.getElementById('mc-name').value.trim();
+  const whatsapp=document.getElementById('mc-wa').value.trim();
   const subjects=document.getElementById('mc-subjects').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
   if(!name){toast('Course name required');return;}
   let image='';const imgFile=document.getElementById('mc-img').files[0];
@@ -1581,380 +1768,49 @@ async function adminDeleteCourse(id){
   catch(err){toast('Error: '+err.message);}
 }
 
-
-// HELPERS
-function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsDataURL(file);});}
-function previewAvatar(inputId,imgId,phId){
-  const f=document.getElementById(inputId).files[0];if(!f)return;
-  const r=new FileReader();r.onload=e=>{const img=document.getElementById(imgId);img.src=e.target.result;img.style.display='block';document.getElementById(phId).style.display='none';};r.readAsDataURL(f);
-}
-function emptyState(title,sub){return `<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;}
-
-// FILE VIEWER
-let viewerMatId = null;
-
-async function openViewer(id, title, fileType) {
-  viewerMatId = id;
-  document.getElementById('viewer-title').textContent = title;
+// ═══════════════════════════════════════════════
+//  FILE VIEWER
+// ═══════════════════════════════════════════════
+async function openViewer(id,title,fileType){
+  viewerMatId=id;
+  document.getElementById('viewer-title').textContent=title;
   document.getElementById('file-viewer').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-
-  const body = document.getElementById('viewer-body');
-  body.innerHTML = '<div class="viewer-loading"><div class="spinner"></div><span>Loading file...</span></div>';
-
-  try {
-    // Get signed URL from server
-    const res = await api('GET', `/api/materials/${id}/download`);
-
-    if (res.demo || !res.url) {
-      // No real file — show unsupported message
-      body.innerHTML = `<div class="viewer-unsupported">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <h3>Preview not available</h3>
-        <p>This is a demo material with no real file attached.<br/>Real uploaded files can be previewed here.</p>
-      </div>`;
-      return;
-    }
-
-    const url = res.url;
-    const ft = fileType || 'other';
-
-    if (ft === 'img') {
-      // Show image directly
-      body.innerHTML = `<img src="${url}" class="viewer-img" alt="${title}" onerror="this.parentElement.innerHTML='<div class=viewer-unsupported><h3>Could not load image</h3></div>'"/>`;
-    } else if (ft === 'pdf') {
-      // Show PDF in iframe using Google Docs viewer as fallback
-      body.innerHTML = `
-        <div class="viewer-loading" id="viewer-spinner"><div class="spinner"></div><span>Loading PDF...</span></div>
-        <iframe class="viewer-iframe" id="viewer-iframe"
-          src="https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true"
-          onload="document.getElementById('viewer-spinner')&&(document.getElementById('viewer-spinner').style.display='none')"
-          onerror="showViewerFallback('${url}')">
-        </iframe>`;
-    } else if (ft === 'doc') {
-      // Word docs via Google Docs viewer
-      body.innerHTML = `
-        <div class="viewer-loading" id="viewer-spinner"><div class="spinner"></div><span>Loading document...</span></div>
-        <iframe class="viewer-iframe" id="viewer-iframe"
-          src="https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true"
-          onload="document.getElementById('viewer-spinner')&&(document.getElementById('viewer-spinner').style.display='none')"
-          onerror="showViewerFallback('${url}')">
-        </iframe>`;
-    } else if (ft === 'ppt') {
-      // PowerPoint via Office Online viewer
-      body.innerHTML = `
-        <div class="viewer-loading" id="viewer-spinner"><div class="spinner"></div><span>Loading presentation...</span></div>
-        <iframe class="viewer-iframe" id="viewer-iframe"
-          src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}"
-          onload="document.getElementById('viewer-spinner')&&(document.getElementById('viewer-spinner').style.display='none')"
-          onerror="showViewerFallback('${url}')">
-        </iframe>`;
-    } else if (ft === 'txt') {
-      // Fetch text and display directly
-      try {
-        const resp = await fetch(url);
-        const text = await resp.text();
-        body.innerHTML = `<div style="width:100%;max-width:720px;margin:0 auto;padding:20px">
-          <pre style="background:#1a1a1a;color:#e2e8f0;padding:20px;border-radius:10px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;font-family:'Courier New',monospace">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
-        </div>`;
-      } catch {
-        showViewerFallback(url);
-      }
-    } else {
-      // Unsupported — show message with open link
-      showViewerFallback(url);
-    }
-  } catch(err) {
-    body.innerHTML = `<div class="viewer-unsupported">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <h3>Could not load file</h3>
-      <p>${err.message}</p>
-    </div>`;
-  }
+  document.body.style.overflow='hidden';
+  const body=document.getElementById('viewer-body');
+  body.innerHTML='<div class="viewer-loading"><div class="spinner"></div><span>Loading file...</span></div>';
+  try{
+    const res=await api('GET',`/api/materials/${id}/download`);
+    if(res.demo||!res.url){body.innerHTML=`<div class="viewer-unsupported"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h3>Preview not available</h3><p>This is a demo material with no real file.</p></div>`;return;}
+    const url=res.url;const ft=fileType||'other';
+    if(ft==='img'){body.innerHTML=`<img src="${url}" class="viewer-img" alt="${title}"/>`;}
+    else if(ft==='txt'){try{const resp=await fetch(url);const text=await resp.text();body.innerHTML=`<div style="width:100%;max-width:720px;margin:0 auto;padding:20px"><pre style="background:#1a1a1a;color:#e2e8f0;padding:20px;border-radius:10px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;font-family:monospace">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></div>`;
+    }catch{showViewerFallback(url);}}
+    else if(ft==='ppt'){body.innerHTML=`<div class="viewer-loading" id="viewer-spinner"><div class="spinner"></div><span>Loading presentation...</span></div><iframe class="viewer-iframe" src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}" onload="document.getElementById('viewer-spinner')&&(document.getElementById('viewer-spinner').style.display='none')"></iframe>`;}
+    else{body.innerHTML=`<div class="viewer-loading" id="viewer-spinner"><div class="spinner"></div><span>Loading...</span></div><iframe class="viewer-iframe" src="https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true" onload="document.getElementById('viewer-spinner')&&(document.getElementById('viewer-spinner').style.display='none')"></iframe>`;}
+  }catch(err){body.innerHTML=`<div class="viewer-unsupported"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><h3>Could not load file</h3><p>${err.message}</p></div>`;}
 }
-
-function showViewerFallback(url) {
-  document.getElementById('viewer-body').innerHTML = `<div class="viewer-unsupported">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    <h3>Preview not available for this file type</h3>
-    <p style="margin-bottom:16px">You can still download the file to view it on your device.</p>
-    <a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--brand);color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500">Open file in browser</a>
-  </div>`;
+function showViewerFallback(url){
+  document.getElementById('viewer-body').innerHTML=`<div class="viewer-unsupported"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h3>Preview not available for this file type</h3><p style="margin-bottom:16px">Download the file to view it on your device.</p><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--brand);color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500">Open in browser</a></div>`;
 }
-
-function closeViewer() {
+function closeViewer(){
   document.getElementById('file-viewer').classList.add('hidden');
-  document.body.style.overflow = '';
-  document.getElementById('viewer-body').innerHTML = '<div class="viewer-loading"><div class="spinner"></div><span>Loading file...</span></div>';
-  viewerMatId = null;
+  document.body.style.overflow='';
+  document.getElementById('viewer-body').innerHTML='<div class="viewer-loading"><div class="spinner"></div><span>Loading file...</span></div>';
+  viewerMatId=null;
 }
-
-async function viewerDownload() {
-  if (!viewerMatId) return;
-  closeViewer();
-  await downloadMat(viewerMatId);
-}
-
-// Close viewer on Escape key
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
-  
-// ═══════════════════════════════════════════════
-//  RATINGS
-// ═══════════════════════════════════════════════
-let currentRating = 0;
-async function loadRatingArea(matId) {
-  const el = document.getElementById('rating-area-' + matId);
-  if (!el) return;
-  try {
-    const r = await api('GET', '/api/ratings/' + matId);
-    currentRating = r.my_rating || 0;
-    el.innerHTML = `
-      <div style="background:var(--bg);border-radius:var(--radius);padding:10px 12px">
-        <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px">Rate this material</div>
-        <div class="flex items-center gap-2">
-          <div class="stars" id="stars-${matId}">
-            ${[1,2,3,4,5].map(n=>`<span class="star ${n<=currentRating?'filled':'empty'}" data-val="${n}" onclick="rateMaterial('${matId}',${n})" onmouseover="hoverStars('${matId}',${n})" onmouseout="resetStars('${matId}')">
-              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            </span>`).join('')}
-          </div>
-          <span class="rating-count">${r.average > 0 ? r.average + ' (' + r.count + ' rating' + (r.count!==1?'s':'') + ')' : 'No ratings yet'}</span>
-        </div>
-      </div>`;
-  } catch {}
-}
-function hoverStars(matId, val) {
-  for (let i = 1; i <= 5; i++) {
-    const star = document.querySelector(`#stars-${matId} [data-val="${i}"]`);
-    if (star) star.className = 'star ' + (i <= val ? 'filled' : 'empty');
-  }
-}
-function resetStars(matId) {
-  for (let i = 1; i <= 5; i++) {
-    const star = document.querySelector(`#stars-${matId} [data-val="${i}"]`);
-    if (star) star.className = 'star ' + (i <= currentRating ? 'filled' : 'empty');
-  }
-}
-async function rateMaterial(matId, stars) {
-  try {
-    await api('POST', '/api/ratings', { material_id: matId, stars });
-    currentRating = stars;
-    toast(stars >= 4 ? 'Thanks for the rating!' : 'Rating submitted');
-    loadRatingArea(matId);
-  } catch(err) { toast('Error: ' + err.message); }
-}
+async function viewerDownload(){if(viewerMatId){closeViewer();await downloadMat(viewerMatId);}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeViewer();});
 
 // ═══════════════════════════════════════════════
-//  BOOKMARKS
+//  INIT
 // ═══════════════════════════════════════════════
-async function loadBookmarkState(matId) {
-  try {
-    const bookmarks = await api('GET', '/api/bookmarks');
-    const isBookmarked = bookmarks.some(b => b.id === matId);
-    const btn = document.getElementById('bm-btn-' + matId);
-    const label = document.getElementById('bm-label-' + matId);
-    if (btn && label) {
-      btn.classList.toggle('saved', isBookmarked);
-      label.textContent = isBookmarked ? 'Saved' : 'Bookmark';
-    }
-  } catch {}
-}
-async function toggleBookmark(matId) {
-  try {
-    const res = await api('POST', '/api/bookmarks/' + matId);
-    const btn = document.getElementById('bm-btn-' + matId);
-    const label = document.getElementById('bm-label-' + matId);
-    if (btn && label) {
-      btn.classList.toggle('saved', res.bookmarked);
-      label.textContent = res.bookmarked ? 'Saved' : 'Bookmark';
-    }
-    toast(res.bookmarked ? 'Bookmarked!' : 'Bookmark removed');
-  } catch(err) { toast('Error: ' + err.message); }
-}
-
-// ═══════════════════════════════════════════════
-//  SHARE MATERIAL
-// ═══════════════════════════════════════════════
-async function shareMaterial(matId, title) {
-  const url = window.location.origin + '?material=' + matId;
-const text = 'Check out this material on TevetVault: ' + title + '\n' + url;
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: title, text: 'Check this out on TevetVault', url });
-      return;
-    } catch {}
-  }
-  // Fallback — copy to clipboard
-  try {
-    await navigator.clipboard.writeText(text);
-    toast('Link copied! Share it via WhatsApp or any app');
-  } catch {
-    // Final fallback — WhatsApp share
-    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
-    window.open(waUrl, '_blank');
-  }
-}
-
-// ═══════════════════════════════════════════════
-//  REPORT MATERIAL
-// ═══════════════════════════════════════════════
-let reportingMatId = null;
-function openReport(matId) {
-  reportingMatId = matId;
-  document.getElementById('report-reason').value = '';
-  document.getElementById('report-err').classList.add('hidden');
-  openModal('m-report');
-}
-async function submitReport() {
-  const reason = document.getElementById('report-reason').value;
-  const errEl = document.getElementById('report-err');
-  if (!reason) { errEl.textContent = 'Please select a reason'; errEl.classList.remove('hidden'); return; }
-  try {
-    await api('POST', '/api/reports', { material_id: reportingMatId, reason });
-    closeModal('m-report');
-    toast('Report submitted — admin will review it');
-  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
-}
-
-// ═══════════════════════════════════════════════
-//  NOTIFICATIONS
-// ═══════════════════════════════════════════════
-async function loadNotifications() {
-  try {
-    const notifs = await api('GET', '/api/notifications');
-    const unread = notifs.filter(n => !n.read).length;
-    const badge = document.getElementById('notif-badge');
-    if (badge) {
-      badge.textContent = unread;
-      badge.classList.toggle('hidden', unread === 0);
-    }
-  } catch {}
-}
-async function openNotifications() {
-  openModal('m-notifications');
-  try {
-    const notifs = await api('GET', '/api/notifications');
-    const el = document.getElementById('notif-list');
-    if (!notifs.length) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="empty-title">No notifications</div><div class="empty-sub">You are all caught up</div></div>';
-      return;
-    }
-    el.innerHTML = notifs.map(n => `
-      <div style="padding:12px;border-bottom:1px solid var(--border);${!n.read?'background:var(--brand-light);':''}border-radius:var(--radius-sm);margin-bottom:4px">
-        <div style="font-size:13px;font-weight:${n.read?'400':'600'};color:var(--text);line-height:1.5">${n.message}</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(n.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
-      </div>`).join('');
-    await markAllRead();
-  } catch { document.getElementById('notif-list').innerHTML = '<p class="text-sm text-muted">Failed to load</p>'; }
-}
-async function markAllRead() {
-  try {
-    await api('PUT', '/api/notifications/read');
-    const badge = document.getElementById('notif-badge');
-    if (badge) { badge.textContent = '0'; badge.classList.add('hidden'); }
-  } catch {}
-}
-
-// ═══════════════════════════════════════════════
-//  ANNOUNCEMENTS
-// ═══════════════════════════════════════════════
-async function loadAnnouncements() {
-  try {
-    const anns = await api('GET', '/api/announcements');
-    const el = document.getElementById('announcement-area');
-    if (!el || !anns.length) return;
-    el.innerHTML = anns.slice(0,1).map(a => `
-      <div class="announcement-banner" onclick="toast('${a.message.replace(/'/g,"\'")}')">
-        <div class="announcement-title">📢 ${a.title}</div>
-        <div class="announcement-msg">${a.message.length > 80 ? a.message.slice(0,80) + '...' : a.message}</div>
-      </div>`).join('');
-  } catch {}
-}
-
-// ═══════════════════════════════════════════════
-//  SEND ANNOUNCEMENT (Admin)
-// ═══════════════════════════════════════════════
-async function sendAnnouncement() {
-  const title = document.getElementById('ann-title').value.trim();
-  const message = document.getElementById('ann-msg').value.trim();
-  const errEl = document.getElementById('ann-err');
-  if (!title || !message) { errEl.textContent = 'Title and message required'; errEl.classList.remove('hidden'); return; }
-  try {
-    await api('POST', '/api/announcements', { title, message });
-    document.getElementById('ann-title').value = '';
-    document.getElementById('ann-msg').value = '';
-    closeModal('m-announcement');
-    toast('Announcement sent to all students!');
-  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
-}
-
-// ═══════════════════════════════════════════════
-//  FILES TAB (Uploads / Bookmarks / History)
-// ═══════════════════════════════════════════════
-let currentFilesTab = 'uploads';
-function switchFilesTab(tab) {
-  currentFilesTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  if (tab === 'uploads') loadMyUploads();
-  else if (tab === 'bookmarks') loadBookmarksTab();
-  else if (tab === 'history') loadHistoryTab();
-}
-async function loadBookmarksTab() {
-  const el = document.getElementById('u-list');
-  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading bookmarks...</p></div>';
-  try {
-    const mats = await api('GET', '/api/bookmarks');
-    if (!mats.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div class="empty-title">No bookmarks yet</div><div class="empty-sub">Tap the Bookmark button on any material to save it here</div></div>'; return; }
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">' + mats.length + ' bookmarked material' + (mats.length!==1?'s':'') + '</div>' + mats.map(matCard).join('');
-  } catch { el.innerHTML = '<p class="text-sm text-muted">Failed to load bookmarks</p>'; }
-}
-async function loadHistoryTab() {
-  const el = document.getElementById('u-list');
-  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading history...</p></div>';
-  try {
-    const history = await api('GET', '/api/history');
-    if (!history.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="empty-title">No download history</div><div class="empty-sub">Materials you download will appear here</div></div>'; return; }
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">' + history.length + ' download' + (history.length!==1?'s':'') + '</div>' +
-      history.map(h => `<div class="mat-card" style="cursor:default">
-        <div style="font-weight:500;font-size:14px">${h.material_title||'Unknown material'}</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">${new Date(h.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
-      </div>`).join('');
-  } catch { el.innerHTML = '<p class="text-sm text-muted">Failed to load history</p>'; }
-}
-
-// ═══════════════════════════════════════════════
-//  BROWSE LEVEL FILTER
-// ═══════════════════════════════════════════════
-let browseLevel = 'all';
-function renderLevelPills() {
-  const el = document.getElementById('b-level-pills');
-  if (!el) return;
-  const levels = ['all','Level 1','Level 2','Level 3','Level 4'];
-  el.innerHTML = levels.map(l => `<button class="pill ${browseLevel===l?'active':''}" onclick="setBLevel('${l}')">${l==='all'?'All Levels':l}</button>`).join('');
-}
-function setBLevel(level) {
-  browseLevel = level;
-  renderLevelPills();
-  loadBrowse();
-}
-
-// ═══════════════════════════════════════════════
-//  ADMIN — Delete user button + Announcements tab
-// ═══════════════════════════════════════════════
-async function adminDeleteUser(id) {
-  if (!confirm('Delete this student account and all their data? This cannot be undone.')) return;
-  try {
-    await api('DELETE', '/api/admin/users/' + id);
-    toast('User deleted');
-    renderAdminUsers(document.getElementById('admin-body'));
-  } catch(err) { toast('Error: ' + err.message); }
-}
-
-// INIT
 (async()=>{
-  try{allCourses=await api('GET','/api/courses');}catch{}
-  if(token){const ok=await tryRestoreSession();if(ok){launchApp();return;}}
   document.getElementById('auth-screen').style.display='flex';
+  try{allCourses=await api('GET','/api/courses');}catch{}
+  if(token){
+    const ok=await tryRestoreSession();
+    if(ok){launchApp();setTimeout(()=>{loadNotifications();loadAnnouncements();},1500);return;}
+  }
 })();
 </script>
 </body>
