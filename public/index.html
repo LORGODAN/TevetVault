@@ -310,12 +310,13 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
   </div>
 
   <div class="pages-wrap">
-    <!-- HOME -->
+   <!-- HOME -->
     <div class="page active" id="page-home">
       <div style="margin-bottom:16px">
         <h2 style="font-size:18px;font-weight:700">Hello, <span id="h-name">there</span></h2>
         <p style="font-size:13px;color:var(--text-muted);margin-top:2px">Find and share learning resources</p>
       </div>
+      <div id="announcement-area"></div>
       <div class="search-wrap">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input class="search-input" type="text" placeholder="Search materials, subjects..." id="h-search" oninput="homeSearch()"/>
@@ -328,6 +329,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <div id="h-mats"></div>
     </div>
+
     <!-- BROWSE -->
     <div class="page" id="page-browse">
       <div class="section-title">All Materials</div>
@@ -337,14 +339,21 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       </div>
       <div class="pill-scroll" id="b-course-pills"></div>
       <div class="pill-scroll" id="b-subject-pills"></div>
+      <div class="pill-scroll" id="b-level-pills"></div>
       <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500" id="b-count"></div>
       <div id="b-mats"></div>
     </div>
-    <!-- MY UPLOADS -->
+     <!-- MY UPLOADS -->
     <div class="page" id="page-uploads">
-      <div class="section-title">My Uploads</div>
+      <div class="section-title">My Files</div>
+      <div class="tab-row">
+        <button class="tab-btn active" id="tab-uploads" onclick="switchFilesTab('uploads')">My Uploads</button>
+        <button class="tab-btn" id="tab-bookmarks" onclick="switchFilesTab('bookmarks')">Bookmarks</button>
+        <button class="tab-btn" id="tab-history" onclick="switchFilesTab('history')">History</button>
+      </div>
       <div id="u-list"></div>
     </div>
+    
     <!-- PROFILE -->
     <div class="page" id="page-profile">
       <div class="profile-header">
@@ -382,6 +391,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
         </div>
       </div>
     </div>
+
     <!-- ABOUT -->
     <div class="page" id="page-about">
       <div class="about-hero">
@@ -446,12 +456,15 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
         <button class="admin-tab-btn" onclick="switchAdminTab('users')">Users</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('materials')">Materials</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('courses')">Courses</button>
+        <button class="admin-tab-btn" onclick="switchAdminTab('feedback')">Feedback</button>
+        <button class="admin-tab-btn" onclick="switchAdminTab('announce')">Announce</button>
       </div>
       <div id="admin-body"></div>
     </div>
   </div>
 
-  <!-- BOTTOM NAV -->
+
+ <!-- BOTTOM NAV -->
   <nav class="bottomnav">
     <button class="bnav-item active" id="nav-home" onclick="switchPage('home')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -475,6 +488,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
     </button>
   </nav>
 </div>
+
 <!-- FORGOT PASSWORD MODAL -->
 <div class="modal-overlay hidden" id="m-forgot">
   <div class="modal">
@@ -593,7 +607,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
       <div class="drop-zone" id="up-drop" onclick="document.getElementById('up-file').click()">
         <div class="drop-zone-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
         <div id="up-fname" style="font-size:13px;font-weight:600;color:var(--text-muted)">Tap to select file</div>
-        <div style="font-size:11px;color:var(--text-light);margin-top:3px">PDF, Word, PPT, Images, TXT &mdash; max 50MB</div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:3px">PDF, Word, PPT, Images, TXT &mdash; max 20MB</div>
       </div>
       <input type="file" id="up-file" class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.jpg,.jpeg,.png" onchange="fileChosen(this)"/>
     </div>
@@ -687,6 +701,58 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 </div>
 
 <div id="toast"></div>
+<!-- REPORT MODAL -->
+<div class="modal-overlay hidden" id="m-report">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Report Material</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Tell us why this material is inappropriate or incorrect.</p>
+    <div class="form-group">
+      <label class="form-label">Reason *</label>
+      <select class="form-select" id="report-reason">
+        <option value="">Select a reason</option>
+        <option value="Wrong information">Wrong or incorrect information</option>
+        <option value="Inappropriate content">Inappropriate content</option>
+        <option value="Wrong course">Wrong course or subject</option>
+        <option value="Duplicate">Already uploaded by someone else</option>
+        <option value="Copyright">Copyright violation</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div id="report-err" class="form-error hidden mb-2"></div>
+    <div class="flex gap-2">
+      <button class="btn btn-ghost flex-1" onclick="closeModal('m-report')">Cancel</button>
+      <button class="btn btn-danger flex-1" onclick="submitReport()">Submit Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS MODAL -->
+<div class="modal-overlay hidden" id="m-notifications">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="flex justify-between items-center mb-3">
+      <div class="modal-title" style="margin:0">Notifications</div>
+      <button onclick="markAllRead()" style="font-size:12px;color:var(--brand);background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500">Mark all read</button>
+    </div>
+    <div id="notif-list"></div>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT MODAL (Admin) -->
+<div class="modal-overlay hidden" id="m-announcement">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Send Announcement</div>
+    <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="ann-title" placeholder="e.g. New materials uploaded"/></div>
+    <div class="form-group"><label class="form-label">Message *</label><textarea class="form-textarea" id="ann-msg" placeholder="Write your announcement here..." rows="4"></textarea></div>
+    <div id="ann-err" class="form-error hidden mb-2"></div>
+    <div class="flex gap-2">
+      <button class="btn btn-ghost flex-1" onclick="closeModal('m-announcement')">Cancel</button>
+      <button class="btn btn-primary flex-1" onclick="sendAnnouncement()">Send to All Students</button>
+    </div>
+  </div>
+</div>
 
 <!-- FILE VIEWER OVERLAY -->
 <div class="viewer-overlay hidden" id="file-viewer">
