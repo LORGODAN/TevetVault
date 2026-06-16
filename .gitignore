@@ -1,0 +1,19 @@
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+
+# Data and uploads — stored in Supabase not GitHub
+data/
+uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
