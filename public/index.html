@@ -1925,9 +1925,17 @@ async function adminDeleteUser(id) {
 
 // INIT
 (async()=>{
-  try{allCourses=await api('GET','/api/courses');}catch{}
-  if(token){const ok=await tryRestoreSession();if(ok){launchApp();return;}}
+  // Show auth screen immediately — hide it only when logged in
   document.getElementById('auth-screen').style.display='flex';
+  try{allCourses=await api('GET','/api/courses');}catch{}
+  if(token){
+    const ok=await tryRestoreSession();
+    if(ok){
+      launchApp();
+      setTimeout(()=>{ loadNotifications(); loadAnnouncements(); },1500);
+      return;
+    }
+  }
 })();
 </script>
 </body>
