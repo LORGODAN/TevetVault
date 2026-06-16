@@ -869,7 +869,7 @@ function showRStep(id){
   ['r-step-email','r-step-otp','r-step-profile'].forEach(s=>document.getElementById(s).classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
-async function async function sendOTP(){
+async function sendOTP(){
   const email=document.getElementById('r-email').value.trim();
   if(!email||!email.includes('@')||!email.includes('.')){toast('Enter a valid email address');return;}
   const btn=document.getElementById('r-otp-btn');btn.disabled=true;btn.textContent='Sending...';
@@ -896,7 +896,7 @@ async function async function sendOTP(){
   }catch(err){toast('Error: '+err.message);}
   finally{btn.disabled=false;btn.textContent='Send Verification Code';}
 }
-async function async function verifyOTP(){
+async function verifyOTP(){
   const otp=[0,1,2,3,4,5].map(i=>document.getElementById('otp'+i).value).join('');
   if(otp.length<6){toast('Please enter all 6 digits');return;}
   const btn=document.getElementById('r-verify-btn');
@@ -911,7 +911,7 @@ async function async function verifyOTP(){
     document.getElementById('otp0').focus();toast('Incorrect code — try again');
   }finally{if(btn){btn.disabled=false;btn.textContent='Verify Code';}}
 }
-async function async function doRegister(){
+async function doRegister(){
   const name=document.getElementById('r-name').value.trim(),username=document.getElementById('r-username').value.trim();
   const course=document.getElementById('r-course').value,college=document.getElementById('r-college').value.trim();
   const password=document.getElementById('r-pass').value,errEl=document.getElementById('r-err');
@@ -927,7 +927,7 @@ async function async function doRegister(){
   }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
   finally{btn.disabled=false;btn.textContent='Create Account';}
 }
-async function async function doLogin(){
+async function  doLogin(){
   const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
   const errEl=document.getElementById('l-err'),btn=document.getElementById('l-btn');
   errEl.classList.add('hidden');btn.disabled=true;btn.textContent='Signing in...';
@@ -979,7 +979,7 @@ function fpOtpPaste(e){
   document.getElementById('fp-otp'+Math.min(t.length,5)).focus();
   if(t.length===6)fpVerifyOTP();
 }
-async function async function fpSendOTP(){
+async function  fpSendOTP(){
   const email=document.getElementById('fp-email').value.trim();
   const errEl=document.getElementById('fp-err1');
   if(!email||!email.includes('@')){errEl.textContent='Enter a valid email address';errEl.classList.remove('hidden');return;}
@@ -1008,7 +1008,7 @@ async function async function fpSendOTP(){
   }catch(err){errEl.textContent=err.message;errEl.classList.remove('hidden');}
   finally{btn.disabled=false;btn.textContent='Send Reset Code';}
 }
-async function async function fpVerifyOTP(){
+async function  fpVerifyOTP(){
   const otp=[0,1,2,3,4,5].map(i=>document.getElementById('fp-otp'+i).value).join('');
   if(otp.length<6){toast('Enter all 6 digits');return;}
   const btn=document.getElementById('fp-verify-btn');btn.disabled=true;btn.textContent='Verifying...';
@@ -1020,7 +1020,7 @@ async function async function fpVerifyOTP(){
     document.getElementById('fp-otp0').focus();toast('Incorrect code — try again');
   }finally{btn.disabled=false;btn.textContent='Verify Code';}
 }
-async function async function fpResetPassword(){
+async function  fpResetPassword(){
   const newPass=document.getElementById('fp-newpass').value,confirm=document.getElementById('fp-confirmpass').value;
   const errEl=document.getElementById('fp-err3');
   if(!newPass||!confirm){errEl.textContent='Please fill both fields';errEl.classList.remove('hidden');return;}
@@ -1167,7 +1167,6 @@ const FILE_SVG={
 function matCard(m){
   const c=allCourses.find(x=>x.id===m.course);
   const ft=m.file_type||m.fileType||'other';
-  const isNew=(new Date()-new Date(m.created_at||m.date))<7*24*60*60*1000;
   const isNew=(new Date()-new Date(m.created_at||m.date))<7*24*60*60*1000;
   const uploaderName=m.uploader_name||m.uploaderName||'unknown';
   const dateStr=m.created_at||m.createdAt||m.date||new Date().toISOString();
