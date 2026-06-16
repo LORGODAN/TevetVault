@@ -13,11 +13,19 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const JWT_SECRET = process.env.JWT_SECRET || 'tevetvault_secret_2024_malawi';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('ERROR: JWT_SECRET environment variable is required');
+  process.exit(1);
+}
 
 // ── SUPABASE CLIENT ─────────────────────────────────────────
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tezspfftmduvguaqfhyl.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlenNwZmZ0bWR1dmd1YXFmaHlsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTg3Njk3NCwiZXhwIjoyMDk1NDUyOTc0fQ.xiYhUHkZBhfNqJiId9antZchNwn4hWSLcOMlukYFo-g';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('ERROR: SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables are required');
+  process.exit(1);
+}
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 console.log('Supabase URL:', SUPABASE_URL);
