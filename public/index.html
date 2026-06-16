@@ -1076,8 +1076,6 @@ async function renderHome(){
     const mats=await api('GET','/api/materials?sort=downloads');
     document.getElementById('h-mats').innerHTML=mats.slice(0,5).map(matCard).join('')||emptyState('No materials yet','Be the first to upload');
   }catch{document.getElementById('h-mats').innerHTML='<p class="text-sm text-muted">Could not load materials</p>';}
-  // Load announcements
-  loadAnnouncements();
 }
 async function homeSearch(){
   const q=document.getElementById('h-search').value.trim();
@@ -1089,11 +1087,9 @@ async function homeSearch(){
 }
 function goToCourse(id){browseFilter={course:id,subject:'all'};switchPage('browse');}
 
-
 // BROWSE
 function renderBrowsePills(){
   document.getElementById('b-course-pills').innerHTML=`<button class="pill ${browseFilter.course==='all'?'active':''}" onclick="setBCourse('all')">All Courses</button>`+allCourses.map(c=>`<button class="pill ${browseFilter.course===c.id?'active':''}" onclick="setBCourse('${c.id}')">${c.name}</button>`).join('');
-  renderLevelPills();
   const sp=document.getElementById('b-subject-pills');
   if(browseFilter.course==='all'){sp.innerHTML='';return;}
   const c=allCourses.find(x=>x.id===browseFilter.course);
@@ -1106,7 +1102,6 @@ async function loadBrowse(){
   let url='/api/materials?';
   if(browseFilter.course!=='all')url+=`course=${browseFilter.course}&`;
   if(browseFilter.subject!=='all')url+=`subject=${encodeURIComponent(browseFilter.subject)}&`;
-  if(browseLevel!=='all')url+=`level=${encodeURIComponent(browseLevel)}&`;
   if(q)url+=`search=${encodeURIComponent(q)}&`;
   document.getElementById('b-mats').innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
   try{
@@ -1115,7 +1110,6 @@ async function loadBrowse(){
     document.getElementById('b-mats').innerHTML=mats.length?mats.map(matCard).join(''):emptyState('No materials found','Be the first to upload for this filter');
   }catch{document.getElementById('b-mats').innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
 }
-
 
 // MATERIAL CARD
 const FILE_SVG={
@@ -1129,7 +1123,6 @@ const FILE_SVG={
 function matCard(m){
   const c=allCourses.find(x=>x.id===m.course);
   const ft=m.file_type||m.fileType||'other';
-  const isNew=(new Date()-new Date(m.created_at||m.date))<7*24*60*60*1000;
   const uploaderName=m.uploader_name||m.uploaderName||'unknown';
   const dateStr=m.created_at||m.createdAt||m.date||new Date().toISOString();
   const d=new Date(dateStr).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
@@ -1148,8 +1141,6 @@ function matCard(m){
           <span class="mat-stat"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${m.downloads}</span>
           <span class="mat-stat"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${d}</span>
           ${m.size?`<span class="mat-stat">${m.size}</span>`:''}
-          ${m.average_rating?`<span class="mat-stat" style="color:#f59e0b">&#9733; ${parseFloat(m.average_rating).toFixed(1)}</span>`:''}
-          ${isNew?`<span class="badge badge-green" style="font-size:10px">New</span>`:''}
         </div>
       </div>
     </div>
@@ -1160,7 +1151,6 @@ async function viewMaterial(id){
     const mats=await api('GET','/api/materials'),m=mats.find(x=>x.id===id);if(!m)return;
     const c=allCourses.find(x=>x.id===m.course);
     const ft=m.file_type||m.fileType||'other';
-  const isNew=(new Date()-new Date(m.created_at||m.date))<7*24*60*60*1000;
     const uploaderName=m.uploader_name||m.uploaderName||'unknown';
     const dateStr=m.created_at||m.createdAt||m.date||new Date().toISOString();
     const d=new Date(dateStr).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
@@ -1181,35 +1171,18 @@ async function viewMaterial(id){
         ${m.size?`<div class="detail-row"><span class="detail-key">File size</span><span class="detail-val">${m.size}</span></div>`:''}
       </div>
       <div class="flex gap-2 mb-2">
-        <button class="btn btn-outline flex-1" onclick="openViewer('${m.id}','${(m.title||'').replace(/'/g, "\\'")}','${m.file_type||m.fileType||'other'}')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View
+        <button class="btn btn-outline flex-1" onclick="openViewer('${m.id}','${(m.title||'').replace(/'/g,"\'")}','${m.file_type||m.fileType||'other'}')">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          View
         </button>
         <button class="btn btn-primary flex-1" id="dl-btn-${m.id}" onclick="downloadMat('${m.id}')">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
         </button>
       </div>
-      <div class="flex gap-2 mb-2">
-        <button class="share-btn flex-1" onclick="shareMaterial('${m.id}','${(m.title||'').replace(/'/g,\"\\'\")}')">
-          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share
-        </button>
-        <button class="btn btn-ghost flex-1" id="bm-btn-${m.id}" onclick="toggleBookmark('${m.id}')">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-          <span id="bm-label-${m.id}">Bookmark</span>
-        </button>
-      </div>
-      <div id="rating-area-${m.id}" style="margin-bottom:10px"></div>
       <button class="btn btn-ghost w-full" onclick="closeModal('m-view')">Close</button>
-      <div class="flex gap-2 mt-2">
-        <button class="report-btn flex-1" onclick="openReport('${m.id}')">
-          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Report
-        </button>
-        ${isOwner||isAdmin?`<button class="btn btn-danger flex-1" onclick="deleteMat('${m.id}')">Delete</button>`:'<span></span>'}
-      </div>
       ${isOwner||isAdmin?`<button class="btn btn-danger w-full mt-2" onclick="deleteMat('${m.id}')">Delete Material</button>`:''}`;
     openModal('m-view');
-    // Load rating and bookmark state
-    loadRatingArea(m.id);
-    loadBookmarkState(m.id);
   }catch{toast('Error loading material');}
 }
 async function downloadMat(id){
@@ -1260,7 +1233,6 @@ async function deleteMat(id){
     await loadCourses();
   }catch(err){toast('Error: '+err.message);}
 }
-
 
 // UPLOAD
 function openUpload(){populateUploadCourseSelect();openModal('m-upload');}
@@ -1396,7 +1368,7 @@ async function sendFeedback(){
 // ADMIN
 function switchAdminTab(tab){
   adminTab=tab;
-  document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses','feedback','announce'][i]===tab));
+  document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses'][i]===tab));
   renderAdmin();
 }
 async function renderAdmin(){
@@ -1406,8 +1378,6 @@ async function renderAdmin(){
   if(adminTab==='overview')await renderAdminOverview(el);
   else if(adminTab==='users')await renderAdminUsers(el);
   else if(adminTab==='materials')await renderAdminMaterials(el);
-  else if(adminTab==='feedback')await renderAdminFeedback(el);
-  else if(adminTab==='announce')await renderAdminAnnounce(el);
   else await renderAdminCourses(el);
 }
 async function renderAdminOverview(el){
@@ -1481,45 +1451,6 @@ async function renderAdminCourses(el){
       </div>
     </div>`).join('');
 }
-async function renderAdminFeedback(el){
-  try{
-    const fb=await api('GET','/api/feedback');
-    if(!fb.length){el.innerHTML=emptyState('No feedback yet','Students have not sent any feedback');return;}
-    el.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">${fb.length} message${fb.length!==1?'s':''}</div>`+
-      fb.map(f=>`<div class="card mb-2"><div class="card-body" style="padding:12px 14px">
-        <div style="font-weight:600;font-size:13px;margin-bottom:4px">${f.user_name||'Unknown'}</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.6">${f.message}</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:6px">${new Date(f.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
-      </div></div>`).join('');
-  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
-}
-
-async function renderAdminAnnounce(el){
-  try{
-    const anns=await api('GET','/api/announcements');
-    el.innerHTML=`<button class="btn btn-primary w-full mb-4" onclick="openModal('m-announcement')">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 000 6h20a3 3 0 000-6z"/><path d="M15 10c0 3.87-3.13 7-7 7s-7-3.13-7-7 3.13-7 7-7 7 3.13 7 7z"/></svg>
-      Send New Announcement
-    </button>` +
-    (anns.length?anns.map(a=>`<div class="card mb-2"><div class="card-body" style="padding:12px 14px">
-      <div class="flex justify-between items-start">
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:14px;margin-bottom:4px">📢 ${a.title}</div>
-          <div style="font-size:13px;color:var(--text-muted);line-height:1.5">${a.message}</div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:6px">${new Date(a.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
-        </div>
-        <button class="btn btn-danger btn-sm" style="flex-shrink:0;margin-left:8px" onclick="deleteAnnouncement('${a.id}')">Delete</button>
-      </div>
-    </div></div>`).join(''):emptyState('No announcements yet','Click the button above to send one'));
-  }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
-}
-
-async function deleteAnnouncement(id){
-  if(!confirm('Delete this announcement?'))return;
-  try{await api('DELETE','/api/announcements/'+id);toast('Deleted');renderAdminAnnounce(document.getElementById('admin-body'));}
-  catch(err){toast('Error: '+err.message);}
-}
-
 function openCourseModal(id){
   editingCourseId=id||null;const c=id?allCourses.find(x=>x.id===id):null;
   document.getElementById('mc-title').textContent=id?'Edit Course':'Add Course';
@@ -1669,273 +1600,11 @@ async function viewerDownload() {
 // Close viewer on Escape key
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
 
-// ═══════════════════════════════════════════════
-//  RATINGS
-// ═══════════════════════════════════════════════
-let currentRating = 0;
-async function loadRatingArea(matId) {
-  const el = document.getElementById('rating-area-' + matId);
-  if (!el) return;
-  try {
-    const r = await api('GET', '/api/ratings/' + matId);
-    currentRating = r.my_rating || 0;
-    el.innerHTML = `
-      <div style="background:var(--bg);border-radius:var(--radius);padding:10px 12px">
-        <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px">Rate this material</div>
-        <div class="flex items-center gap-2">
-          <div class="stars" id="stars-${matId}">
-            ${[1,2,3,4,5].map(n=>`<span class="star ${n<=currentRating?'filled':'empty'}" data-val="${n}" onclick="rateMaterial('${matId}',${n})" onmouseover="hoverStars('${matId}',${n})" onmouseout="resetStars('${matId}')">
-              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            </span>`).join('')}
-          </div>
-          <span class="rating-count">${r.average > 0 ? r.average + ' (' + r.count + ' rating' + (r.count!==1?'s':'') + ')' : 'No ratings yet'}</span>
-        </div>
-      </div>`;
-  } catch {}
-}
-function hoverStars(matId, val) {
-  for (let i = 1; i <= 5; i++) {
-    const star = document.querySelector(`#stars-${matId} [data-val="${i}"]`);
-    if (star) star.className = 'star ' + (i <= val ? 'filled' : 'empty');
-  }
-}
-function resetStars(matId) {
-  for (let i = 1; i <= 5; i++) {
-    const star = document.querySelector(`#stars-${matId} [data-val="${i}"]`);
-    if (star) star.className = 'star ' + (i <= currentRating ? 'filled' : 'empty');
-  }
-}
-async function rateMaterial(matId, stars) {
-  try {
-    await api('POST', '/api/ratings', { material_id: matId, stars });
-    currentRating = stars;
-    toast(stars >= 4 ? 'Thanks for the rating!' : 'Rating submitted');
-    loadRatingArea(matId);
-  } catch(err) { toast('Error: ' + err.message); }
-}
-
-// ═══════════════════════════════════════════════
-//  BOOKMARKS
-// ═══════════════════════════════════════════════
-async function loadBookmarkState(matId) {
-  try {
-    const bookmarks = await api('GET', '/api/bookmarks');
-    const isBookmarked = bookmarks.some(b => b.id === matId);
-    const btn = document.getElementById('bm-btn-' + matId);
-    const label = document.getElementById('bm-label-' + matId);
-    if (btn && label) {
-      btn.classList.toggle('saved', isBookmarked);
-      label.textContent = isBookmarked ? 'Saved' : 'Bookmark';
-    }
-  } catch {}
-}
-async function toggleBookmark(matId) {
-  try {
-    const res = await api('POST', '/api/bookmarks/' + matId);
-    const btn = document.getElementById('bm-btn-' + matId);
-    const label = document.getElementById('bm-label-' + matId);
-    if (btn && label) {
-      btn.classList.toggle('saved', res.bookmarked);
-      label.textContent = res.bookmarked ? 'Saved' : 'Bookmark';
-    }
-    toast(res.bookmarked ? 'Bookmarked!' : 'Bookmark removed');
-  } catch(err) { toast('Error: ' + err.message); }
-}
-
-// ═══════════════════════════════════════════════
-//  SHARE MATERIAL
-// ═══════════════════════════════════════════════
-async function shareMaterial(matId, title) {
-  const url = window.location.origin + '?material=' + matId;
-  const text = 'Check out this material on TevetVault: ' + title + '
-' + url;
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: title, text: 'Check this out on TevetVault', url });
-      return;
-    } catch {}
-  }
-  // Fallback — copy to clipboard
-  try {
-    await navigator.clipboard.writeText(text);
-    toast('Link copied! Share it via WhatsApp or any app');
-  } catch {
-    // Final fallback — WhatsApp share
-    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
-    window.open(waUrl, '_blank');
-  }
-}
-
-// ═══════════════════════════════════════════════
-//  REPORT MATERIAL
-// ═══════════════════════════════════════════════
-let reportingMatId = null;
-function openReport(matId) {
-  reportingMatId = matId;
-  document.getElementById('report-reason').value = '';
-  document.getElementById('report-err').classList.add('hidden');
-  openModal('m-report');
-}
-async function submitReport() {
-  const reason = document.getElementById('report-reason').value;
-  const errEl = document.getElementById('report-err');
-  if (!reason) { errEl.textContent = 'Please select a reason'; errEl.classList.remove('hidden'); return; }
-  try {
-    await api('POST', '/api/reports', { material_id: reportingMatId, reason });
-    closeModal('m-report');
-    toast('Report submitted — admin will review it');
-  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
-}
-
-// ═══════════════════════════════════════════════
-//  NOTIFICATIONS
-// ═══════════════════════════════════════════════
-async function loadNotifications() {
-  try {
-    const notifs = await api('GET', '/api/notifications');
-    const unread = notifs.filter(n => !n.read).length;
-    const badge = document.getElementById('notif-badge');
-    if (badge) {
-      badge.textContent = unread;
-      badge.classList.toggle('hidden', unread === 0);
-    }
-  } catch {}
-}
-async function openNotifications() {
-  openModal('m-notifications');
-  try {
-    const notifs = await api('GET', '/api/notifications');
-    const el = document.getElementById('notif-list');
-    if (!notifs.length) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="empty-title">No notifications</div><div class="empty-sub">You are all caught up</div></div>';
-      return;
-    }
-    el.innerHTML = notifs.map(n => `
-      <div style="padding:12px;border-bottom:1px solid var(--border);${!n.read?'background:var(--brand-light);':''}border-radius:var(--radius-sm);margin-bottom:4px">
-        <div style="font-size:13px;font-weight:${n.read?'400':'600'};color:var(--text);line-height:1.5">${n.message}</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(n.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
-      </div>`).join('');
-    await markAllRead();
-  } catch { document.getElementById('notif-list').innerHTML = '<p class="text-sm text-muted">Failed to load</p>'; }
-}
-async function markAllRead() {
-  try {
-    await api('PUT', '/api/notifications/read');
-    const badge = document.getElementById('notif-badge');
-    if (badge) { badge.textContent = '0'; badge.classList.add('hidden'); }
-  } catch {}
-}
-
-// ═══════════════════════════════════════════════
-//  ANNOUNCEMENTS
-// ═══════════════════════════════════════════════
-async function loadAnnouncements() {
-  try {
-    const anns = await api('GET', '/api/announcements');
-    const el = document.getElementById('announcement-area');
-    if (!el || !anns.length) return;
-    el.innerHTML = anns.slice(0,1).map(a => `
-      <div class="announcement-banner" onclick="toast('${a.message.replace(/'/g,"\'")}')">
-        <div class="announcement-title">📢 ${a.title}</div>
-        <div class="announcement-msg">${a.message.length > 80 ? a.message.slice(0,80) + '...' : a.message}</div>
-      </div>`).join('');
-  } catch {}
-}
-
-// ═══════════════════════════════════════════════
-//  SEND ANNOUNCEMENT (Admin)
-// ═══════════════════════════════════════════════
-async function sendAnnouncement() {
-  const title = document.getElementById('ann-title').value.trim();
-  const message = document.getElementById('ann-msg').value.trim();
-  const errEl = document.getElementById('ann-err');
-  if (!title || !message) { errEl.textContent = 'Title and message required'; errEl.classList.remove('hidden'); return; }
-  try {
-    await api('POST', '/api/announcements', { title, message });
-    document.getElementById('ann-title').value = '';
-    document.getElementById('ann-msg').value = '';
-    closeModal('m-announcement');
-    toast('Announcement sent to all students!');
-  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
-}
-
-// ═══════════════════════════════════════════════
-//  FILES TAB (Uploads / Bookmarks / History)
-// ═══════════════════════════════════════════════
-let currentFilesTab = 'uploads';
-function switchFilesTab(tab) {
-  currentFilesTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  if (tab === 'uploads') loadMyUploads();
-  else if (tab === 'bookmarks') loadBookmarksTab();
-  else if (tab === 'history') loadHistoryTab();
-}
-async function loadBookmarksTab() {
-  const el = document.getElementById('u-list');
-  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading bookmarks...</p></div>';
-  try {
-    const mats = await api('GET', '/api/bookmarks');
-    if (!mats.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div class="empty-title">No bookmarks yet</div><div class="empty-sub">Tap the Bookmark button on any material to save it here</div></div>'; return; }
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">' + mats.length + ' bookmarked material' + (mats.length!==1?'s':'') + '</div>' + mats.map(matCard).join('');
-  } catch { el.innerHTML = '<p class="text-sm text-muted">Failed to load bookmarks</p>'; }
-}
-async function loadHistoryTab() {
-  const el = document.getElementById('u-list');
-  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading history...</p></div>';
-  try {
-    const history = await api('GET', '/api/history');
-    if (!history.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="empty-title">No download history</div><div class="empty-sub">Materials you download will appear here</div></div>'; return; }
-    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">' + history.length + ' download' + (history.length!==1?'s':'') + '</div>' +
-      history.map(h => `<div class="mat-card" style="cursor:default">
-        <div style="font-weight:500;font-size:14px">${h.material_title||'Unknown material'}</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">${new Date(h.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
-      </div>`).join('');
-  } catch { el.innerHTML = '<p class="text-sm text-muted">Failed to load history</p>'; }
-}
-
-// ═══════════════════════════════════════════════
-//  BROWSE LEVEL FILTER
-// ═══════════════════════════════════════════════
-let browseLevel = 'all';
-function renderLevelPills() {
-  const el = document.getElementById('b-level-pills');
-  if (!el) return;
-  const levels = ['all','Level 1','Level 2','Level 3','Level 4'];
-  el.innerHTML = levels.map(l => `<button class="pill ${browseLevel===l?'active':''}" onclick="setBLevel('${l}')">${l==='all'?'All Levels':l}</button>`).join('');
-}
-function setBLevel(level) {
-  browseLevel = level;
-  renderLevelPills();
-  loadBrowse();
-}
-
-// ═══════════════════════════════════════════════
-//  ADMIN — Delete user button + Announcements tab
-// ═══════════════════════════════════════════════
-async function adminDeleteUser(id) {
-  if (!confirm('Delete this student account and all their data? This cannot be undone.')) return;
-  try {
-    await api('DELETE', '/api/admin/users/' + id);
-    toast('User deleted');
-    renderAdminUsers(document.getElementById('admin-body'));
-  } catch(err) { toast('Error: ' + err.message); }
-}
-
-
 // INIT
 (async()=>{
-  // Show auth screen immediately — hide it only when logged in
-  document.getElementById('auth-screen').style.display='flex';
   try{allCourses=await api('GET','/api/courses');}catch{}
-  if(token){
-    const ok=await tryRestoreSession();
-    if(ok){
-      launchApp();
-      setTimeout(()=>{ loadNotifications(); loadAnnouncements(); },1500);
-      return;
-    }
-  }
+  if(token){const ok=await tryRestoreSession();if(ok){launchApp();return;}}
+  document.getElementById('auth-screen').style.display='flex';
 })();
 </script>
 </body>
