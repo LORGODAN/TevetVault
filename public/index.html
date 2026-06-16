@@ -1413,17 +1413,25 @@ async function sendFeedback(){
 // ADMIN
 function switchAdminTab(tab){
   adminTab=tab;
-  document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses'][i]===tab));
+  document.querySelectorAll('.admin-tab-btn').forEach((b,i)=>b.classList.toggle('active',['overview','users','materials','courses','feedback','announce'][i]===tab));
   renderAdmin();
 }
 async function renderAdmin(){
-  if(!currentUser||currentUser.role!=='admin'){switchPage('home');toast('Access denied');return;}
+  if(!currentUser||currentUser.role!=='admin'){
+    switchPage('home');
+    toast('Access denied');
+    return;
+  }
+
   const el=document.getElementById('admin-body');
   el.innerHTML='<div class="loading-state"><div class="spinner"></div></div>';
-  if(adminTab==='overview')await renderAdminOverview(el);
-  else if(adminTab==='users')await renderAdminUsers(el);
-  else if(adminTab==='materials')await renderAdminMaterials(el);
-  else await renderAdminCourses(el);
+
+  if(adminTab==='overview') await renderAdminOverview(el);
+  else if(adminTab==='users') await renderAdminUsers(el);
+  else if(adminTab==='materials') await renderAdminMaterials(el);
+  else if(adminTab==='courses') await renderAdminCourses(el);
+  else if(adminTab==='feedback') await renderAdminFeedback(el);
+  else if(adminTab==='announce') await renderAdminAnnouncements(el);
 }
 async function renderAdminOverview(el){
   try{
@@ -1527,6 +1535,27 @@ async function adminDeleteCourse(id){
   if(!confirm('Delete this course?'))return;
   try{await api('DELETE','/api/courses/'+id);toast('Course deleted');renderAdminCourses(document.getElementById('admin-body'));}
   catch(err){toast('Error: '+err.message);}
+}
+
+  async function renderAdminFeedback(el){
+  // feedback content
+}
+
+async function renderAdminAnnouncements(el){
+  async function sendAnnouncement() {
+  const title = document.getElementById('ann-title').value.trim();
+  const message = document.getElementById('ann-msg').value.trim();
+  const errEl = document.getElementById('ann-err');
+  if (!title || !message) { errEl.textContent = 'Title and message required'; errEl.classList.remove('hidden'); return; }
+  try {
+    await api('POST', '/api/announcements', { title, message });
+    document.getElementById('ann-title').value = '';
+    document.getElementById('ann-msg').value = '';
+    closeModal('m-announcement');
+    toast('Announcement sent to all students!');
+  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
+}
+
 }
 
 // HELPERS
