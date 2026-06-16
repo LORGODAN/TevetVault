@@ -1669,7 +1669,7 @@ async function viewerDownload() {
 
 // Close viewer on Escape key
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
-  
+ /*
 // ═══════════════════════════════════════════════
 //  RATINGS
 // ═══════════════════════════════════════════════
@@ -1922,6 +1922,7 @@ async function adminDeleteUser(id) {
     renderAdminUsers(document.getElementById('admin-body'));
   } catch(err) { toast('Error: ' + err.message); }
 }
+/*
 
 // INIT
 (async()=>{
