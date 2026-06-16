@@ -271,7 +271,7 @@ h1,h2,h3,h4,h5{font-weight:600;line-height:1.3}
 </svg>
 
 <!-- AUTH SCREEN -->
-<div class="auth-screen" id="auth-screen" style="display:none">
+<div class="auth-screen" id="auth-screen">
   <div class="auth-logo">
     <div class="auth-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
     <h1>TevetVault</h1>
@@ -1963,17 +1963,17 @@ async function adminDeleteUser(id) {
 
 // INIT
 (async()=>{
+  // Show auth screen immediately — hide it only when logged in
+  document.getElementById('auth-screen').style.display='flex';
   try{allCourses=await api('GET','/api/courses');}catch{}
   if(token){
     const ok=await tryRestoreSession();
     if(ok){
       launchApp();
-      // Load notifications after launch
       setTimeout(()=>{ loadNotifications(); loadAnnouncements(); },1500);
       return;
     }
   }
-  document.getElementById('auth-screen').style.display='flex';
 })();
 </script>
 </body>
