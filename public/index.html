@@ -1926,18 +1926,11 @@ async function adminDeleteUser(id) {
 
 // INIT
 (async()=>{
-  // Show auth screen immediately — hide it only when logged in
-  document.getElementById('auth-screen').style.display='flex';
   try{allCourses=await api('GET','/api/courses');}catch{}
-  if(token){
-    const ok=await tryRestoreSession();
-    if(ok){
-      launchApp();
-      setTimeout(()=>{ loadNotifications(); loadAnnouncements(); },1500);
-      return;
-    }
-  }
+  if(token){const ok=await tryRestoreSession();if(ok){launchApp();return;}}
+  document.getElementById('auth-screen').style.display='flex';
 })();
 </script>
+
 </body>
 </html>
