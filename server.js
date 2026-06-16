@@ -313,6 +313,7 @@ app.get('/api/materials', async (req, res) => {
   let query = supabase.from('materials').select('*');
   if (course && course !== 'all') query = query.eq('course', course);
   if (subject && subject !== 'all') query = query.eq('subject', subject);
+  if (req.query.level && req.query.level !== 'all') query = query.eq('level', req.query.level);
   if (search) query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,subject.ilike.%${search}%,uploader_name.ilike.%${search}%`);
   query = query.order(sort === 'date' ? 'created_at' : 'downloads', { ascending: false });
   const { data, error } = await query;
@@ -345,6 +346,7 @@ app.post('/api/materials', auth, upload.single('file'), async (req, res) => {
   const { data: mat, error } = await supabase.from('materials').insert({
     title: path.basename(req.file.originalname, ext),
     description, course, subject,
+    level: req.body.level || '',
     uploader_id: req.user.id,
     uploader_name: user.username,
     file_type: getFileType(req.file.originalname),
@@ -365,8 +367,24 @@ app.get('/api/materials/:id/download', auth, async (req, res) => {
   // Increment download count
   await supabase.from('materials').update({ downloads: mat.downloads + 1 }).eq('id', req.params.id);
 
+  // Save download history
+  await supabase.from('download_history').insert({
+    material_id: mat.id,
+    user_id: req.user.id,
+    material_title: mat.title
+  });
+
+  // Notify uploader if someone else downloaded their material
+  if (mat.uploader_id && mat.uploader_id !== req.user.id) {
+    const { data: downloader } = await supabase.from('users').select('name').eq('id', req.user.id).single();
+    await supabase.from('notifications').insert({
+      user_id: mat.uploader_id,
+      message: `Your material "${mat.title}" was downloaded by ${downloader?.name || 'a student'}`,
+      type: 'download'
+    });
+  }
+
   if (mat.filename) {
-    // Get signed URL from Supabase Storage (valid for 60 seconds)
     const { data: urlData } = await supabase.storage.from('uploads').createSignedUrl(mat.filename, 60);
     if (urlData?.signedUrl) {
       return res.json({
@@ -424,7 +442,14 @@ app.get('/api/admin/users', auth, adminOnly, async (req, res) => {
 
 app.delete('/api/admin/users/:id', auth, adminOnly, async (req, res) => {
   if (req.params.id === req.user.id) return res.status(400).json({ error: 'Cannot delete yourself' });
-  await supabase.from('users').delete().eq('id', req.params.id);
+  const uid = req.params.id;
+  // Delete all user data
+  await supabase.from('bookmarks').delete().eq('user_id', uid);
+  await supabase.from('ratings').delete().eq('user_id', uid);
+  await supabase.from('download_history').delete().eq('user_id', uid);
+  await supabase.from('notifications').delete().eq('user_id', uid);
+  await supabase.from('reports').delete().eq('user_id', uid);
+  await supabase.from('users').delete().eq('id', uid);
   res.json({ success: true });
 });
 
@@ -442,6 +467,118 @@ app.get('/api/feedback', auth, adminOnly, async (req, res) => {
   res.json(data||[]);
 });
 
+
+// ══════════════════════════════════════════════════════════════
+//  RATINGS
+// ══════════════════════════════════════════════════════════════
+app.post('/api/ratings', auth, async (req, res) => {
+  const { material_id, stars } = req.body;
+  if (!material_id || !stars || stars < 1 || stars > 5)
+    return res.status(400).json({ error: 'Invalid rating' });
+  const { data, error } = await supabase.from('ratings')
+    .upsert({ material_id, user_id: req.user.id, stars }, { onConflict: 'material_id,user_id' })
+    .select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+app.get('/api/ratings/:materialId', auth, async (req, res) => {
+  const { data: all } = await supabase.from('ratings').select('stars').eq('material_id', req.params.materialId);
+  const { data: mine } = await supabase.from('ratings').select('stars').eq('material_id', req.params.materialId).eq('user_id', req.user.id).single();
+  const avg = all?.length ? (all.reduce((a,r)=>a+r.stars,0)/all.length).toFixed(1) : 0;
+  res.json({ average: parseFloat(avg), count: all?.length||0, my_rating: mine?.stars||0 });
+});
+
+// ══════════════════════════════════════════════════════════════
+//  BOOKMARKS
+// ══════════════════════════════════════════════════════════════
+app.post('/api/bookmarks/:materialId', auth, async (req, res) => {
+  const { data: existing } = await supabase.from('bookmarks')
+    .select('id').eq('material_id', req.params.materialId).eq('user_id', req.user.id).single();
+  if (existing) {
+    await supabase.from('bookmarks').delete().eq('id', existing.id);
+    return res.json({ bookmarked: false });
+  }
+  await supabase.from('bookmarks').insert({ material_id: req.params.materialId, user_id: req.user.id });
+  res.json({ bookmarked: true });
+});
+
+app.get('/api/bookmarks', auth, async (req, res) => {
+  const { data: bookmarks } = await supabase.from('bookmarks').select('material_id').eq('user_id', req.user.id);
+  if (!bookmarks?.length) return res.json([]);
+  const ids = bookmarks.map(b => b.material_id);
+  const { data: materials } = await supabase.from('materials').select('*').in('id', ids).order('created_at', { ascending: false });
+  res.json(materials || []);
+});
+
+// ══════════════════════════════════════════════════════════════
+//  DOWNLOAD HISTORY
+// ══════════════════════════════════════════════════════════════
+app.get('/api/history', auth, async (req, res) => {
+  const { data } = await supabase.from('download_history').select('*')
+    .eq('user_id', req.user.id).order('created_at', { ascending: false }).limit(50);
+  res.json(data || []);
+});
+
+// ══════════════════════════════════════════════════════════════
+//  REPORTS
+// ══════════════════════════════════════════════════════════════
+app.post('/api/reports', auth, async (req, res) => {
+  const { material_id, reason } = req.body;
+  if (!material_id || !reason) return res.status(400).json({ error: 'Material and reason required' });
+  const { data: existing } = await supabase.from('reports')
+    .select('id').eq('material_id', material_id).eq('user_id', req.user.id).single();
+  if (existing) return res.status(400).json({ error: 'You already reported this material' });
+  await supabase.from('reports').insert({ material_id, user_id: req.user.id, reason });
+  res.json({ success: true });
+});
+
+app.get('/api/reports', auth, adminOnly, async (req, res) => {
+  const { data } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
+  res.json(data || []);
+});
+
+// ══════════════════════════════════════════════════════════════
+//  NOTIFICATIONS
+// ══════════════════════════════════════════════════════════════
+app.get('/api/notifications', auth, async (req, res) => {
+  const { data } = await supabase.from('notifications').select('*')
+    .eq('user_id', req.user.id).order('created_at', { ascending: false }).limit(20);
+  res.json(data || []);
+});
+
+app.put('/api/notifications/read', auth, async (req, res) => {
+  await supabase.from('notifications').update({ read: true }).eq('user_id', req.user.id).eq('read', false);
+  res.json({ success: true });
+});
+
+// ══════════════════════════════════════════════════════════════
+//  ANNOUNCEMENTS
+// ══════════════════════════════════════════════════════════════
+app.get('/api/announcements', auth, async (req, res) => {
+  const { data } = await supabase.from('announcements').select('*').order('created_at', { ascending: false }).limit(5);
+  res.json(data || []);
+});
+
+app.post('/api/announcements', auth, adminOnly, async (req, res) => {
+  const { title, message } = req.body;
+  if (!title || !message) return res.status(400).json({ error: 'Title and message required' });
+  const { data, error } = await supabase.from('announcements')
+    .insert({ title, message, created_by: req.user.id }).select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  // Send notification to all students
+  const { data: users } = await supabase.from('users').select('id').eq('role', 'student');
+  if (users?.length) {
+    const notifs = users.map(u => ({ user_id: u.id, message: `📢 ${title}: ${message}`, type: 'announcement' }));
+    await supabase.from('notifications').insert(notifs);
+  }
+  res.json(data);
+});
+
+app.delete('/api/announcements/:id', auth, adminOnly, async (req, res) => {
+  await supabase.from('announcements').delete().eq('id', req.params.id);
+  res.json({ success: true });
+});
 // ── HEALTH ───────────────────────────────────────────────────
 app.get('/api/health', (req, res) => res.json({ status: 'ok', version: '2.0.0', platform: 'TevetVault + Supabase' }));
 
