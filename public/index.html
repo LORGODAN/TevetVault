@@ -1599,6 +1599,259 @@ async function viewerDownload() {
 
 // Close viewer on Escape key
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
+  
+// ═══════════════════════════════════════════════
+//  RATINGS
+// ═══════════════════════════════════════════════
+let currentRating = 0;
+async function loadRatingArea(matId) {
+  const el = document.getElementById('rating-area-' + matId);
+  if (!el) return;
+  try {
+    const r = await api('GET', '/api/ratings/' + matId);
+    currentRating = r.my_rating || 0;
+    el.innerHTML = `
+      <div style="background:var(--bg);border-radius:var(--radius);padding:10px 12px">
+        <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px">Rate this material</div>
+        <div class="flex items-center gap-2">
+          <div class="stars" id="stars-${matId}">
+            ${[1,2,3,4,5].map(n=>`<span class="star ${n<=currentRating?'filled':'empty'}" data-val="${n}" onclick="rateMaterial('${matId}',${n})" onmouseover="hoverStars('${matId}',${n})" onmouseout="resetStars('${matId}')">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </span>`).join('')}
+          </div>
+          <span class="rating-count">${r.average > 0 ? r.average + ' (' + r.count + ' rating' + (r.count!==1?'s':'') + ')' : 'No ratings yet'}</span>
+        </div>
+      </div>`;
+  } catch {}
+}
+function hoverStars(matId, val) {
+  for (let i = 1; i <= 5; i++) {
+    const star = document.querySelector(`#stars-${matId} [data-val="${i}"]`);
+    if (star) star.className = 'star ' + (i <= val ? 'filled' : 'empty');
+  }
+}
+function resetStars(matId) {
+  for (let i = 1; i <= 5; i++) {
+    const star = document.querySelector(`#stars-${matId} [data-val="${i}"]`);
+    if (star) star.className = 'star ' + (i <= currentRating ? 'filled' : 'empty');
+  }
+}
+async function rateMaterial(matId, stars) {
+  try {
+    await api('POST', '/api/ratings', { material_id: matId, stars });
+    currentRating = stars;
+    toast(stars >= 4 ? 'Thanks for the rating!' : 'Rating submitted');
+    loadRatingArea(matId);
+  } catch(err) { toast('Error: ' + err.message); }
+}
+
+// ═══════════════════════════════════════════════
+//  BOOKMARKS
+// ═══════════════════════════════════════════════
+async function loadBookmarkState(matId) {
+  try {
+    const bookmarks = await api('GET', '/api/bookmarks');
+    const isBookmarked = bookmarks.some(b => b.id === matId);
+    const btn = document.getElementById('bm-btn-' + matId);
+    const label = document.getElementById('bm-label-' + matId);
+    if (btn && label) {
+      btn.classList.toggle('saved', isBookmarked);
+      label.textContent = isBookmarked ? 'Saved' : 'Bookmark';
+    }
+  } catch {}
+}
+async function toggleBookmark(matId) {
+  try {
+    const res = await api('POST', '/api/bookmarks/' + matId);
+    const btn = document.getElementById('bm-btn-' + matId);
+    const label = document.getElementById('bm-label-' + matId);
+    if (btn && label) {
+      btn.classList.toggle('saved', res.bookmarked);
+      label.textContent = res.bookmarked ? 'Saved' : 'Bookmark';
+    }
+    toast(res.bookmarked ? 'Bookmarked!' : 'Bookmark removed');
+  } catch(err) { toast('Error: ' + err.message); }
+}
+
+// ═══════════════════════════════════════════════
+//  SHARE MATERIAL
+// ═══════════════════════════════════════════════
+async function shareMaterial(matId, title) {
+  const url = window.location.origin + '?material=' + matId;
+  const text = 'Check out this material on TevetVault: ' + title + '
+' + url;
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: title, text: 'Check this out on TevetVault', url });
+      return;
+    } catch {}
+  }
+  // Fallback — copy to clipboard
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('Link copied! Share it via WhatsApp or any app');
+  } catch {
+    // Final fallback — WhatsApp share
+    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
+    window.open(waUrl, '_blank');
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  REPORT MATERIAL
+// ═══════════════════════════════════════════════
+let reportingMatId = null;
+function openReport(matId) {
+  reportingMatId = matId;
+  document.getElementById('report-reason').value = '';
+  document.getElementById('report-err').classList.add('hidden');
+  openModal('m-report');
+}
+async function submitReport() {
+  const reason = document.getElementById('report-reason').value;
+  const errEl = document.getElementById('report-err');
+  if (!reason) { errEl.textContent = 'Please select a reason'; errEl.classList.remove('hidden'); return; }
+  try {
+    await api('POST', '/api/reports', { material_id: reportingMatId, reason });
+    closeModal('m-report');
+    toast('Report submitted — admin will review it');
+  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
+}
+
+// ═══════════════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════════════
+async function loadNotifications() {
+  try {
+    const notifs = await api('GET', '/api/notifications');
+    const unread = notifs.filter(n => !n.read).length;
+    const badge = document.getElementById('notif-badge');
+    if (badge) {
+      badge.textContent = unread;
+      badge.classList.toggle('hidden', unread === 0);
+    }
+  } catch {}
+}
+async function openNotifications() {
+  openModal('m-notifications');
+  try {
+    const notifs = await api('GET', '/api/notifications');
+    const el = document.getElementById('notif-list');
+    if (!notifs.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="empty-title">No notifications</div><div class="empty-sub">You are all caught up</div></div>';
+      return;
+    }
+    el.innerHTML = notifs.map(n => `
+      <div style="padding:12px;border-bottom:1px solid var(--border);${!n.read?'background:var(--brand-light);':''}border-radius:var(--radius-sm);margin-bottom:4px">
+        <div style="font-size:13px;font-weight:${n.read?'400':'600'};color:var(--text);line-height:1.5">${n.message}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(n.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+      </div>`).join('');
+    await markAllRead();
+  } catch { document.getElementById('notif-list').innerHTML = '<p class="text-sm text-muted">Failed to load</p>'; }
+}
+async function markAllRead() {
+  try {
+    await api('PUT', '/api/notifications/read');
+    const badge = document.getElementById('notif-badge');
+    if (badge) { badge.textContent = '0'; badge.classList.add('hidden'); }
+  } catch {}
+}
+
+// ═══════════════════════════════════════════════
+//  ANNOUNCEMENTS
+// ═══════════════════════════════════════════════
+async function loadAnnouncements() {
+  try {
+    const anns = await api('GET', '/api/announcements');
+    const el = document.getElementById('announcement-area');
+    if (!el || !anns.length) return;
+    el.innerHTML = anns.slice(0,1).map(a => `
+      <div class="announcement-banner" onclick="toast('${a.message.replace(/'/g,"\'")}')">
+        <div class="announcement-title">📢 ${a.title}</div>
+        <div class="announcement-msg">${a.message.length > 80 ? a.message.slice(0,80) + '...' : a.message}</div>
+      </div>`).join('');
+  } catch {}
+}
+
+// ═══════════════════════════════════════════════
+//  SEND ANNOUNCEMENT (Admin)
+// ═══════════════════════════════════════════════
+async function sendAnnouncement() {
+  const title = document.getElementById('ann-title').value.trim();
+  const message = document.getElementById('ann-msg').value.trim();
+  const errEl = document.getElementById('ann-err');
+  if (!title || !message) { errEl.textContent = 'Title and message required'; errEl.classList.remove('hidden'); return; }
+  try {
+    await api('POST', '/api/announcements', { title, message });
+    document.getElementById('ann-title').value = '';
+    document.getElementById('ann-msg').value = '';
+    closeModal('m-announcement');
+    toast('Announcement sent to all students!');
+  } catch(err) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
+}
+
+// ═══════════════════════════════════════════════
+//  FILES TAB (Uploads / Bookmarks / History)
+// ═══════════════════════════════════════════════
+let currentFilesTab = 'uploads';
+function switchFilesTab(tab) {
+  currentFilesTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'uploads') loadMyUploads();
+  else if (tab === 'bookmarks') loadBookmarksTab();
+  else if (tab === 'history') loadHistoryTab();
+}
+async function loadBookmarksTab() {
+  const el = document.getElementById('u-list');
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading bookmarks...</p></div>';
+  try {
+    const mats = await api('GET', '/api/bookmarks');
+    if (!mats.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div class="empty-title">No bookmarks yet</div><div class="empty-sub">Tap the Bookmark button on any material to save it here</div></div>'; return; }
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">' + mats.length + ' bookmarked material' + (mats.length!==1?'s':'') + '</div>' + mats.map(matCard).join('');
+  } catch { el.innerHTML = '<p class="text-sm text-muted">Failed to load bookmarks</p>'; }
+}
+async function loadHistoryTab() {
+  const el = document.getElementById('u-list');
+  el.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading history...</p></div>';
+  try {
+    const history = await api('GET', '/api/history');
+    if (!history.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="empty-title">No download history</div><div class="empty-sub">Materials you download will appear here</div></div>'; return; }
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:500">' + history.length + ' download' + (history.length!==1?'s':'') + '</div>' +
+      history.map(h => `<div class="mat-card" style="cursor:default">
+        <div style="font-weight:500;font-size:14px">${h.material_title||'Unknown material'}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">${new Date(h.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+      </div>`).join('');
+  } catch { el.innerHTML = '<p class="text-sm text-muted">Failed to load history</p>'; }
+}
+
+// ═══════════════════════════════════════════════
+//  BROWSE LEVEL FILTER
+// ═══════════════════════════════════════════════
+let browseLevel = 'all';
+function renderLevelPills() {
+  const el = document.getElementById('b-level-pills');
+  if (!el) return;
+  const levels = ['all','Level 1','Level 2','Level 3','Level 4'];
+  el.innerHTML = levels.map(l => `<button class="pill ${browseLevel===l?'active':''}" onclick="setBLevel('${l}')">${l==='all'?'All Levels':l}</button>`).join('');
+}
+function setBLevel(level) {
+  browseLevel = level;
+  renderLevelPills();
+  loadBrowse();
+}
+
+// ═══════════════════════════════════════════════
+//  ADMIN — Delete user button + Announcements tab
+// ═══════════════════════════════════════════════
+async function adminDeleteUser(id) {
+  if (!confirm('Delete this student account and all their data? This cannot be undone.')) return;
+  try {
+    await api('DELETE', '/api/admin/users/' + id);
+    toast('User deleted');
+    renderAdminUsers(document.getElementById('admin-body'));
+  } catch(err) { toast('Error: ' + err.message); }
+}
 
 // INIT
 (async()=>{
