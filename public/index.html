@@ -1094,7 +1094,14 @@ function switchPage(page){
   if(page==='admin')renderAdmin();
   document.getElementById('page-'+page).scrollTop=0;
 }
+  async function renderHome() {
+  document.getElementById('h-name').textContent = currentUser.name.split(' ')[0];
 
+  // Show announcement banner on Home page
+  await loadAnnouncements();
+
+  // rest of your existing code...
+  }
 // HOME
 async function renderHome(){
   document.getElementById('h-name').textContent=currentUser.name.split(' ')[0];
@@ -1409,6 +1416,8 @@ async function sendFeedback(){
   try{await api('POST','/api/feedback',{message:msg});document.getElementById('fb-msg').value='';toast('Feedback sent to admin');}
   catch(err){toast('Error: '+err.message);}
 }
+  
+
 
 // ADMIN
 function switchAdminTab(tab){
@@ -1529,8 +1538,10 @@ async function renderAdminAnnounce(el){
       </div>
     </div></div>`).join(''):emptyState('No announcements yet','Click the button above to send one'));
   }catch{el.innerHTML='<p class="text-sm text-muted">Failed to load</p>';}
+  // Load announcements
 }
-
+  
+  
 async function deleteAnnouncement(id){
   if(!confirm('Delete this announcement?'))return;
   try{await api('DELETE','/api/announcements/'+id);toast('Deleted');renderAdminAnnounce(document.getElementById('admin-body'));}
