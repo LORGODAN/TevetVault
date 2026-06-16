@@ -1130,7 +1130,6 @@ function matCard(m){
   const c=allCourses.find(x=>x.id===m.course);
   const ft=m.file_type||m.fileType||'other';
   const isNew=(new Date()-new Date(m.created_at||m.date))<7*24*60*60*1000;
-  const isNew=(new Date()-new Date(m.created_at||m.date))<7*24*60*60*1000;
   const uploaderName=m.uploader_name||m.uploaderName||'unknown';
   const dateStr=m.created_at||m.createdAt||m.date||new Date().toISOString();
   const d=new Date(dateStr).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
